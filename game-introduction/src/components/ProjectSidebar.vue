@@ -40,7 +40,7 @@
 <style scoped>
 nav {
   left: 0%;
-  width: 100px;
+  width: 90px;
   max-height: 100%;
   display: flex;
   flex-direction: column;

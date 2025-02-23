@@ -79,7 +79,7 @@ const active = ref(false);
 .hamburger-btn {
   position: fixed;
   top: 16px;
-  left: 16px;
+  left: 8px;
   width: 65px;
   height: 66px;
   cursor: pointer;
@@ -142,7 +142,7 @@ const active = ref(false);
   height: 100vh;
   padding: 2rem 1rem;
   position: fixed;
-  background-color: rgba(12, 12, 44, 0.651);
+  background-color: rgb(8, 8, 30);
   z-index: 30;
 }
 img {
@@ -159,10 +159,9 @@ ul {
   padding-top: 40px;
 }
 li {
-  padding-top: 35px;
+  padding-top: 60px;
   list-style: none;
   line-height: 1;
-  
 }
 a {
   font-size: 30px;

@@ -35,6 +35,7 @@ import ProjectFooter from "./components/ProjectFooter.vue";
   top: 0;
   left: 0;
   width: 100%;
+  padding: 0;
   z-index: 30;
 }
 

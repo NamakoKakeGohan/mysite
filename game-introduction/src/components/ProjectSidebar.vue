@@ -1,41 +1,33 @@
 <template>
   <nav>
     <ul>
-      <li>
-        <router-link to="/"
-          ><img src="../assets/home.svg" alt="ホームアイコン"
-        /></router-link>
-      </li>
-      <li>
-        <router-link to="/ranking"
-          ><img src="../assets/ranking.svg" alt="ランキングアイコン"
-        /></router-link>
-      </li>
-      <li>
-        <router-link to="/tags"
-          ><img src="../assets/tags.svg" alt="タグアイコン"
-        /></router-link>
-      </li>
-      <li>
-        <router-link to="/test"
-          ><img src="../assets/test.svg" alt="テストアイコン"
-        /></router-link>
-      </li>
-      <li>
-        <router-link to="/account"
-          ><img src="../assets/account.svg" alt="アカウントアイコン"
-        /></router-link>
-      </li>
-      <li>
-        <a href="#"
-          ><img src="../assets/option.svg" alt="オプションアイコン" />
-        </a>
+      <li v-for="icon in iconList" :key="icon.id">
+        <router-link :to="icon.path">
+          <img :src="icon.src" :alt="icon.alt" />
+        </router-link>
       </li>
     </ul>
   </nav>
 </template>
 
-<script setup></script>
+<script setup>
+import { ref } from "vue";
+import homeIcon from "../assets/home.svg";
+import rankingIcon from "../assets/ranking.svg";
+import tagsIcon from "../assets/tags.svg";
+import testIcon from "../assets/test.svg";
+import accountIcon from "../assets/account.svg";
+import optionIcon from "../assets/option.svg";
+
+const iconList = ref([
+  { id: 1, path: "/", src: homeIcon, alt: "ホームアイコン" },
+  { id: 2, path: "/ranking", src: rankingIcon, alt: "ランキングアイコン" },
+  { id: 3, path: "/tags", src: tagsIcon, alt: "タグアイコン" },
+  { id: 4, path: "/test", src: testIcon, alt: "テストアイコン" },
+  { id: 5, path: "/account", src: accountIcon, alt: "アカウントアイコン" },
+  { id: 6, path: "#", src: optionIcon, alt: "オプションアイコン" },
+]);
+</script>
 
 <style scoped>
 nav {

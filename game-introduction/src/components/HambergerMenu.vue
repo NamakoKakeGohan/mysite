@@ -1,21 +1,15 @@
 <template>
   <div>
     <!--ハンバーガーメニューのボタン-->
-    <div class="hamburger-btn" @click="active = !active">
-      <span class="line line-top" :class="{ 'rotate-top': active }"></span>
-      <span
-        class="line line-middle"
-        :class="{ 'rotate-middle': active }"
-      ></span>
-      <span
-        class="line line-bottom"
-        :class="{ 'rotate-bottom': active }"
-      ></span>
+    <div class="hamburger-btn" @click="toggleMenu">
+      <span class="line line-top"    :class="{ 'rotate-top'   : active }"></span>
+      <span class="line line-middle" :class="{ 'rotate-middle': active }"></span>
+      <span class="line line-bottom" :class="{ 'rotate-bottom': active }"></span>
     </div>
 
     <!--ハンバーガーメニューの中身-->
     <transition name="hamburger-menu">
-      <div class="hamburger-menu" v-show="active">
+      <div class="hamburger-menu" v-if="show">
         <ul>
           <li v-for="menu in menuList" :key="menu.id">
             <router-link :to="menu.path">
@@ -30,15 +24,13 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import homeIcon from "../assets/home.svg";
+import { ref }     from "vue";
+import homeIcon    from "../assets/home.svg";
 import rankingIcon from "../assets/ranking.svg";
-import tagsIcon from "../assets/tags.svg";
-import testIcon from "../assets/test.svg";
+import tagsIcon    from "../assets/tags.svg";
+import testIcon    from "../assets/test.svg";
 import accountIcon from "../assets/account.svg";
-import optionIcon from "../assets/option.svg";
-
-const active = ref(false); // ハンバーガーメニューの表示非表示
+import optionIcon  from "../assets/option.svg";
 
 const menuList = ref([ // ハンバーガーメニューのリスト
   { id: 1, path: "/", src: homeIcon, alt: "ホームアイコン", name: "Home" },
@@ -48,6 +40,16 @@ const menuList = ref([ // ハンバーガーメニューのリスト
   { id: 5, path: "/account", src: accountIcon, alt: "アカウントアイコン", name: "Account" },
   { id: 6, path: "#", src: optionIcon, alt: "オプションアイコン", name: "Option" },
 ]);
+
+const active = ref(false); // ハンバーガーメニューのボタンのアニメーション
+
+const show   = ref(false); // ハンバーガーメニューの表示非表示
+
+const toggleMenu = () => { 
+  active.value = !active.value; // ハンバーガーメニューの表示非表示を切り替える
+  show.value   = !show.value;   // showの値も切り替える
+};
+
 </script>
 
 <style scoped>
@@ -101,7 +103,7 @@ const menuList = ref([ // ハンバーガーメニューのリスト
 /* ハンバーガーメニューの中身のcss */
 .hamburger-menu-enter-active,
 .hamburger-menu-leave-active {
-  transition: all 0.3s ease;
+  transition: all 0.7s ease;
 }
 .hamburger-menu-enter,
 .hamburger-menu-leave-to {

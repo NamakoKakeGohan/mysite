@@ -1,59 +1,30 @@
 <template>
-  <div class="layout">
-    <ProjectHeader class="header" />
-    <HambergerMenu />
-    <ProjectSidebar class="sidebar" />
-    <main>
-      <router-view />
-    </main>
-    <ProjectFooter />
-  </div>
+  <nav>
+    <router-link to="/">Home</router-link> |
+    <router-link to="/about">About</router-link>
+  </nav>
+  <router-view/>
 </template>
 
-<script setup>
-import ProjectHeader from "./components/ProjectHeader.vue";
-import HambergerMenu from "./components/HambergerMenu.vue";
-import ProjectSidebar from "./components/ProjectSidebar.vue";
-import ProjectFooter from "./components/ProjectFooter.vue";
-</script>
-
-<style scoped>
-.layout {
-  display: grid;
-  grid-template-areas:
-    "header header"
-    "sidebar main"
-    "footer footer";
-  grid-template-columns: 200px 1fr;
-  grid-template-rows: auto 1fr auto;
-  height: 100vh;
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
 }
 
-.header {
-  grid-area: header;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 30;
+nav {
+  padding: 30px;
 }
 
-.sidebar {
-  grid-area: sidebar;
-  position: fixed;
-  top: 100px;
-  left: 0;
-  height: calc(100vh - 60px);
-  z-index: 20;
+nav a {
+  font-weight: bold;
+  color: #2c3e50;
 }
 
-main {
-  grid-area: main;
-  padding: 1rem;
-  margin-top: 100px;
-}
-
-footer {
-  grid-area: footer;
+nav a.router-link-exact-active {
+  color: #42b983;
 }
 </style>

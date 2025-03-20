@@ -1,9 +1,9 @@
 <template>
   <nav>
     <ul>
-      <li v-for="icon in iconList" :key="icon.id">
-        <router-link :to="icon.path">
-          <img :src="icon.src" :alt="icon.alt" />
+      <li v-for="menu in menuList" :key="menu.id">
+        <router-link :to="menu.path">
+          <img :src="menu.src" :alt="menu.alt" />
         </router-link>
       </li>
     </ul>
@@ -11,22 +11,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import homeIcon from "../assets/home.svg";
-import rankingIcon from "../assets/ranking.svg";
-import tagsIcon from "../assets/tags.svg";
-import testIcon from "../assets/test.svg";
-import accountIcon from "../assets/account.svg";
-import optionIcon from "../assets/option.svg";
-
-const iconList = ref([
-  { id: 1, path: "/", src: homeIcon, alt: "ホームアイコン" },
-  { id: 2, path: "/ranking", src: rankingIcon, alt: "ランキングアイコン" },
-  { id: 3, path: "/tags", src: tagsIcon, alt: "タグアイコン" },
-  { id: 4, path: "/test", src: testIcon, alt: "テストアイコン" },
-  { id: 5, path: "/account", src: accountIcon, alt: "アカウントアイコン" },
-  { id: 6, path: "#", src: optionIcon, alt: "オプションアイコン" },
-]);
+import menuList from "../menuList";
 </script>
 
 <style scoped>

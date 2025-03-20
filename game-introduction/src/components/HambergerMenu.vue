@@ -24,32 +24,16 @@
 </template>
 
 <script setup>
-import { ref }     from "vue";
-import homeIcon    from "../assets/home.svg";
-import rankingIcon from "../assets/ranking.svg";
-import tagsIcon    from "../assets/tags.svg";
-import testIcon    from "../assets/test.svg";
-import accountIcon from "../assets/account.svg";
-import optionIcon  from "../assets/option.svg";
-
-const menuList = ref([ // ハンバーガーメニューのリスト
-  { id: 1, path: "/", src: homeIcon, alt: "ホームアイコン", name: "Home" },
-  { id: 2, path: "/ranking", src: rankingIcon, alt: "ランキングアイコン", name: "Ranking" },
-  { id: 3, path: "/tags", src: tagsIcon, alt: "タグアイコン", name: "Tags" },
-  { id: 4, path: "/test", src: testIcon, alt: "テストアイコン", name: "Test" },
-  { id: 5, path: "/account", src: accountIcon, alt: "アカウントアイコン", name: "Account" },
-  { id: 6, path: "#", src: optionIcon, alt: "オプションアイコン", name: "Option" },
-]);
+import { ref }  from "vue";
+import menuList from "../menuList";
 
 const active = ref(false); // ハンバーガーメニューのボタンのアニメーション
-
 const show   = ref(false); // ハンバーガーメニューの表示非表示
 
-const toggleMenu = () => { 
-  active.value = !active.value; // ハンバーガーメニューの表示非表示を切り替える
-  show.value   = !show.value;   // showの値も切り替える
+const toggleMenu = () => {
+  active.value = !active.value; // ハンバーガーメニューの三本線とバツ印を切り替える
+  show.value   = !show.value;   // showの値を切り替える
 };
-
 </script>
 
 <style scoped>
@@ -103,7 +87,7 @@ const toggleMenu = () => {
 /* ハンバーガーメニューの中身のcss */
 .hamburger-menu-enter-active,
 .hamburger-menu-leave-active {
-  transition: all 0.7s ease;
+  transition: all 0.3s ease;
 }
 .hamburger-menu-enter,
 .hamburger-menu-leave-to {

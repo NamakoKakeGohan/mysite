@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-import HomeView from "../views/HomeView.vue";
-import RecsView from "../views/RecsView.vue";
+import HomeView    from "../views/HomeView.vue";
+import RecsView    from "../views/RecsView.vue";
 import RankingView from "../views/RankingView.vue";
 import AccountView from "../views/AccountView.vue";
-import TagsView from "../views/TagsView.vue";
+import TagsView    from "../views/TagsView.vue";
 
 const routes = [
   {

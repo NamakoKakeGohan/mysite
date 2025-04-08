@@ -89,12 +89,12 @@ const toggleMenu = () => {
 .hamburger-menu-leave-active {
   transition: all 0.3s ease;
 }
-.hamburger-menu-enter,
+.hamburger-menu-enter-from,
 .hamburger-menu-leave-to {
   transform: translateX(-100%);
 }
 .hamburger-menu-enter-to,
-.hamburger-menu-leave {
+.hamburger-menu-leave-from {
   transform: translateX(0);
 }
 .hamburger-menu {

@@ -1,5 +1,5 @@
-const API_KEY = import.meta.env.VITE_STEAM_API_KEY; // 環境変数からAPIキーを取得
-const BASE_URL = "https://api.steampowered.com";
+const API_KEY = "2EFB65B7FB33276615B13EECE0AAE1A5"; // 文字列として埋め込む
+const BASE_URL = "/api/steam"; // プロキシ経由のURL
 
 /**
  * Steam Web APIからサポートされているAPIメソッドの一覧を取得します。

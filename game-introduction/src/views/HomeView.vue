@@ -1,15 +1,42 @@
 <template>
   <div class="home">
-    <h1>This is an home page</h1>
-    <p>平成9年12月15日生まれ</p>
-            <p>郵便局で7年間勤務した後、エンジニアへの道を志す。</p>
-            <p>スクールで約1カ月でHTML、CSS、JavaScriptを習得し、</p>
-            <p>現在はVue.jsを学習中。趣味はゲームとフットサル。</p>
+    <PostItem
+      v-if="post"
+      :post="post"
+    />
+    <p v-else>
+      投稿を読み込んでいます...
+    </p>
   </div>
   
 </template>
 
 <script setup>
+import { ref, onMounted } from "vue";
+import { firebaseDb } from "../firebase/firebaseInit";
+import { doc, getDoc } from "firebase/firestore";
+import PostItem from "../components/PostItem.vue";
 
+const post = ref(null);
 
+// Firestore から特定の投稿を取得
+async function fetchPost() {
+  const docRef = doc(firebaseDb, "post", "7zSlaxhvcS3PmcTlScmd"); // ドキュメントIDを指定
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    post.value = { id: docSnap.id, ...docSnap.data() }; // データを取得して格納
+  } else {
+    console.error("指定された投稿が見つかりませんでした");
+  }
+}
+
+onMounted(fetchPost);
 </script>
+
+<style scoped>
+.home {
+  padding: 20px;
+  background-color: #f5f8fa;
+}
+</style>

@@ -1,9 +1,10 @@
 <template>
-  <div>
+  <div class="scaled-container">
     <div class="post-item" v-for="(post, index) in posts" :key="index">
       <!-- サムネイル画像 -->
       <img :src="post.appImage[0]" alt="App Thumbnail" class="app-thumbnail" />
 
+      <!-- 投稿の内容 -->
       <div>
         <!-- 投稿ヘッダー -->
         <section class="post-header">
@@ -19,7 +20,6 @@
               <a class="user-name">{{ post.user.name }}</a>
             </div>
           </div>
-
           <!-- タグを表示 -->
           <div class="post-tags">
             <span class="tag" v-for="(tag, index) in post.tags" :key="index">
@@ -39,10 +39,10 @@
             <button class="favorite-button" @click="toggleFavorite(post)">
               {{ post.isFavorited ? "★" : "☆" }}
             </button>
-            <button class="menu-button" v-on:click="toggleMenu">⋮</button>
-            <div class="menu-dropdown" v-if="menuVisible">
+            <button class="menu-button" v-on:click="toggleMenu(post)">⋮</button>
+            <div class="menu-dropdown" v-if="post.menuVisible">
               <a :href="post.steamAppURL" target="_blank">Steamで見る</a>
-              <a :href="userAccountURL">アカウント</a>
+              <a :href="post.user.id">アカウント</a>
             </div>
           </div>
         </section>
@@ -64,15 +64,17 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { reactive } from "vue";
 import postData from "../postData"; // 投稿データをインポート
 
-// postDataをマップして、各投稿に isFavorited プロパティを追加
-const posts = postData.map((post) => ({
-  ...post, // postオブジェクトのすべてのプロパティを展開
-  isFavorited: false, // 初期状態でお気に入りは解除
-  menuVisible: false, // 初期状態でメニューは非表示
-}));
+// postDataをreactiveにして、リアクティブなデータとして扱う
+const posts = reactive(
+  postData.map((post) => ({ // 投稿データをマッピング
+    ...post, // postDataの各プロパティを展開
+    isFavorited: false, // 初期状態でお気に入りは解除
+    menuVisible: false, // 初期状態でメニューは非表示
+  }))
+);
 
 // お気に入りボタンの状態を切り替える関数
 const toggleFavorite = (post) => {
@@ -85,10 +87,8 @@ const toggleFavorite = (post) => {
 };
 
 // 3点リーダーの表示状態を管理
-const menuVisible = ref(false);
-// 3点リーダーの表示/非表示を切り替える関数
-const toggleMenu = () => {
-  menuVisible.value = !menuVisible.value;
+const toggleMenu = (post) => {
+  post.menuVisible = !post.menuVisible;
 };
 </script>
 
@@ -96,7 +96,7 @@ const toggleMenu = () => {
 .post-item {
   display: flex;
   padding: 15px;
-  margin: 0 100px;
+  margin: 0;
   border: 1px solid #e1e8ed;
   border-radius: 10px;
   background-color: #fff;
@@ -128,7 +128,6 @@ const toggleMenu = () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
   margin-bottom: 10px;
 }
 .title {
@@ -202,6 +201,16 @@ const toggleMenu = () => {
   border: none;
   font-size: 30px;
   cursor: pointer;
+  color: #ffdd00;
+  transition: transform 0.2s ease, color 0.2s ease; /* サイズと色の変化をスムーズに */
+}
+.favorite-button:hover {
+  transform: scale(1.2); /* ホバー時に少し拡大 */
+  color: #ffaf47; /* ホバー時に色を変更 */
+}
+.favorite-button:active {
+  transform: scale(1); /* クリック時に元のサイズに戻る */
+  color: rgb(232, 79, 24); /* クリック時に色を変更 */
 }
 .menu-button {
   background-color: transparent;
@@ -256,9 +265,10 @@ const toggleMenu = () => {
   margin: 0;
 }
 /* -----レスポンシブデザイン----- */
-@media (max-width: 768px) {
+@media (max-width: 1500px) {
   .post-item {
     flex-direction: column;
+    padding: 0;
   }
   .app-thumbnail {
     width: 100%;
@@ -274,5 +284,9 @@ const toggleMenu = () => {
   .post-tags {
     justify-content: center;
   }
+}
+.scaled-container {
+  transform: scale(0.8); /* 80%に縮小 */
+  transform-origin: top; /* 左上を基準に縮小 */
 }
 </style>

@@ -3,13 +3,10 @@
     <!-- recsList を PostItem に渡す -->
     <PostItem v-if="recsList" />
     <p v-else>Recsを読み込み中...</p>
-    <PostItem v-if="posts" />
-    <p v-else>Recsを読み込み中...</p>
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
 import { ref } from "vue";
 import PostItem from "../components/PostItem.vue";
 import postData from "../postData"; // 投稿データをインポート
@@ -19,10 +16,6 @@ const recsList = ref(null);
 
 // 投稿を取得
 recsList.value = postData; // postData を直接代入
-
-const posts = ref(null);
-
-// 投稿を取得
 
 </script>
 

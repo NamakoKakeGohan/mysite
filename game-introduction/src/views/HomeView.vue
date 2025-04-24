@@ -1,21 +1,44 @@
 <template>
   <div class="home">
-    <!-- recsList を PostItem に渡す -->
-    <PostItem v-if="recsList" />
+    <!-- 検索バー -->
+    <div class="search-bar">
+      <img :src="searchIcon" alt="サーチアイコン" class="search-icon" />
+      <input
+        type="text"
+        v-model="searchQuery"
+        placeholder="Search..."
+        class="search-input"
+      />
+    </div>
+    <!-- フィルタリングされたリストを PostItem に渡す -->
+    <PostItem v-if="filteredRecsList" :posts="filteredRecsList" />
     <p v-else>Recsを読み込み中...</p>
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
-import PostItem from "../components/PostItem.vue";
+import { ref, computed } from "vue";
+// import PostItem from "../components/PostItem.vue";
 import postData from "../postData"; // 投稿データをインポート
+import searchIcon from "../assets/search.svg";
+
+// 検索クエリを管理
+const searchQuery = ref("");
 
 // 投稿データを格納する変数
-const recsList = ref(null);
+const recsList = ref(postData); // postData を直接代入
 
-// 投稿を取得
-recsList.value = postData; // postData を直接代入
+// 検索クエリに基づいてフィルタリングされた投稿データを計算
+const filteredRecsList = computed(() => {
+  if (!searchQuery.value) {
+    // 検索クエリが空の場合、すべての投稿を表示
+    return recsList.value;
+  }
+  // 検索クエリに一致する投稿をフィルタリング
+  return recsList.value.filter((post) =>
+    post.appName.toLowerCase().includes(searchQuery.value.toLowerCase())
+  );
+});
 </script>
 
 <style scoped>
@@ -26,5 +49,24 @@ recsList.value = postData; // postData を直接代入
   margin-right: 90px;
   padding: 20px;
 }
-
+.search-bar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0;
+}
+.search-icon {
+  width: 35px;
+  height: 35px;
+  margin-right: 10px;
+}
+.search-input {
+  width: 50%;
+  padding: 10px;
+  font-size: 24px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 </style>

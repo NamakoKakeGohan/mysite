@@ -18,7 +18,7 @@
 
 <script setup>
 import { ref, computed } from "vue";
-// import PostItem from "../components/PostItem.vue";
+import PostItem from "../components/PostItem.vue";
 import postData from "../postData"; // 投稿データをインポート
 import searchIcon from "../assets/search.svg";
 

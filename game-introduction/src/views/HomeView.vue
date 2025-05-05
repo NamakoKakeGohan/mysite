@@ -11,8 +11,10 @@
       />
     </div>
     <!-- フィルタリングされたリストを PostItem に渡す -->
-    <PostItem v-if="filteredRecsList" :posts="filteredRecsList" />
-    <p v-else>Recsを読み込み中...</p>
+    <div v-if="filteredRecsList.length > 0">
+      <PostItem :posts="filteredRecsList" />
+    </div>
+    <p v-else>一致する投稿がありません。</p>
   </div>
 </template>
 

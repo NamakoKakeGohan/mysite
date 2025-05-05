@@ -31,13 +31,17 @@ const recsList = ref(postData); // postData を直接代入
 // 検索クエリに基づいてフィルタリングされた投稿データを計算
 const filteredRecsList = computed(() => {
   if (!searchQuery.value) {
-    // 検索クエリが空の場合、すべての投稿を表示
+    console.log("検索クエリが空です。すべての投稿を表示");
     return recsList.value;
   }
-  // 検索クエリに一致する投稿をフィルタリング
-  return recsList.value.filter((post) =>
-    post.appName.toLowerCase().includes(searchQuery.value.toLowerCase())
+  console.log("検索クエリ:", searchQuery.value);
+
+  // フィルタリング処理
+  const filtered = recsList.value.filter((post) =>
+    post.appName.toLowerCase().startsWith(searchQuery.value.toLowerCase())
   );
+  console.log("フィルタリングした投稿:", filtered);
+  return filtered;
 });
 </script>
 

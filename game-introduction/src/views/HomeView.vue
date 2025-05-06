@@ -11,8 +11,10 @@
       />
     </div>
     <!-- フィルタリングされたリストを PostItem に渡す -->
-    <PostItem v-if="filteredRecsList" :posts="filteredRecsList" />
-    <p v-else>Recsを読み込み中...</p>
+    <div v-if="filteredRecsList.length > 0">
+      <PostItem :posts="filteredRecsList" />
+    </div>
+    <p v-else>一致する投稿がありません。</p>
   </div>
 </template>
 
@@ -31,13 +33,17 @@ const recsList = ref(postData); // postData を直接代入
 // 検索クエリに基づいてフィルタリングされた投稿データを計算
 const filteredRecsList = computed(() => {
   if (!searchQuery.value) {
-    // 検索クエリが空の場合、すべての投稿を表示
+    console.log("検索クエリが空です。すべての投稿を表示");
     return recsList.value;
   }
-  // 検索クエリに一致する投稿をフィルタリング
-  return recsList.value.filter((post) =>
-    post.appName.toLowerCase().includes(searchQuery.value.toLowerCase())
+  console.log("検索クエリ:", searchQuery.value);
+
+  // フィルタリング処理
+  const filtered = recsList.value.filter((post) =>
+    post.appName.toLowerCase().startsWith(searchQuery.value.toLowerCase())
   );
+  console.log("フィルタリングした投稿:", filtered);
+  return filtered;
 });
 </script>
 

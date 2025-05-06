@@ -64,8 +64,6 @@
 </template>
 
 <script setup>
-import { reactive } from "vue";
-import postData from "../postData"; // 投稿データをインポート
 import { defineProps } from "vue";
 
 // 親コンポーネントから `posts` を受け取る
@@ -75,15 +73,6 @@ defineProps({
     required: true,
   },
 });
-
-// postDataをreactiveにして、リアクティブなデータとして扱う
-const posts = reactive(
-  postData.map((post) => ({ // 投稿データをマッピング
-    ...post,                // postDataの各プロパティを展開
-    isFavorited: false,     // 初期状態でお気に入りは解除
-    menuVisible: false,     // 初期状態でメニューは非表示
-  }))
-);
 
 // お気に入りボタンの状態を切り替える関数
 const toggleFavorite = (post) => {

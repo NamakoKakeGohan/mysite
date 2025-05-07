@@ -1,6 +1,8 @@
 import userAvatar from "./assets/userAvatar.png";
 import MonsterHunterWilds from "./assets/thumbnail/MonsterHunterWilds.jpg";
 import StreetFiter6 from "./assets/thumbnail/StreetFighter6.jpg";
+import wilds_top from "./assets/thumbnail/wilds_top.jpg";
+import ST6_top from "./assets/thumbnail/ST6_top.jpg";
 
 const postData = [
   {
@@ -8,8 +10,7 @@ const postData = [
     appName: "Monster Hunter Wilds",
     appImage: [
       MonsterHunterWilds,
-      "https://example.com/image2.jpg",
-      "https://example.com/image3.jpg",
+      wilds_top,
     ],
     user: {
       id: 123456,
@@ -30,8 +31,7 @@ const postData = [
     appName: "Street Fighter 6",
     appImage: [
       StreetFiter6,
-      "https://example.com/image2.jpg",
-      "https://example.com/image3.jpg",
+      ST6_top,
     ],
     user: {
       id: 123456,

@@ -1,6 +1,6 @@
 <template>
   <div class="scaled-container">
-    <div class="post-item" v-for="(post, index) in posts" :key="index">
+    <div class="post-item" v-for="(post, index) in posts" :key="index" @click="$emit('post-click', post)">
       <!-- サムネイル画像 -->
       <img :src="post.appImage[0]" alt="App Thumbnail" class="app-thumbnail" />
 

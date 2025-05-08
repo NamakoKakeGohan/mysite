@@ -36,10 +36,10 @@
           </div>
           <!-- お気に入りと3点リーダーのボタン -->
           <div class="post-buttons">
-            <button class="favorite-button" @click="toggleFavorite(post)">
+            <button class="favorite-button" @click="(event) => { event.stopPropagation(); toggleFavorite(post); }">
               {{ post.isFavorited ? "★" : "☆" }}
             </button>
-            <button class="menu-button" v-on:click="toggleMenu(post)">⋮</button>
+            <button class="menu-button" @click="(event) => { event.stopPropagation(); toggleMenu(post); }">⋮</button>
             <div class="menu-dropdown" v-if="post.menuVisible">
               <a :href="post.steamAppURL" target="_blank">Steamで見る</a>
               <a :href="post.user.id">アカウント</a>

@@ -177,6 +177,7 @@ const toggleMenu = (post) => {
 .app-thumbnail {
   object-fit: cover;
   width: 500px;
+  max-width: 100%;
   height: auto;
   border-radius: 10px;
   margin-right: 15px;
@@ -337,5 +338,58 @@ const toggleMenu = (post) => {
 }
 .post-date p {
   margin: 0;
+}
+
+/* -----レスポンシブデザイン----- */
+@media (max-width: 1800px) {
+  .post-detail-modal {
+    width: 90%; /* モーダルの幅を調整 */
+    max-width: 100%; /* 最大幅を設定 */
+  }
+  .app-thumbnail {
+    max-width: 50%;
+    height: auto;
+  }
+  .app-name {
+    font-size: 40px;
+    white-space: normal; /* テキストを折り返す */
+  }
+  .post-one-ward {
+    padding: 0 10px;
+    font-size: 18px;
+  }
+
+  .post-review, .post-footer {
+    position: static; /* 親の flex の影響を受けない */
+    flex-grow: 0; /* flex アイテムとしての拡張を無効化 */
+    width: 100%; /* 横幅を親要素に合わせる */
+    margin-top: 20px; /* 上部に余白を追加 */
+  }
+
+}
+@media (max-width: 800px) {
+  .modal-body {
+    flex-direction: column; /* 子要素を縦方向に並べる */
+    align-items: center; /* 子要素を中央揃え */
+  }
+
+  .post-one-ward {
+    padding: 0 10px;
+    font-size: 16px;
+    margin-bottom: 20px; /* 下に余白を追加 */
+  }
+
+  .post-review {
+    width: 100%; /* 横幅を親要素に合わせる */
+    margin-bottom: 20px; /* 下に余白を追加 */
+    order: 1; /* 表示順を指定 */
+  }
+
+  .post-footer {
+    width: 100%; /* 横幅を親要素に合わせる */
+    margin-top: 20px; /* 上に余白を追加 */
+    order: 2; /* 表示順を指定 */
+    text-align: center; /* 中央揃え */
+  }
 }
 </style>

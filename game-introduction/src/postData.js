@@ -1,15 +1,17 @@
 import userAvatar from "./assets/userAvatar.png";
 import MonsterHunterWilds from "./assets/thumbnail/MonsterHunterWilds.jpg";
 import StreetFiter6 from "./assets/thumbnail/StreetFighter6.jpg";
+import wilds_top from "./assets/thumbnail/wilds_top.png";
+import ST6_top from "./assets/thumbnail/ST6_top.jpg";
 
 const postData = [
   {
+    postId: 100,
     appId: 2246340,
     appName: "Monster Hunter Wilds",
     appImage: [
       MonsterHunterWilds,
-      "https://example.com/image2.jpg",
-      "https://example.com/image3.jpg",
+      wilds_top,
     ],
     user: {
       id: 123456,
@@ -26,12 +28,12 @@ const postData = [
     formattedDate: "2025年4月1日",
   },
   {
+    postId: 101,
     appId: 1364780,
     appName: "Street Fighter 6",
     appImage: [
       StreetFiter6,
-      "https://example.com/image2.jpg",
-      "https://example.com/image3.jpg",
+      ST6_top,
     ],
     user: {
       id: 123456,

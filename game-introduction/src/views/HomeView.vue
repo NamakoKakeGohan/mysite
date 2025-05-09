@@ -12,17 +12,25 @@
     </div>
     <!-- フィルタリングされたリストを PostItem に渡す -->
     <div v-if="filteredRecsList.length > 0">
-      <PostItem :posts="filteredRecsList" />
+      <PostItem :posts="filteredRecsList" @post-click="openPostDetail"/>
     </div>
     <p v-else>一致する投稿がありません。</p>
+    <!-- モーダルダイアログ -->
+    <PostDetailModalDialog
+      v-if="isModalOpen"
+      :post="selectedPost"
+      :openModal="isModalOpen"
+      @close="closeModal"
+    />
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
-import PostItem from "../components/PostItem.vue";
-import postData from "../postData"; // 投稿データをインポート
-import searchIcon from "../assets/search.svg";
+import { ref, computed }     from "vue";
+import PostItem              from "../components/PostItem.vue";
+import PostDetailModalDialog from "../components/PostDetailModalDialog.vue";
+import postData              from "../postData";
+import searchIcon            from "../assets/search.svg";
 
 // 検索クエリを管理
 const searchQuery = ref("");
@@ -45,6 +53,22 @@ const filteredRecsList = computed(() => {
   console.log("フィルタリングした投稿:", filtered);
   return filtered;
 });
+
+// 選択された投稿とモーダルの表示状態を管理
+const selectedPost = ref(null); // 選択された投稿
+const isModalOpen = ref(false); // モーダルの表示状態
+
+// 投稿を選択してモーダルを開く関数
+const openPostDetail = (post) => {
+  selectedPost.value = post; // 選択された投稿を設定
+  isModalOpen.value = true; // モーダルを表示
+};
+
+// モーダルを閉じる関数
+const closeModal = () => {
+  isModalOpen.value = false; // モーダルを非表示
+  selectedPost.value = null; // 選択された投稿をリセット
+};
 </script>
 
 <style scoped>

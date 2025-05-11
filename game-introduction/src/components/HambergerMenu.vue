@@ -12,7 +12,11 @@
       <div class="hamburger-menu" v-if="show">
         <ul>
           <li v-for="menu in menuList" :key="menu.id">
-            <router-link :to="menu.path">
+            <a v-if="menu.path === 'option'" @click.prevent="toggleOptionModal" class="menu-link">
+              <img :src="menu.src" :alt="menu.alt" />
+              {{ menu.name }}
+            </a>
+            <router-link v-else :to="menu.path" class="menu-link">
               <img :src="menu.src" :alt="menu.alt" />
               {{ menu.name }}
             </router-link>
@@ -20,24 +24,35 @@
         </ul>
       </div>
     </transition>
+
+    <!-- OptionModalDialog -->
+    <OptionModalDialog v-if="isOptionModalOpen" :openOpsionModal="isOptionModalOpen" @close="toggleOptionModal" />
   </div>
 </template>
 
 <script setup>
 import { ref }  from "vue";
 import menuList from "../menuList";
+import OptionModalDialog from "./OptionModalDialog.vue";
 
-const active = ref(false); // ハンバーガーメニューのボタンのアニメーション
-const show   = ref(false); // ハンバーガーメニューの表示非表示
+const active            = ref(false); // ハンバーガーメニューのボタンのアニメーション
+const show              = ref(false); // ハンバーガーメニューの表示非表示
+const isOptionModalOpen = ref(false); // OptionModalDialog の表示状態
 
+// ハンバーガーメニューの開閉
 const toggleMenu = () => {
-  active.value = !active.value; // ハンバーガーメニューの三本線とバツ印を切り替える
-  show.value   = !show.value;   // showの値を切り替える
+  active.value = !active.value;
+  show.value   = !show.value;
+};
+
+// OptionModalDialog の開閉をトグル
+const toggleOptionModal = () => {
+  isOptionModalOpen.value = !isOptionModalOpen.value;
 };
 </script>
 
 <style scoped>
-/* ハンバーガーメニューのボタンのcss */
+/* ハンバーガーメニューのボタンのCSS */
 .hamburger-btn {
   position: fixed;
   top: 21px;
@@ -84,7 +99,7 @@ const toggleMenu = () => {
   transition: 0.4s ease;
 }
 
-/* ハンバーガーメニューの中身のcss */
+/* ハンバーガーメニューの中身のCSS */
 .hamburger-menu-enter-active,
 .hamburger-menu-leave-active {
   transition: all 0.3s ease;

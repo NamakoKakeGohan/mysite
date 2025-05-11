@@ -20,6 +20,10 @@ import ProjectFooter  from "./components/ProjectFooter.vue";
 // グローバルなテーマ状態を管理
 const theme = ref("light"); // 初期値は "light"
 
+// 初期化時に <html> 要素にクラスを設定
+const htmlElement = document.documentElement;
+htmlElement.classList.add(`${theme.value}-theme`);
+
 // テーマを切り替える関数
 const toggleTheme = () => {
   theme.value = theme.value === "light" ? "dark" : "light";
@@ -28,7 +32,6 @@ const toggleTheme = () => {
 
 // <html> 要素にクラスを追加
 watch(theme, (newTheme) => {
-  const htmlElement = document.documentElement;
   if (newTheme === "dark") {
     htmlElement.classList.add("dark-theme");
     htmlElement.classList.remove("light-theme");
@@ -89,12 +92,12 @@ footer {
 /* グローバル CSS */
 :root.light-theme {
   --background-color: #f5f5f5; /* 柔らかいオフホワイト */
-  --text-color: #333333;      /* ダークグレー */
+  --text-color:       #333333; /* ダークグレー */
 }
 
 :root.dark-theme {
   --background-color: #1e1e2f; /* 暗すぎないダークブルーグレー */
-  --text-color: #cfcfcf;       /* 柔らかいライトグレー */
+  --text-color:       #cfcfcf; /* 柔らかいライトグレー */
 }
 
 body {

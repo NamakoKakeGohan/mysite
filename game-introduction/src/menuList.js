@@ -11,7 +11,7 @@ const menuList = [
   { id: 3, path: "/tags", src: tagsIcon, alt: "タグアイコン", name: "Tags" },
   { id: 4, path: "/test", src: testIcon, alt: "テストアイコン", name: "Test" },
   { id: 5, path: "/account", src: accountIcon, alt: "アカウントアイコン", name: "Account" },
-  { id: 6, path: "#", src: optionIcon, alt: "オプションアイコン", name: "Option" },
+  { id: 6, path: "option", src: optionIcon, alt: "オプションアイコン", name: "Option" },
 ];
 
 export default menuList;

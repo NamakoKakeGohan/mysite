@@ -88,13 +88,13 @@ footer {
 <style>
 /* グローバル CSS */
 :root.light-theme {
-  --background-color: #ffffff;
-  --text-color: #000000;
+  --background-color: #f5f5f5; /* 柔らかいオフホワイト */
+  --text-color: #333333;      /* ダークグレー */
 }
 
 :root.dark-theme {
-  --background-color: #121212;
-  --text-color: #ffffff;
+  --background-color: #1e1e2f; /* 暗すぎないダークブルーグレー */
+  --text-color: #cfcfcf;       /* 柔らかいライトグレー */
 }
 
 body {

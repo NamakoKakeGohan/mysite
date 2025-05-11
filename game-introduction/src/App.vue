@@ -97,7 +97,7 @@ footer {
 
 :root.dark-theme {
   --background-color: #1e1e2f; /* 暗すぎないダークブルーグレー */
-  --text-color:       #cfcfcf; /* 柔らかいライトグレー */
+  --text-color:       #656565; /* 明るいグレー */
 }
 
 body {

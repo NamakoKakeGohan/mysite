@@ -10,4 +10,13 @@ module.exports = defineConfig({
       },
     ]);
   },
+  devServer: {
+    proxy: {
+      "/api/steam": {
+        target: "https://api.steampowered.com",
+        changeOrigin: true,
+        pathRewrite: { "^/api/steam": "" },
+      },
+    },
+  },
 });

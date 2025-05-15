@@ -37,8 +37,8 @@
               </div>
               <!-- お気に入りと3点リーダーのボタン -->
               <div class="post-buttons">
-                <button class="favorite-button" @click="toggleFavorite(post)">
-                  {{ post.isFavorited ? "★" : "☆" }}
+                <button class="like-button" @click="toggleLike(post)">
+                  {{ post.isLiked ? "★" : "☆" }}
                 </button>
                 <button class="menu-button" v-on:click="toggleMenu(post)">
                   ⋮
@@ -58,8 +58,8 @@
 
             <section class="post-footer">
               <!-- お気に入り数を表示 -->
-              <div class="post-favorite-count">
-                <span>{{ post.favoriteCount }}★</span>
+              <div class="post-like-count">
+                <span>{{ post.likeCount }}★</span>
               </div>
               <!-- 投稿日を表示 -->
               <div class="post-date">
@@ -88,13 +88,11 @@ defineProps({
 });
 
 // お気に入りボタンの状態を切り替える関数
-const toggleFavorite = (post) => {
-  if (post.isFavorited) {
-    post.favoriteCount--; // お気に入り解除で減少
-  } else {
-    post.favoriteCount++; // お気に入り追加で増加
-  }
-  post.isFavorited = !post.isFavorited; // 状態を反転
+const toggleLike = (post) => {
+  post.isLiked = !post.isLiked; // isLikedの状態を反転
+  console.log(
+    `投稿ID: ${post.postId} のいいね状態が ${post.isLiked} に変更されました。`
+  );
 };
 
 // 3点リーダーの表示状態を管理
@@ -268,7 +266,7 @@ const toggleMenu = (post) => {
   align-items: center;
   margin-left: auto; /* 右寄せ */
 }
-.favorite-button {
+.like-button {
   background-color: transparent;
   border: none;
   padding-left: 20px;
@@ -277,11 +275,11 @@ const toggleMenu = (post) => {
   color: #ffdd00;
   transition: transform 0.2s ease, color 0.2s ease; /* サイズと色の変化をスムーズに */
 }
-.favorite-button:hover {
+.like-button:hover {
   transform: scale(1.2); /* ホバー時に少し拡大 */
   color: #ffaf47; /* ホバー時に色を変更 */
 }
-.favorite-button:active {
+.like-button:active {
   transform: scale(1); /* クリック時に元のサイズに戻る */
   color: rgb(232, 79, 24); /* クリック時に色を変更 */
 }
@@ -328,7 +326,7 @@ const toggleMenu = (post) => {
   justify-content: space-between;
   align-items: center;
 }
-.post-favorite-count {
+.post-like-count {
   font-size: 20px;
   color: #555;
 }

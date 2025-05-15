@@ -35,10 +35,12 @@
           </div>
           <!-- お気に入りと3点リーダーのボタン -->
           <div class="post-buttons">
-            <button class="favorite-button" @click.stop="toggleFavorite(post)">
-              {{ post.isFavorited ? "★" : "☆" }}
+            <button class="like-button" @click.stop="togglelike(post)">
+              {{ post.isLiked ? "★" : "☆" }}
             </button>
-            <button class="menu-button" @click.stop="toggleMenu(post)"> ⋮ </button>
+            <button class="menu-button" @click.stop="toggleMenu(post)">
+              ⋮
+            </button>
             <div class="menu-dropdown" v-if="post.menuVisible">
               <a :href="post.steamAppURL" target="_blank">Steamで見る</a>
               <a :href="post.user.id">アカウント</a>
@@ -49,8 +51,8 @@
         <!-- 投稿フッター -->
         <section class="post-footer">
           <!-- お気に入り数を表示 -->
-          <div class="post-favorite-count">
-            <span>{{ post.favoriteCount }}★</span>
+          <div class="post-like-count">
+            <span>{{ post.likeCount }}★</span>
           </div>
           <!-- 投稿日を表示 -->
           <div class="post-date">
@@ -59,7 +61,7 @@
         </section>
       </div>
     </div>
-    
+
     <!-- モーダルダイアログ -->
     <PostDetailModalDialog v-if="isModalOpen" :post="selectedPost" :openModal="isModalOpen" @close="closeModal" />
   </div>
@@ -78,15 +80,12 @@ defineProps({
 });
 
 // お気に入りボタンの状態を切り替える関数
-const toggleFavorite = (post) => {
-  if (post.isFavorited) {
-    post.favoriteCount--; // お気に入り解除で減少
-  } else {
-    post.favoriteCount++; // お気に入り追加で増加
-  }
-  post.isFavorited = !post.isFavorited; // 状態を反転
+const toggleLike = (post) => {
+  post.isLiked = !post.isLiked; // isLikedの状態を反転
+  console.log(
+    `投稿ID: ${post.postId} のいいね状態が ${post.isLiked} に変更されました。`
+  );
 };
-console.log("toggleFavorite関数が呼び出されました。",);
 
 // 3点リーダーの表示状態を管理
 const toggleMenu = (post) => {
@@ -214,7 +213,7 @@ const closeModal = () => {
   align-items: center;
   margin-left: auto; /* 右寄せ */
 }
-.favorite-button {
+.like-button {
   background-color: transparent;
   border: none;
   font-size: 30px;
@@ -222,11 +221,11 @@ const closeModal = () => {
   color: #ffdd00;
   transition: transform 0.2s ease, color 0.2s ease; /* サイズと色の変化をスムーズに */
 }
-.favorite-button:hover {
+.like-button:hover {
   transform: scale(1.2); /* ホバー時に少し拡大 */
   color: #ffaf47; /* ホバー時に色を変更 */
 }
-.favorite-button:active {
+.like-button:active {
   transform: scale(1); /* クリック時に元のサイズに戻る */
   color: rgb(232, 79, 24); /* クリック時に色を変更 */
 }
@@ -271,7 +270,7 @@ const closeModal = () => {
   justify-content: space-between;
   align-items: center;
 }
-.post-favorite-count {
+.post-like-count {
   font-size: 20px;
   color: #555;
 }

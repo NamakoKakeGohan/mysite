@@ -1,12 +1,11 @@
 <template>
   <div class="scaled-container">
-    <div class="post-item" v-for="(post, index) in posts" :key="index" @click="$emit('post-click', post)">
+    <div class="post-item" v-for="(post, index) in posts" :key="index" @click="openPostDetail(post)" >
       <!-- サムネイル画像 -->
       <img :src="post.appImage[0]" alt="App Thumbnail" class="app-thumbnail" />
 
       <!-- 投稿の内容 -->
       <div>
-        <!-- 投稿ヘッダー -->
         <section class="post-header">
           <!-- アプリ名とユーザー名を表示 -->
           <div class="title">
@@ -36,10 +35,10 @@
           </div>
           <!-- お気に入りと3点リーダーのボタン -->
           <div class="post-buttons">
-            <button class="favorite-button" @click="(event) => { event.stopPropagation(); toggleFavorite(post); }">
+            <button class="favorite-button" @click.stop="toggleFavorite(post)">
               {{ post.isFavorited ? "★" : "☆" }}
             </button>
-            <button class="menu-button" @click="(event) => { event.stopPropagation(); toggleMenu(post); }">⋮</button>
+            <button class="menu-button" @click.stop="toggleMenu(post)"> ⋮ </button>
             <div class="menu-dropdown" v-if="post.menuVisible">
               <a :href="post.steamAppURL" target="_blank">Steamで見る</a>
               <a :href="post.user.id">アカウント</a>
@@ -60,11 +59,15 @@
         </section>
       </div>
     </div>
+    
+    <!-- モーダルダイアログ -->
+    <PostDetailModalDialog v-if="isModalOpen" :post="selectedPost" :openModal="isModalOpen" @close="closeModal" />
   </div>
 </template>
 
 <script setup>
-import { defineProps } from "vue";
+import { defineProps, ref } from "vue";
+import PostDetailModalDialog from "./PostDetailModalDialog.vue";
 
 // 親コンポーネントから `posts` を受け取る
 defineProps({
@@ -83,10 +86,27 @@ const toggleFavorite = (post) => {
   }
   post.isFavorited = !post.isFavorited; // 状態を反転
 };
+console.log("toggleFavorite関数が呼び出されました。",);
 
 // 3点リーダーの表示状態を管理
 const toggleMenu = (post) => {
   post.menuVisible = !post.menuVisible;
+};
+
+// 選択された投稿とモーダルの表示状態を管理
+const selectedPost = ref(null); // 選択された投稿
+const isModalOpen = ref(false); // モーダルの表示状態
+
+// 投稿を選択してモーダルを開く関数
+const openPostDetail = (post) => {
+  selectedPost.value = post; // 選択された投稿を設定
+  isModalOpen.value = true; // モーダルを表示
+};
+
+// モーダルを閉じる関数
+const closeModal = () => {
+  isModalOpen.value = false; // モーダルを非表示
+  selectedPost.value = null; // 選択された投稿をリセット
 };
 </script>
 

@@ -1,214 +1,139 @@
 <template>
   <div class="account">
-    <!-- ユーザー名とアイコン -->
-    <div>
-      <img src="#" alt="user icon"/>
-      <h1>{{ userName }}</h1>
+    <!-- ユーザー情報 -->
+    <div class="user-info">
+      <img :src="user.icon" alt="User Icon" class="user-icon" />
+      <div>
+        <h1 class="user-name">{{ user.name }}</h1>
+        <p class="user-id">@{{ user.id }}</p>
+      </div>
     </div>
-
-    <!-- 切り替えボタン -->
-    <button v-on:click="postList">posts</button>
-    <button v-on:click="recsList">Recs</button>
-
-
+    <!-- タブ切り替え -->
+    <div class="tab-toggle">
+      <button :class="{ active: activeTab === 'accountPosts' }" @click="activeTab = 'accountPosts'">
+        投稿
+      </button>
+      <button :class="{ active: activeTab === 'likes' }" @click="activeTab = 'likes'">
+        いいね
+      </button>
+    </div>
     <!-- 投稿表示 -->
-    <div>
-      <div class="post-list">
-        <h2>投稿一覧</h2>
-        <div v-for="post in posts" :key="post.id">
-          <PostItem :post="post" />
-        </div>
-      </div>
-      <div class="recs-list">
-        <h2>Recs一覧</h2>
-        <div v-for="post in RecsPosts" :key="post.id">
-          <PostItem :post="post" />
-        </div>
-      </div>
+    <div v-if="activeTab === 'accountPosts'" class="post-list">
+      <PostItem :posts="userPosts" />
     </div>
-
+    <div v-else class="post-list">
+      <PostItem :posts="likedPosts" />
+    </div>
   </div>
 </template>
 
 <script setup>
-// import { ref } from "vue";
+import { ref, computed } from "vue";
+import PostItem          from "../components/PostItem.vue";
+import postData          from "../postData";
 
-// ユーザー情報
-// const userName = "ユーザー名";
+// タブ切り替え状態
+const activeTab = ref("accountPosts");
 
+// ユーザー情報を指定
+const user = ref({
+  id: 123456,
+  name: "じょん・すみす",
+  icon: require("../assets/userAvatar.png"), // ユーザーアイコン
+});
 
-// ユーザーがイイねした投稿
+// ユーザーの投稿をフィルタリング
+const userPosts = computed(() =>
+  postData.filter((post) => post.user.id === user.value.id)
+);
 
-// ユーザーの投稿
-
-
-// 現在のタブ
+// ユーザーが「いいね」した投稿（仮のデータ）
+const likedPosts = ref([
+  {
+    postId: 102,
+    appId: 1234567,
+    appName: "Liked Game",
+    appImage: ["https://via.placeholder.com/150"],
+    user: {
+      id: 123456,
+      name: "じょん・すみす",
+      avatar: require("../assets/userAvatar.png"),
+    },
+    tags: ["タグ1", "タグ2"],
+    oneWard: "お気に入りのゲーム",
+    comment: "このゲームは本当に素晴らしいです！",
+    steamAppURL: "https://store.steampowered.com/app/1234567/",
+    favoriteCount: 100,
+    formattedDate: "2025年5月15日",
+  },
+]);
 </script>
 
 <style scoped>
+
 .account {
+  display: flex;
+  flex-direction: column;
+  margin-right: 228px;
   padding: 20px;
 }
 
-.account h1 {
-  font-size: 2em;
-  margin-bottom: 20px;
+.user-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
 }
 
-</style>
+.user-icon {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+}
 
-<template>
-  <!-- <div class="account"> -->
-    <!-- ユーザー名とアイコン -->
-    <!-- <div class="user-info">
-      <img :src="user.icon" alt="User Icon" class="user-icon" />
-      <div>
-        <h1 class="user-name">{{ user.name }}</h1>
-        <p class="user-handle">@{{ user.handle }}</p>
-      </div>
-    </div> -->
+.user-name {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0;
+}
 
-    <!-- 切り替えボタン -->
-    <!-- <div class="post-toggle">
-      <button
-        :class="{ active: activeTab === 'userPosts' }"
-        @click="activeTab = 'userPosts'"
-      >
-        あなたの投稿
-      </button>
-      <button
-        :class="{ active: activeTab === 'likedPosts' }"
-        @click="activeTab = 'likedPosts'"
-      >
-        イイねした投稿
-      </button>
-    </div> -->
+.user-id {
+  color: #657786;
+  font-size: 0.9rem;
+  margin: 2px 0 0;
+}
 
-    <!-- 投稿表示 -->
-    <!-- <div v-if="activeTab === 'userPosts'" class="user-posts">
-      <h2>Your Posts</h2>
-      <div class="post-card" v-for="post in userPosts" :key="post.id">
-        <h3>{{ post.title }}</h3>
-        <p>{{ post.content }}</p>
-      </div>
-    </div>
+.tab-toggle {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #ccc;
+}
 
-    <div v-if="activeTab === 'likedPosts'" class="liked-posts">
-      <h2>Liked Posts</h2>
-      <div class="post-card" v-for="post in likedPosts" :key="post.id">
-        <h3>{{ post.title }}</h3>
-        <p>{{ post.content }}</p>
-      </div>
-    </div>
-  </div> -->
-</template>
+.tab-toggle button {
+  background: none;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #657786;
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s ease;
+}
 
-<script setup>
-// import { ref } from "vue";
+.tab-toggle button.active {
+  color: #1da1f2;
+  border-color: #1da1f2;
+  font-weight: bold;
+}
 
-// ユーザー情報
-// const user = ref({
-//   name: "John Doe",
-//   handle: "johndoe", // ユーザーのハンドルネーム
-//   icon: "https://via.placeholder.com/50", // 仮のアイコン画像
-// });
-
-// ユーザーがイイねした投稿
-// const likedPosts = ref([
-//   {
-//     id: 1,
-//     title: "Liked Post 1",
-//     content: "This is the content of liked post 1.",
-//   },
-//   {
-//     id: 2,
-//     title: "Liked Post 2",
-//     content: "This is the content of liked post 2.",
-//   },
-// ]);
-
-// ユーザーの投稿
-// const userPosts = ref([
-//   { id: 1, title: "My Post 1", content: "This is the content of my post 1." },
-//   { id: 2, title: "My Post 2", content: "This is the content of my post 2." },
-// ]);
-
-// 現在のタブ
-// const activeTab = ref("userPosts");
-</script>
-
-<style scoped>
-/* // .account {
-//   padding: 20px;
-//   max-width: 600px;
-//   margin: 0 auto;
-//   font-family: Arial, sans-serif;
-// }
-
-// .user-info {
-//   display: flex;
-//   align-items: center;
-//   gap: 15px;
-//   margin-bottom: 20px;
-// }
-
-// .user-icon {
-//   width: 60px;
-//   height: 60px;
-//   border-radius: 50%;
-// }
-
-// .user-name {
-//   font-size: 1.5rem;
-//   margin: 0;
-// }
-
-// .user-handle {
-//   color: gray;
-//   font-size: 0.9rem;
-// }
-
-// .post-toggle {
-//   display: flex;
-//   gap: 10px;
-//   margin-bottom: 20px;
-// }
-
-// .post-toggle button {
-//   padding: 10px 20px;
-//   border: 1px solid #ddd;
-//   background-color: #f9f9f9;
-//   cursor: pointer;
-//   border-radius: 5px;
-//   font-size: 1rem;
-// }
-
-// .post-toggle button.active {
-//   background-color: #007bff;
-//   color: white;
-//   border-color: #007bff;
-// }
-
-// .liked-posts,
-// .user-posts {
-//   margin-top: 20px;
-// }
-
-// .post-card {
-//   border: 1px solid #ddd;
-//   border-radius: 8px;
-//   padding: 15px;
-//   margin-bottom: 15px;
-//   background-color: #f9f9f9;
-// }
-
-// .post-card h3 {
-//   margin: 0 0 10px;
-//   font-size: 1rem;
-// }
-
-// .post-card p {
-//   margin: 0;
-//   color: #555;
-// } */
+.post-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+  gap: 15px;
+}
 </style>

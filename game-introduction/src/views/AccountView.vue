@@ -28,19 +28,29 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
-import { useRoute }      from "vue-router";
-import PostItem          from "../components/PostItem.vue";
-import postData          from "../postData";
-import defaultIcon       from "../assets/userAvatar.png";
+import { ref, reactive, computed } from "vue";
+import { useRoute }                from "vue-router";
+import PostItem                    from "../components/PostItem.vue";
+import postData                    from "../postData";
+import defaultIcon                 from "../assets/userAvatar.png";
+
+// タブ切り替え状態
+const activeTab = ref("accountPosts");
 
 // ルートパラメータから id を取得
 const route = useRoute();
+// ユーザーIDを取得（なければnull）
 const userId = route.params.id ? Number(route.params.id) : null;
+// 投稿データをリアクティブに管理
+const posts = reactive(postData);
 
 // 該当ユーザーの投稿を抽出
 const userPosts = computed(() =>
-  postData.filter((post) => post.user.id === userId)
+  posts.filter((post) => post.user.id === userId)
+);
+// 「いいね」した投稿をフィルタリング
+const likedPosts = computed(() =>
+  postData.filter((post) => post.isLiked)
 );
 
 // 最初の投稿からユーザー情報を取得（なければデフォルト）
@@ -60,14 +70,6 @@ const user = computed(() => {
     };
   }
 });
-
-// タブ切り替え状態
-const activeTab = ref("accountPosts");
-
-// 「いいね」した投稿をフィルタリング
-const likedPosts = computed(() =>
-  postData.filter((post) => post.isLiked) // isLikedがtrueの投稿だけを取得
-);
 </script>
 
 <style scoped>

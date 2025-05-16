@@ -38,8 +38,8 @@
               ⋮
             </button>
             <div class="menu-dropdown" v-if="post.menuVisible">
-              <a :href="post.steamAppURL" target="_blank">Steamで見る</a>
-              <a :href="post.user.id">アカウント</a>
+              <a :href="post.steamAppURL" target="_blank" @click.stop>Steamで見る</a>
+              <a :href="post.user.id" @click.stop>アカウント</a>
             </div>
           </div>
         </section>

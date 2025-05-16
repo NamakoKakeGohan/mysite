@@ -11,11 +11,7 @@
           <div class="title">
             <h2 class="app-name">{{ post.appName }}</h2>
             <div class="post-user">
-              <img
-                :src="post.user.avatar"
-                alt="User Avatar"
-                class="user-avatar"
-              />
+              <img :src="post.user.avatar" alt="User Avatar" class="user-avatar"/>
               <a class="user-name">{{ post.user.name }}</a>
             </div>
           </div>
@@ -33,7 +29,7 @@
           <div class="post-one-ward">
             <p>{{ post.oneWard }}</p>
           </div>
-          <!-- お気に入りと3点リーダーのボタン -->
+          <!-- イイねと3点リーダーのボタン -->
           <div class="post-buttons">
             <button class="like-button" @click.stop="toggleLike(post)">
               {{ post.isLiked ? "★" : "☆" }}
@@ -68,7 +64,7 @@
 </template>
 
 <script setup>
-import { defineProps, ref } from "vue";
+import { defineProps, ref }  from "vue";
 import PostDetailModalDialog from "./PostDetailModalDialog.vue";
 
 // 親コンポーネントから `posts` を受け取る
@@ -82,6 +78,11 @@ defineProps({
 // お気に入りボタンの状態を切り替える関数
 const toggleLike = (post) => {
   post.isLiked = !post.isLiked; // isLikedの状態を反転
+  if (post.isLiked) {
+    post.likeCount++; // いいねされた場合、likeCountを増加
+  } else {
+    post.likeCount--; // いいねが解除された場合、likeCountを減少
+  }
 };
 
 // 3点リーダーの表示状態を管理

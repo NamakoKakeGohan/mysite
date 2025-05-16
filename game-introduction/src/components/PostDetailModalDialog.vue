@@ -90,6 +90,11 @@ defineProps({
 // お気に入りボタンの状態を切り替える関数
 const toggleLike = (post) => {
   post.isLiked = !post.isLiked; // isLikedの状態を反転
+  if (post.isLiked) {
+    post.likeCount++; // いいねされた場合、likeCountを増加
+  } else {
+    post.likeCount--; // いいねが解除された場合、likeCountを減少
+  }
 };
 
 // 3点リーダーの表示状態を管理
@@ -198,7 +203,7 @@ const toggleMenu = (post) => {
   font-size: 75px;
   font-weight: bold;
   color: #333;
-  white-space: nowrap; /* テキストを1行に収める */
+  white-space: normal; /* テキストを1行に収める */
   overflow: hidden; /* はみ出した部分を隠す */
   text-overflow: ellipsis; /* はみ出した部分を省略記号にする */
 }
@@ -346,7 +351,7 @@ const toggleMenu = (post) => {
     height: auto;
   }
   .app-name {
-    font-size: 40px;
+    font-size: 5em;
     white-space: normal; /* テキストを折り返す */
   }
   .post-one-ward {

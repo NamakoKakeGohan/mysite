@@ -44,13 +44,13 @@ const userId = route.params.id ? Number(route.params.id) : null;
 // 投稿データをリアクティブに管理
 const posts = reactive(postData);
 
-// 該当ユーザーの投稿を抽出
+// 該当ユーザーの投稿をフィルタリング
 const userPosts = computed(() =>
   posts.filter((post) => post.user.id === userId)
 );
 // 「いいね」した投稿をフィルタリング
 const likedPosts = computed(() =>
-  postData.filter((post) => post.isLiked)
+  posts.filter((post) => post.isLiked)
 );
 
 // 最初の投稿からユーザー情報を取得（なければデフォルト）

@@ -35,7 +35,7 @@
           </div>
           <!-- お気に入りと3点リーダーのボタン -->
           <div class="post-buttons">
-            <button class="like-button" @click.stop="togglelike(post)">
+            <button class="like-button" @click.stop="toggleLike(post)">
               {{ post.isLiked ? "★" : "☆" }}
             </button>
             <button class="menu-button" @click.stop="toggleMenu(post)">
@@ -82,9 +82,6 @@ defineProps({
 // お気に入りボタンの状態を切り替える関数
 const toggleLike = (post) => {
   post.isLiked = !post.isLiked; // isLikedの状態を反転
-  console.log(
-    `投稿ID: ${post.postId} のいいね状態が ${post.isLiked} に変更されました。`
-  );
 };
 
 // 3点リーダーの表示状態を管理

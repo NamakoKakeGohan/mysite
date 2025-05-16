@@ -29,44 +29,45 @@
 
 <script setup>
 import { ref, computed } from "vue";
+import { useRoute }      from "vue-router";
 import PostItem          from "../components/PostItem.vue";
 import postData          from "../postData";
+import defaultIcon       from "../assets/userAvatar.png";
+
+// ルートパラメータから id を取得
+const route = useRoute();
+const userId = route.params.id ? Number(route.params.id) : null;
+
+// 該当ユーザーの投稿を抽出
+const userPosts = computed(() =>
+  postData.filter((post) => post.user.id === userId)
+);
+
+// 最初の投稿からユーザー情報を取得（なければデフォルト）
+const user = computed(() => {
+  const firstPost = userPosts.value[0];
+  if (firstPost) {
+    return {
+      id: firstPost.user.id,
+      name: firstPost.user.name,
+      icon: firstPost.user.avatar,
+    };
+  } else {
+    return {
+      id: userId,
+      name: "不明なユーザー",
+      icon: defaultIcon,
+    };
+  }
+});
 
 // タブ切り替え状態
 const activeTab = ref("accountPosts");
 
-// ユーザー情報を指定
-const user = ref({
-  id: 123456,
-  name: "じょん・すみす",
-  icon: require("../assets/userAvatar.png"), // ユーザーアイコン
-});
-
-// ユーザーの投稿をフィルタリング
-const userPosts = computed(() =>
-  postData.filter((post) => post.user.id === user.value.id)
+// 「いいね」した投稿をフィルタリング
+const likedPosts = computed(() =>
+  postData.filter((post) => post.isLiked) // isLikedがtrueの投稿だけを取得
 );
-
-// ユーザーが「いいね」した投稿（仮のデータ）
-const likedPosts = ref([
-  {
-    postId: 102,
-    appId: 1234567,
-    appName: "Liked Game",
-    appImage: ["https://via.placeholder.com/150"],
-    user: {
-      id: 123456,
-      name: "じょん・すみす",
-      avatar: require("../assets/userAvatar.png"),
-    },
-    tags: ["タグ1", "タグ2"],
-    oneWard: "お気に入りのゲーム",
-    comment: "このゲームは本当に素晴らしいです！",
-    steamAppURL: "https://store.steampowered.com/app/1234567/",
-    favoriteCount: 100,
-    formattedDate: "2025年5月15日",
-  },
-]);
 </script>
 
 <style scoped>

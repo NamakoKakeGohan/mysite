@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 import HomeView    from "../views/HomeView.vue";
-import RecsView    from "../views/RecsView.vue";
-import RankingView from "../views/RankingView.vue";
 import AccountView from "../views/AccountView.vue";
+import RankingView from "../views/RankingView.vue";
 import TagsView    from "../views/TagsView.vue";
+import TestView    from "../views/TestView.vue";
 
 const routes = [
   {
@@ -13,9 +13,10 @@ const routes = [
     component: HomeView,
   },
   {
-    path: "/Recs",
-    name: "Recs",
-    component: RecsView,
+    path: "/:id", // アカウント情報を表示するルート
+    name: "Account",
+    component: AccountView,
+    props: true, // ルートパラメータをpropsとして渡す
   },
   {
     path: "/Ranking",
@@ -28,15 +29,9 @@ const routes = [
     component: TagsView,
   },
   {
-    path: "/Account",
-    name: "Account",
-    component: AccountView,
-  },
-
-  {
     path: "/Test",
     name: "Test",
-    component: () => import("../views/TestView.vue"),
+    component: TestView,
   },
 ];
 

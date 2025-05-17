@@ -24,7 +24,8 @@ const postData = [
       "モンスターハンターシリーズの最新作で、広大なフィールドでモンスターを狩る爽快感が魅力です。",
     steamAppURL:
       "https://store.steampowered.com/app/2246340/Monster_Hunter_Wilds/",
-    favoriteCount: 810,
+      likeCount: 810,
+    isLiked: false,
     formattedDate: "2025年4月1日",
   },
   {
@@ -45,7 +46,8 @@ const postData = [
     comment:
       "ストリートファイターシリーズの最新作で、グラフィックやゲームプレイが大幅に進化しています。",
     steamAppURL: "https://store.steampowered.com/app/1364780/Street_Fighter_6/",
-    favoriteCount: 0,
+    likeCount: 0,
+    isLiked: false,
     formattedDate: "2025年4月20日",
   },
 ];

@@ -1,22 +1,17 @@
 <template>
   <div class="scaled-container">
-    <div class="post-item" v-for="(post, index) in posts" :key="index" @click="$emit('post-click', post)">
+    <div class="post-item" v-for="(post, index) in posts" :key="index" @click="openPostDetail(post)" >
       <!-- サムネイル画像 -->
       <img :src="post.appImage[0]" alt="App Thumbnail" class="app-thumbnail" />
 
       <!-- 投稿の内容 -->
       <div>
-        <!-- 投稿ヘッダー -->
         <section class="post-header">
           <!-- アプリ名とユーザー名を表示 -->
           <div class="title">
             <h2 class="app-name">{{ post.appName }}</h2>
             <div class="post-user">
-              <img
-                :src="post.user.avatar"
-                alt="User Avatar"
-                class="user-avatar"
-              />
+              <img :src="post.user.avatar" alt="User Avatar" class="user-avatar"/>
               <a class="user-name">{{ post.user.name }}</a>
             </div>
           </div>
@@ -34,15 +29,17 @@
           <div class="post-one-ward">
             <p>{{ post.oneWard }}</p>
           </div>
-          <!-- お気に入りと3点リーダーのボタン -->
+          <!-- イイねと3点リーダーのボタン -->
           <div class="post-buttons">
-            <button class="favorite-button" @click="(event) => { event.stopPropagation(); toggleFavorite(post); }">
-              {{ post.isFavorited ? "★" : "☆" }}
+            <button class="like-button" @click.stop="toggleLike(post)">
+              {{ post.isLiked ? "★" : "☆" }}
             </button>
-            <button class="menu-button" @click="(event) => { event.stopPropagation(); toggleMenu(post); }">⋮</button>
+            <button class="menu-button" @click.stop="toggleMenu(post)">
+              ⋮
+            </button>
             <div class="menu-dropdown" v-if="post.menuVisible">
-              <a :href="post.steamAppURL" target="_blank">Steamで見る</a>
-              <a :href="post.user.id">アカウント</a>
+              <a :href="post.steamAppURL" target="_blank" @click.stop>Steamで見る</a>
+              <a :href="post.user.id" @click.stop>アカウント</a>
             </div>
           </div>
         </section>
@@ -50,8 +47,8 @@
         <!-- 投稿フッター -->
         <section class="post-footer">
           <!-- お気に入り数を表示 -->
-          <div class="post-favorite-count">
-            <span>{{ post.favoriteCount }}★</span>
+          <div class="post-like-count">
+            <span>{{ post.likeCount }}★</span>
           </div>
           <!-- 投稿日を表示 -->
           <div class="post-date">
@@ -60,11 +57,15 @@
         </section>
       </div>
     </div>
+
+    <!-- モーダルダイアログ -->
+    <PostDetailModalDialog v-if="isModalOpen" :post="selectedPost" :openModal="isModalOpen" @close="closeModal" />
   </div>
 </template>
 
 <script setup>
-import { defineProps } from "vue";
+import { defineProps, ref }  from "vue";
+import PostDetailModalDialog from "./PostDetailModalDialog.vue";
 
 // 親コンポーネントから `posts` を受け取る
 defineProps({
@@ -75,18 +76,34 @@ defineProps({
 });
 
 // お気に入りボタンの状態を切り替える関数
-const toggleFavorite = (post) => {
-  if (post.isFavorited) {
-    post.favoriteCount--; // お気に入り解除で減少
+const toggleLike = (post) => {
+  post.isLiked = !post.isLiked; // isLikedの状態を反転
+  if (post.isLiked) {
+    post.likeCount++; // いいねされた場合、likeCountを増加
   } else {
-    post.favoriteCount++; // お気に入り追加で増加
+    post.likeCount--; // いいねが解除された場合、likeCountを減少
   }
-  post.isFavorited = !post.isFavorited; // 状態を反転
 };
 
 // 3点リーダーの表示状態を管理
 const toggleMenu = (post) => {
   post.menuVisible = !post.menuVisible;
+};
+
+// 選択された投稿とモーダルの表示状態を管理
+const selectedPost = ref(null); // 選択された投稿
+const isModalOpen = ref(false); // モーダルの表示状態
+
+// 投稿を選択してモーダルを開く関数
+const openPostDetail = (post) => {
+  selectedPost.value = post; // 選択された投稿を設定
+  isModalOpen.value = true; // モーダルを表示
+};
+
+// モーダルを閉じる関数
+const closeModal = () => {
+  isModalOpen.value = false; // モーダルを非表示
+  selectedPost.value = null; // 選択された投稿をリセット
 };
 </script>
 
@@ -194,7 +211,7 @@ const toggleMenu = (post) => {
   align-items: center;
   margin-left: auto; /* 右寄せ */
 }
-.favorite-button {
+.like-button {
   background-color: transparent;
   border: none;
   font-size: 30px;
@@ -202,11 +219,11 @@ const toggleMenu = (post) => {
   color: #ffdd00;
   transition: transform 0.2s ease, color 0.2s ease; /* サイズと色の変化をスムーズに */
 }
-.favorite-button:hover {
+.like-button:hover {
   transform: scale(1.2); /* ホバー時に少し拡大 */
   color: #ffaf47; /* ホバー時に色を変更 */
 }
-.favorite-button:active {
+.like-button:active {
   transform: scale(1); /* クリック時に元のサイズに戻る */
   color: rgb(232, 79, 24); /* クリック時に色を変更 */
 }
@@ -251,7 +268,7 @@ const toggleMenu = (post) => {
   justify-content: space-between;
   align-items: center;
 }
-.post-favorite-count {
+.post-like-count {
   font-size: 20px;
   color: #555;
 }

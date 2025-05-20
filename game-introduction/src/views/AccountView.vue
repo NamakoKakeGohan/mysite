@@ -77,7 +77,6 @@ const user = computed(() => {
 .account {
   display: flex;
   flex-direction: column;
-  margin-right: 228px;
   padding: 20px;
 }
 
@@ -136,7 +135,6 @@ const user = computed(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 30px;
   gap: 15px;
 }
 </style>

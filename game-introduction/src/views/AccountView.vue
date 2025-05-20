@@ -136,7 +136,6 @@ const user = computed(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 30px;
   gap: 15px;
 }
 </style>

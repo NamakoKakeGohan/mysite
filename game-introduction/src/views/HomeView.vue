@@ -41,7 +41,7 @@ const filteredRecsList = computed(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-right: 90px;
+  margin: 50px 90px 0 0;
   padding: 20px;
 }
 .search-bar {

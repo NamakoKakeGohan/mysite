@@ -1,5 +1,5 @@
 import userAvatar         from "./assets/userAvatar.png";
-import Steam              from "./assets/thumbnail/Steam.png";
+import Steam              from "./assets/thumbnail/Steam.jpg";
 import Steam_top          from "./assets/thumbnail/Steam_top.png";
 import MonsterHunterWilds from "./assets/thumbnail/MonsterHunterWilds.jpg";
 import wilds_top          from "./assets/thumbnail/wilds_top.png";

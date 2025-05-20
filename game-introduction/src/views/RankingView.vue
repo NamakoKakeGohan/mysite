@@ -6,8 +6,9 @@
         <div class="ranking-frame">
           <!-- 順位を表示 -->
           <div class="ranking-number">{{ index + 1 }}</div>
-          <!-- PostItemコンポーネントを使用 -->
-          <PostItem :posts="[post]"/>
+          <div class="post-item">
+            <PostItem :posts="[post]"/>
+          </div>
         </div>
       </li>
     </ul>
@@ -39,6 +40,7 @@ const top10Posts = computed(() => {
   margin-right: 90px;
   padding: 20px;
 }
+
 h1 {
   font-size: 3rem;
   margin-bottom: 20px;
@@ -51,10 +53,6 @@ h1 {
   list-style: none;
   padding: 0;
   color: #333;
-}
-
-.ranking-item {
-  
 }
 
 .ranking-frame {
@@ -72,5 +70,12 @@ h1 {
   margin-right: 20px;
   width: 40px;
   text-align: center;
+}
+
+/* PostItemのスタイルを統一 */
+.post-item {
+  flex: 1;
+  display: flex;
+  align-items: center;
 }
 </style>

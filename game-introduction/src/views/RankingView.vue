@@ -5,7 +5,9 @@
       <li v-for="(post, index) in top10Posts" :key="post.postId" class="ranking-item">
         <div class="ranking-frame">
           <!-- 順位を表示 -->
-          <div class="ranking-number">{{ index + 1 }}</div>
+          <div class="ranking-number">
+            <p>{{ index + 1 }}</p>
+            </div>
           <div class="post-item">
             <PostItem :posts="[post]"/>
           </div>
@@ -43,6 +45,7 @@ const top10Posts = computed(() => {
 
 h1 {
   font-size: 3rem;
+  font-family: "Arial, sans-serif";
   margin-bottom: 20px;
   color: #333;
 }

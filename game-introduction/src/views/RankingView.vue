@@ -39,7 +39,6 @@ const top10Posts = computed(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-right: 90px;
   padding: 20px;
 }
 

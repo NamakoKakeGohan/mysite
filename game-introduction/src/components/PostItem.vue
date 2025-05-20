@@ -112,10 +112,10 @@ const closeModal = () => {
   display: flex;
   padding: 15px;
   margin: 0;
+  margin-top: 100px;
   border: 1px solid #e1e8ed;
   border-radius: 10px;
   background-color: #fff;
-  margin-bottom: 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s, box-shadow 0.2s;
   font-family: Arial, sans-serif;

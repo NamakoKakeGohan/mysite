@@ -67,8 +67,9 @@ h1 {
 }
 
 .ranking-number {
-  font-size: 1.5rem;
+  font-size: 5rem;
   font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
   color: #333;
   margin-right: 20px;
   width: 40px;

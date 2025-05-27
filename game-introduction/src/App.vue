@@ -92,7 +92,7 @@ footer {
 <style>
 /* グローバル CSS */
 :root.light-theme {
-  --background-color: #f5f5f5; /* 柔らかいオフホワイト */
+  --background-color: #eaeaea; /* 明るいグレー */
   --text-color:       #333333; /* ダークグレー */
 }
 

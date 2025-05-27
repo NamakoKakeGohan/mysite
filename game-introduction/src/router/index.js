@@ -1,10 +1,11 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-import HomeView    from "../views/HomeView.vue";
-import AccountView from "../views/AccountView.vue";
-import RankingView from "../views/RankingView.vue";
-import TagsView    from "../views/TagsView.vue";
-import TestView    from "../views/TestView.vue";
+import HomeView       from "../views/HomeView.vue";
+import AccountView    from "../views/AccountView.vue";
+import RankingView    from "../views/RankingView.vue";
+import TagsView       from "../views/TagsView.vue";
+import TestView       from "../views/TestView.vue";
+import TestResultView from "../views/TestResultView.vue";
 
 const routes = [
   {
@@ -32,6 +33,11 @@ const routes = [
     path: "/Test",
     name: "Test",
     component: TestView,
+  },
+  {
+    path: "/TestResult",
+    name: "TestResult",
+    component: TestResultView,
   },
 ];
 

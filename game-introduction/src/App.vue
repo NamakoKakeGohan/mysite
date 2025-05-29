@@ -81,6 +81,7 @@ main {
   grid-area: main;
   padding: 1rem;
   margin-top: 100px;
+  margin-right: 200px;
 }
 
 footer {
@@ -91,7 +92,7 @@ footer {
 <style>
 /* グローバル CSS */
 :root.light-theme {
-  --background-color: #f5f5f5; /* 柔らかいオフホワイト */
+  --background-color: #eaeaea; /* 明るいグレー */
   --text-color:       #333333; /* ダークグレー */
 }
 
@@ -104,5 +105,19 @@ body {
   background-color: var(--background-color);
   color: var(--text-color);
   transition: background-color 0.3s ease, color 0.3s ease;
+}
+/* レスポンシブ */
+@media (max-width: 1500px) {
+  .sidebar {
+    display: none; /* サイドバーを非表示にする */
+  }
+
+  .layout {
+    grid-template-areas:
+      "header header"
+      "main main"
+      "footer footer"; /* サイドバーをレイアウトから除外 */
+    grid-template-columns: 1fr; /* メインコンテンツを全幅にする */
+  }
 }
 </style>

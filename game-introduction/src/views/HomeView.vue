@@ -6,8 +6,8 @@
       <input type="text" v-model="searchQuery" placeholder="Search..." class="search-input"/>
     </div>
     <!-- フィルタリングされたリストを PostItem に渡す -->
-    <div v-if="filteredRecsList.length > 0">
-      <PostItem :posts="filteredRecsList" />
+    <div v-if="filteredPostList.length > 0">
+      <PostItem :posts="filteredPostList" />
     </div>
     <p v-else>一致する投稿がありません。</p>
   </div>
@@ -23,14 +23,14 @@ import searchIcon            from "../assets/search.svg";
 const searchQuery = ref("");
 
 // 投稿データを格納する変数
-const recsList = ref(postData); // postData を直接代入
+const postList = ref(postData); // postData を直接代入
 
 // 検索クエリに基づいてフィルタリングされた投稿データを計算
-const filteredRecsList = computed(() => {
+const filteredPostList = computed(() => {
   if (!searchQuery.value) {
-    return recsList.value;
+    return postList.value;
   }
-  return recsList.value.filter((post) =>
+  return postList.value.filter((post) =>
     post.appName.toLowerCase().startsWith(searchQuery.value.toLowerCase())
   );
 });

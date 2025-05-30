@@ -3,7 +3,7 @@
     <!-- 検索バー -->
     <div class="search-bar">
       <img :src="searchIcon" alt="サーチアイコン" class="search-icon" />
-      <input type="text" v-model="searchQuery" placeholder="Search..." class="search-input"/>
+      <input type="text" v-model="searchQuery" placeholder="Search..." class="search-input" @input="handleSearch"/>
     </div>
     <!-- フィルタリングされたリストを PostItem に渡す -->
     <div v-if="filteredPostList.length > 0">
@@ -14,10 +14,11 @@
 </template>
 
 <script setup>
-import { ref, computed }     from "vue";
-import PostItem              from "../components/PostItem.vue";
-import postData              from "../postData";
-import searchIcon            from "../assets/search.svg";
+import { ref, computed }    from "vue";
+import { searchAndLogApps } from "../SteamWebAPI/SearchApps";
+import PostItem             from "../components/PostItem.vue";
+import postData             from "../postData";
+import searchIcon           from "../assets/search.svg";
 
 // 検索クエリを管理
 const searchQuery = ref("");
@@ -25,14 +26,36 @@ const searchQuery = ref("");
 // 投稿データを格納する変数
 const postList = ref(postData); // postData を直接代入
 
+// 検索結果を格納する変数
+const searchResults = ref([]);
+
+// 検索処理
+async function handleSearch() {
+  if (!searchQuery.value) {
+    searchResults.value = []; // 検索クエリが空の場合は検索結果をクリア
+    return;
+  }
+
+  try {
+    const results = await searchAndLogApps(searchQuery.value);
+    searchResults.value = results || []; // 検索結果が空の場合は空配列を設定
+  } catch (error) {
+    console.error("検索中にエラーが発生しました:", error);
+    searchResults.value = []; // エラー時も空配列を設定
+  }
+}
+
 // 検索クエリに基づいてフィルタリングされた投稿データを計算
 const filteredPostList = computed(() => {
   if (!searchQuery.value) {
-    return postList.value;
+    return postList.value; // 検索クエリが空の場合はpostDataを表示
+  }
+  if (searchResults.value && searchResults.value.length > 0) {
+    return searchResults.value; // 検索結果がある場合は検索結果を表示
   }
   return postList.value.filter((post) =>
     post.appName.toLowerCase().startsWith(searchQuery.value.toLowerCase())
-  );
+  ); // 検索クエリに基づいてpostDataをフィルタリング
 });
 </script>
 

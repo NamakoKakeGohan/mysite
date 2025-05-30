@@ -2,31 +2,11 @@ const API_KEY = "70EEBD1F7268C22952B9C6F9080E8B5D"; // Steam Web APIキー
 const BASE_URL = "/api/steam"; // プロキシ経由のURL
 
 /**
- * Steam Web APIからサポートされているAPIメソッドの一覧を取得します。
- * @returns {Promise<Array>} サポートされているAPIメソッドの一覧
- */
-export async function getSupportedAPIMethods() {
-  const url = `${BASE_URL}/ISteamWebAPIUtil/GetSupportedAPIList/v1?key=${API_KEY}`;
-
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`HTTPエラー: ${response.status}`);
-    }
-    const data = await response.json();
-    return data.apilist.interfaces; // APIメソッドの一覧を返す
-  } catch (error) {
-    console.error("Steam Web APIの取得中にエラーが発生しました:", error);
-    throw error;
-  }
-}
-
-/**
  * Steam Web APIからすべてのアプリ一覧を取得します。
  * @returns {Promise<Array>} アプリ一覧（IDと名前）
  */
 export async function getAppList() {
-  const url = `${BASE_URL}/ISteamApps/GetAppList/v2/`;
+  const url = `${BASE_URL}/ISteamApps/GetAppList/v2/?key=${API_KEY}`; // APIキーを追加
 
   try {
     const response = await fetch(url);
@@ -37,6 +17,24 @@ export async function getAppList() {
     return data.applist.apps; // アプリ一覧を返す
   } catch (error) {
     console.error("アプリ一覧の取得中にエラーが発生しました:", error);
+    throw error;
+  }
+}
+
+/**
+ * アプリ名で検索をかけ、候補を出力します。
+ * @param {string} query 検索クエリ（アプリ名）
+ * @returns {Promise<Array>} 検索結果（候補のアプリ一覧）
+ */
+export async function searchAppByName(query) {
+  try {
+    const appList = await getAppList(); // アプリ一覧を取得
+    const filteredApps = appList.filter((app) =>
+      app.name.toLowerCase().includes(query.toLowerCase())
+    ); // 名前でフィルタリング
+    return filteredApps; // 検索結果を返す
+  } catch (error) {
+    console.error("アプリ名検索中にエラーが発生しました:", error);
     throw error;
   }
 }
@@ -104,17 +102,3 @@ export async function fetchPostData(appIds) {
     throw error;
   }
 }
-
-import { fetchPostData } from "./SteamWebAPI/SteamWebAPI";
-
-async function fetchAndLogPostData() {
-  const appIds = [10, 730, 570]; // 取得したいアプリIDの配列
-  try {
-    const postData = await fetchPostData(appIds);
-    console.log("postData:", postData);
-  } catch (error) {
-    console.error("データ取得中にエラーが発生しました:", error);
-  }
-}
-
-fetchAndLogPostData();

@@ -1,4 +1,4 @@
-import { searchAppByName, fetchPostData } from "./SteamWebAPI";
+import { searchAppByName, fetchPostDataReversed } from "./SteamWebAPI";
 
 /**
  * 検索機能を呼び出して結果を出力します。
@@ -22,9 +22,9 @@ export async function searchAndLogApps(query) {
     const appIds = topResults.map((app) => app.appid);
 
     // アプリIDを基にpostData形式に変換
-    const postData = await fetchPostData(appIds);
+    const postData = await fetchPostDataReversed(appIds);
     console.log("postData形式のデータ（上位10件）:", postData);
   } catch (error) {
-    console.error("検索中にエラーが発生しました:", error);
+    console.error("postData形式への変換中にエラーが発生しました:", error);
   }
 }

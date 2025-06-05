@@ -1,12 +1,11 @@
-const API_KEY = "70EEBD1F7268C22952B9C6F9080E8B5D"; // Steam Web APIキー
-const BASE_URL = "/api/steam"; // vue.config.jsの開発用プロキシ経由のURL
+const BASE_URL = "http://localhost:5000/api/steam"; // バックエンドサーバーのURL
 
 /**
  * Steam Web APIからすべてのアプリ一覧を取得し、逆順に並べ替えます。
  * @returns {Promise<Array>} アプリ一覧（IDと名前）
  */
 export async function getAppListReversed() {
-  const url = `${BASE_URL}/ISteamApps/GetAppList/v2/?key=${API_KEY}`; // APIキーを追加
+  const url = `${BASE_URL}/apps`; // バックエンドのエンドポイントを使用
 
   try {
     const response = await fetch(url);
@@ -16,7 +15,7 @@ export async function getAppListReversed() {
     const data = await response.json();
 
     // アプリ一覧を逆順に並べ替え
-    return data.applist.apps.reverse(); // AppIDの最後尾から順に並べ替え
+    return data.applist.apps.reverse();
   } catch (error) {
     console.error("アプリ一覧の取得中にエラーが発生しました:", error);
     throw error;
@@ -47,7 +46,7 @@ export async function searchAppByName(query) {
  * @returns {Promise<Object>} アプリの詳細情報
  */
 export async function getAppDetails(appid) {
-  const url = `https://store.steampowered.com/api/appdetails?appids=${appid}&cc=jp&l=japanese`;
+  const url = `${BASE_URL}/appdetails/${appid}&cc=jp&l=japanese`;
 
   try {
     const response = await fetch(url);
@@ -74,7 +73,10 @@ export async function getAppDetails(appid) {
       steamAppURL: `https://store.steampowered.com/app/${appid}/`,
     };
   } catch (error) {
-    console.error(`アプリID ${appid} の詳細情報取得中にエラーが発生しました:`, error);
+    console.error(
+      `アプリID ${appid} の詳細情報取得中にエラーが発生しました:`,
+      error
+    );
     throw error;
   }
 }
@@ -100,7 +102,10 @@ export async function fetchPostDataReversed(appIds) {
             steamAppURL: game.steamAppURL,
           };
         } catch (error) {
-          console.error(`アプリID ${appid} のデータ取得中にエラーが発生しました:`, error);
+          console.error(
+            `アプリID ${appid} のデータ取得中にエラーが発生しました:`,
+            error
+          );
           return null; // エラー時はnullを返す
         }
       })

@@ -1,11 +1,11 @@
 const API_KEY = "70EEBD1F7268C22952B9C6F9080E8B5D"; // Steam Web APIキー
-const BASE_URL = "/api/steam"; // プロキシ経由のURL
+const BASE_URL = "/api/steam"; // vue.config.jsの開発用プロキシ経由のURL
 
 /**
- * Steam Web APIからすべてのアプリ一覧を取得します。
+ * Steam Web APIからすべてのアプリ一覧を取得し、逆順に並べ替えます。
  * @returns {Promise<Array>} アプリ一覧（IDと名前）
  */
-export async function getAppList() {
+export async function getAppListReversed() {
   const url = `${BASE_URL}/ISteamApps/GetAppList/v2/?key=${API_KEY}`; // APIキーを追加
 
   try {
@@ -14,7 +14,9 @@ export async function getAppList() {
       throw new Error(`HTTPエラー: ${response.status}`);
     }
     const data = await response.json();
-    return data.applist.apps; // アプリ一覧を返す
+
+    // アプリ一覧を逆順に並べ替え
+    return data.applist.apps.reverse(); // AppIDの最後尾から順に並べ替え
   } catch (error) {
     console.error("アプリ一覧の取得中にエラーが発生しました:", error);
     throw error;
@@ -28,7 +30,7 @@ export async function getAppList() {
  */
 export async function searchAppByName(query) {
   try {
-    const appList = await getAppList(); // アプリ一覧を取得
+    const appList = await getAppListReversed(); // 逆順のアプリ一覧を取得
     const filteredApps = appList.filter((app) =>
       app.name.toLowerCase().includes(query.toLowerCase())
     ); // 名前でフィルタリング
@@ -53,6 +55,12 @@ export async function getAppDetails(appid) {
       throw new Error(`HTTPエラー: ${response.status}`);
     }
     const data = await response.json();
+
+    // レスポンスが空の場合の処理
+    if (!data || !data[appid] || !data[appid].data) {
+      throw new Error(`アプリID ${appid} のデータが存在しません`);
+    }
+
     const game = data[appid].data;
 
     // 必要なデータを整形して返す
@@ -61,42 +69,44 @@ export async function getAppDetails(appid) {
       name: game.name,
       header_image: game.header_image,
       capsule_image: `https://cdn.akamai.steamstatic.com/steam/apps/${appid}/capsule_231x87.jpg`,
-      genres: game.genres.map((g) => g.description),
-      short_description: game.short_description,
+      genres: game.genres ? game.genres.map((g) => g.description) : [], // genresがundefinedの場合は空配列を返す
+      short_description: game.short_description || "説明がありません",
       steamAppURL: `https://store.steampowered.com/app/${appid}/`,
     };
   } catch (error) {
-    console.error(
-      `アプリID ${appid} の詳細情報取得中にエラーが発生しました:`,
-      error
-    );
+    console.error(`アプリID ${appid} の詳細情報取得中にエラーが発生しました:`, error);
     throw error;
   }
 }
 
 /**
- * 複数のアプリの詳細情報を取得し、postData形式に変換します。
+ * 逆順のアプリ一覧から情報を取得し、postData形式に変換します。
  * @param {Array<number>} appIds アプリIDの配列
  * @returns {Promise<Array>} postData形式のデータ
  */
-export async function fetchPostData(appIds) {
+export async function fetchPostDataReversed(appIds) {
   try {
     const postData = await Promise.all(
       appIds.map(async (appid) => {
-        const game = await getAppDetails(appid);
+        try {
+          const game = await getAppDetails(appid);
 
-        return {
-          appId: game.appid,
-          appName: game.name,
-          appImages: [game.header_image, game.capsule_image],
-          tags: game.genres, // ジャンルをタグとして使用
-          oneWard: game.short_description, // 短い説明を使用
-          steamAppURL: game.steamAppURL,
-        };
+          return {
+            appId: game.appid,
+            appName: game.name,
+            appImages: [game.header_image, game.capsule_image],
+            tags: game.genres, // ジャンルをタグとして使用
+            oneWard: game.short_description, // 短い説明を使用
+            steamAppURL: game.steamAppURL,
+          };
+        } catch (error) {
+          console.error(`アプリID ${appid} のデータ取得中にエラーが発生しました:`, error);
+          return null; // エラー時はnullを返す
+        }
       })
     );
 
-    return postData;
+    return postData.filter((item) => item !== null); // nullを除外して返す
   } catch (error) {
     console.error("postData形式への変換中にエラーが発生しました:", error);
     throw error;

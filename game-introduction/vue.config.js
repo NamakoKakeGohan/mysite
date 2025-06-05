@@ -4,13 +4,9 @@ const ESLintPlugin = require("eslint-webpack-plugin");
 module.exports = defineConfig({
   transpileDependencies: true,
   chainWebpack: (config) => {
-    config.plugin("eslint").use(ESLintPlugin, [
-      {
-        // 必要に応じてオプションを追加
-      },
-    ]);
+    config.plugin("eslint").use(ESLintPlugin, []);
   },
-  devServer: {
+  devServer: { //開発環境専用
     proxy: {
       "/api/steam": {
         target: "https://api.steampowered.com",

@@ -1,11 +1,11 @@
-const BASE_URL = "http://localhost:5000/api/steam"; // バックエンドサーバーのURL
+const BASE_URL = "https://namakokakegohan.vercel.app/api"; // デプロイ済みAPI
 
 /**
  * Steam Web APIからすべてのアプリ一覧を取得し、逆順に並べ替えます。
  * @returns {Promise<Array>} アプリ一覧（IDと名前）
  */
 export async function getAppListReversed() {
-  const url = `${BASE_URL}/apps`; // バックエンドのエンドポイントを使用
+  const url = `${BASE_URL}/steam?type=apps`;
 
   try {
     const response = await fetch(url);
@@ -23,30 +23,12 @@ export async function getAppListReversed() {
 }
 
 /**
- * アプリ名で検索をかけ、候補を出力します。
- * @param {string} query 検索クエリ（アプリ名）
- * @returns {Promise<Array>} 検索結果（候補のアプリ一覧）
- */
-export async function searchAppByName(query) {
-  try {
-    const appList = await getAppListReversed(); // 逆順のアプリ一覧を取得
-    const filteredApps = appList.filter((app) =>
-      app.name.toLowerCase().includes(query.toLowerCase())
-    ); // 名前でフィルタリング
-    return filteredApps; // 検索結果を返す
-  } catch (error) {
-    console.error("アプリ名検索中にエラーが発生しました:", error);
-    throw error;
-  }
-}
-
-/**
  * 特定のアプリの詳細情報を取得します。
  * @param {number} appid アプリID
  * @returns {Promise<Object>} アプリの詳細情報
  */
 export async function getAppDetails(appid) {
-  const url = `${BASE_URL}/appdetails/${appid}&cc=jp&l=japanese`;
+  const url = `${BASE_URL}/steam?type=appdetails&appid=${appid}`;
 
   try {
     const response = await fetch(url);
@@ -77,6 +59,24 @@ export async function getAppDetails(appid) {
       `アプリID ${appid} の詳細情報取得中にエラーが発生しました:`,
       error
     );
+    throw error;
+  }
+}
+
+/**
+ * アプリ名で検索をかけ、候補を出力します。
+ * @param {string} query 検索クエリ（アプリ名）
+ * @returns {Promise<Array>} 検索結果（候補のアプリ一覧）
+ */
+export async function searchAppByName(query) {
+  try {
+    const appList = await getAppListReversed(); // 逆順のアプリ一覧を取得
+    const filteredApps = appList.filter((app) =>
+      app.name.toLowerCase().includes(query.toLowerCase())
+    ); // 名前でフィルタリング
+    return filteredApps; // 検索結果を返す
+  } catch (error) {
+    console.error("アプリ名検索中にエラーが発生しました:", error);
     throw error;
   }
 }

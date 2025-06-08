@@ -1,36 +1,36 @@
-const express = require("express");
-const axios = require("axios");
-const cors = require("cors");
+import axios from "axios";
 
-const app = express();
-const PORT = process.env.PORT || 5000;
-
-// CORSを有効化
-app.use(cors());
-
-// Steam Web APIキー
-const API_KEY = "93CD3A6B2A1D13A0E49D0008D0ADE0F0";
-
-// Steam Web APIのベースURL
+const API_KEY = "17AA12A8E882E0769357D640C4267CC4";
 const BASE_URL = "https://api.steampowered.com";
 
-// アプリ一覧を取得するエンドポイント
-app.get("/api/steam/apps", async (req, res) => {
-  try {
-    const response = await axios.get(`${BASE_URL}/ISteamApps/GetAppList/v2/`, {
-      params: { key: API_KEY },
-    });
-    res.json(response.data);
-  } catch (error) {
-    console.error(
-      "Steam Web APIへのリクエスト中にエラーが発生しました:",
-      error.message
-    );
-    res.status(500).json({ error: error.message });
-  }
-});
+export default async function handler(req, res) {
+  const { appid, type } = req.query;
 
-// サーバーを起動
-app.listen(PORT, () => {
-  console.log(`サーバーがポート ${PORT} で起動しました`);
-});
+  if (type === "apps") {
+    // アプリ一覧取得
+    try {
+      const response = await axios.get(`${BASE_URL}/ISteamApps/GetAppList/v2/`, {
+        params: { key: API_KEY },
+      });
+      res.status(200).json(response.data);
+    } catch (error) {
+      console.error("アプリ一覧取得中にエラー:", error.message);
+      res.status(500).json({ error: error.message });
+    }
+  } else if (type === "appdetails" && appid) {
+    // アプリ詳細取得
+    try {
+      const response = await axios.get(
+        `https://store.steampowered.com/api/appdetails?appids=${appid}&cc=jp&l=japanese`
+      );
+      res.status(200).json(response.data);
+    } catch (error) {
+      console.error(`アプリ詳細(${appid})取得中にエラー:`, error.message);
+      res.status(500).json({ error: error.message });
+    }
+  } else {
+    res.status(400).json({
+      error: "不正なリクエストです。type（appsまたはappdetails）とappid（必要に応じて）が必要です。",
+    });
+  }
+}

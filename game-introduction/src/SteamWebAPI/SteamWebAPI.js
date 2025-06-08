@@ -1,4 +1,4 @@
-const API_KEY = "70EEBD1F7268C22952B9C6F9080E8B5D"; // Steam Web APIキー
+const API_KEY = "36E3C8820800D54C92AEF40B8F449698"; // Steam Web APIキー
 const BASE_URL = "/api/steam"; // vue.config.jsの開発用プロキシ経由のURL
 
 /**
@@ -68,7 +68,7 @@ export async function getAppDetails(appid) {
       appid: game.steam_appid,
       name: game.name,
       header_image: game.header_image,
-      capsule_image: `https://cdn.akamai.steamstatic.com/steam/apps/${appid}/capsule_231x87.jpg`,
+      library_image: `https://cdn.cloudflare.steamstatic.com/steam/apps/${appid}/library_600x900.jpg`,
       genres: game.genres ? game.genres.map((g) => g.description) : [], // genresがundefinedの場合は空配列を返す
       short_description: game.short_description || "説明がありません",
       steamAppURL: `https://store.steampowered.com/app/${appid}/`,
@@ -94,7 +94,7 @@ export async function fetchPostDataReversed(appIds) {
           return {
             appId: game.appid,
             appName: game.name,
-            appImages: [game.header_image, game.capsule_image],
+            appImages: [game.header_image, game.library_image, ],
             tags: game.genres, // ジャンルをタグとして使用
             oneWard: game.short_description, // 短い説明を使用
             steamAppURL: game.steamAppURL,

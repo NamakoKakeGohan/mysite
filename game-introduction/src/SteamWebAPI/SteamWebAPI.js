@@ -1,12 +1,11 @@
-const API_KEY = "36E3C8820800D54C92AEF40B8F449698"; // Steam Web APIキー
-const BASE_URL = "/api/steam"; // vue.config.jsの開発用プロキシ経由のURL
+const BASE_URL = "https://namakokakegohan.vercel.app/api"; // デプロイ済みAPI
 
 /**
  * Steam Web APIからすべてのアプリ一覧を取得し、逆順に並べ替えます。
  * @returns {Promise<Array>} アプリ一覧（IDと名前）
  */
 export async function getAppListReversed() {
-  const url = `${BASE_URL}/ISteamApps/GetAppList/v2/?key=${API_KEY}`; // APIキーを追加
+  const url = `${BASE_URL}/steam?type=apps`;
 
   try {
     const response = await fetch(url);
@@ -16,27 +15,9 @@ export async function getAppListReversed() {
     const data = await response.json();
 
     // アプリ一覧を逆順に並べ替え
-    return data.applist.apps.reverse(); // AppIDの最後尾から順に並べ替え
+    return data.applist.apps.reverse();
   } catch (error) {
     console.error("アプリ一覧の取得中にエラーが発生しました:", error);
-    throw error;
-  }
-}
-
-/**
- * アプリ名で検索をかけ、候補を出力します。
- * @param {string} query 検索クエリ（アプリ名）
- * @returns {Promise<Array>} 検索結果（候補のアプリ一覧）
- */
-export async function searchAppByName(query) {
-  try {
-    const appList = await getAppListReversed(); // 逆順のアプリ一覧を取得
-    const filteredApps = appList.filter((app) =>
-      app.name.toLowerCase().includes(query.toLowerCase())
-    ); // 名前でフィルタリング
-    return filteredApps; // 検索結果を返す
-  } catch (error) {
-    console.error("アプリ名検索中にエラーが発生しました:", error);
     throw error;
   }
 }
@@ -47,7 +28,7 @@ export async function searchAppByName(query) {
  * @returns {Promise<Object>} アプリの詳細情報
  */
 export async function getAppDetails(appid) {
-  const url = `https://store.steampowered.com/api/appdetails?appids=${appid}&cc=jp&l=japanese`;
+  const url = `${BASE_URL}/steam?type=appdetails&appid=${appid}`;
 
   try {
     const response = await fetch(url);
@@ -74,7 +55,28 @@ export async function getAppDetails(appid) {
       steamAppURL: `https://store.steampowered.com/app/${appid}/`,
     };
   } catch (error) {
-    console.error(`アプリID ${appid} の詳細情報取得中にエラーが発生しました:`, error);
+    console.error(
+      `アプリID ${appid} の詳細情報取得中にエラーが発生しました:`,
+      error
+    );
+    throw error;
+  }
+}
+
+/**
+ * アプリ名で検索をかけ、候補を出力します。
+ * @param {string} query 検索クエリ（アプリ名）
+ * @returns {Promise<Array>} 検索結果（候補のアプリ一覧）
+ */
+export async function searchAppByName(query) {
+  try {
+    const appList = await getAppListReversed(); // 逆順のアプリ一覧を取得
+    const filteredApps = appList.filter((app) =>
+      app.name.toLowerCase().includes(query.toLowerCase())
+    ); // 名前でフィルタリング
+    return filteredApps; // 検索結果を返す
+  } catch (error) {
+    console.error("アプリ名検索中にエラーが発生しました:", error);
     throw error;
   }
 }
@@ -100,7 +102,10 @@ export async function fetchPostDataReversed(appIds) {
             steamAppURL: game.steamAppURL,
           };
         } catch (error) {
-          console.error(`アプリID ${appid} のデータ取得中にエラーが発生しました:`, error);
+          console.error(
+            `アプリID ${appid} のデータ取得中にエラーが発生しました:`,
+            error
+          );
           return null; // エラー時はnullを返す
         }
       })

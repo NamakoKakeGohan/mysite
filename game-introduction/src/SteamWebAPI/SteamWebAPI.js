@@ -1,11 +1,11 @@
-const BASE_URL = "https://namakokakegohan.vercel.app/api"; // デプロイ済みAPI
+const BASE_URL = "/api/steam"; // ←ここを修正
 
 /**
  * Steam Web APIからすべてのアプリ一覧を取得し、逆順に並べ替えます。
  * @returns {Promise<Array>} アプリ一覧（IDと名前）
  */
 export async function getAppListReversed() {
-  const url = `${BASE_URL}/steam?type=apps`;
+  const url = `${BASE_URL}/ISteamApps/GetAppList/v2`; // ←ここを修正
 
   try {
     const response = await fetch(url);
@@ -28,7 +28,7 @@ export async function getAppListReversed() {
  * @returns {Promise<Object>} アプリの詳細情報
  */
 export async function getAppDetails(appid) {
-  const url = `${BASE_URL}/steam?type=appdetails&appid=${appid}`;
+  const url = `/api/store/api/appdetails?appids=${appid}`; // ←ここを修正
 
   try {
     const response = await fetch(url);
@@ -44,13 +44,12 @@ export async function getAppDetails(appid) {
 
     const game = data[appid].data;
 
-    // 必要なデータを整形して返す
     return {
       appid: game.steam_appid,
       name: game.name,
       header_image: game.header_image,
-      library_image: `https://cdn.cloudflare.steamstatic.com/steam/apps/${appid}/library_600x900.jpg`,
-      genres: game.genres ? game.genres.map((g) => g.description) : [], // genresがundefinedの場合は空配列を返す
+      library_image: `https://cdn.akamai.steamstatic.com/steam/apps/${appid}/capsule_231x87.jpg`, // ここもOK
+      genres: game.genres ? game.genres.map((g) => g.description) : [],
       short_description: game.short_description || "説明がありません",
       steamAppURL: `https://store.steampowered.com/app/${appid}/`,
     };
@@ -96,7 +95,7 @@ export async function fetchPostDataReversed(appIds) {
           return {
             appId: game.appid,
             appName: game.name,
-            appImages: [game.header_image, game.library_image, ],
+            appImages: [game.header_image, game.library_image],
             tags: game.genres, // ジャンルをタグとして使用
             oneWard: game.short_description, // 短い説明を使用
             steamAppURL: game.steamAppURL,

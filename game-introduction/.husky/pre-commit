@@ -1,0 +1,10 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo "Restarting dev server..."
+
+# vue-cli-service のプロセスを kill
+pkill -f "vue-cli-service"
+
+# 開発サーバーを再起動
+npm run serve &

@@ -1,38 +1,33 @@
+<!-- PostDetailModal.vue -->
 <template>
   <teleport to="body">
     <div v-if="openModal" class="modal-overlay">
-      <div class="post-detail-modal">
-        <button class="close-button" @click="$emit('close')">×</button>
+      <article class="modal">
+        <button class="modal__close" @click="$emit('close')">×</button>
 
-        <div class="modal-body">
-          <!-- 検索バーを常に上部に配置 -->
-          <div class="search-bar-wrapper">
-            <PlojectSearchBar
-              @searchResults="updateSearchResults"
-              @selectResult="selectApp"
-            />
-          </div>
+        <main class="modal__body">
+          <!-- 検索バー -->
+          <header class="modal__search">
+            <PlojectSearchBar @searchResults="updateSearchResults" @selectResult="selectApp"/>
+          </header>
 
-          <div v-if="selectedApp" class="modal-content-split">
+          <section v-if="selectedApp" class="modal__content">
             <!-- 左側: サムネイル -->
-            <div class="modal-left">
+            <aside class="modal__thumbnail">
               <img
-                :src="
-                  selectedApp && selectedApp.appId && selectedApp.appImages && selectedApp.appImages[1]
-                  ? selectedApp.appImages[1] : Steam_top"
+                :src="selectedApp?.appImages?.[1] || Steam_top"
                 alt="App thumbnail"
-                class="app-thumbnail"
+                class="thumbnail-image"
               />
-            </div>
+            </aside>
 
             <!-- 右側: 詳細 -->
-            <div class="modal-right">
-              <section class="post-header">
-                <div class="title">
-                  <h3 class="app-name">{{ selectedApp.appName }}</h3>
-                </div>
-              </section>
-              <section class="post-user">
+            <section class="modal__details">
+              <header class="details__header">
+                <h3 class="details__app-name">{{ selectedApp.appName }}</h3>
+              </header>
+
+              <section class="details__user">
                 <img :src="userAvatar" alt="User Avatar" class="user-avatar" />
                 <input
                   type="text"
@@ -41,32 +36,33 @@
                   class="user-name-input"
                 />
               </section>
-              <section class="post-tags">
-                <span
-                  class="tag"
-                  v-for="(tag, index) in selectedApp.tags"
-                  :key="index"
-                >
+
+              <section class="details__tags">
+                <span v-for="(tag, index) in selectedApp.tags" :key="index" class="tag">
                   {{ tag }}
                 </span>
               </section>
-              <section class="post-content">
-                <div class="post-one-ward">
-                  <p>{{ selectedApp.oneWard }}</p>
-                </div>
+
+              <section class="details__summary">
+                <p class="summary-text">{{ selectedApp.oneWard }}</p>
               </section>
-              <section class="post-comment">
+
+              <section class="details__comment">
                 <textarea
                   v-model="comment"
                   placeholder="このゲームについて一言コメントを入力 . . . "
                   class="comment-input"
                 ></textarea>
               </section>
-              <button @click="submitPost" class="submit-btn">投稿する</button>
-            </div>
-          </div>
-        </div>
-      </div>
+
+              <footer class="details__actions">
+                <button @click="submitPost" class="submit-post-btn">投稿する</button>
+              </footer>
+              
+            </section>
+          </section>
+        </main>
+      </article>
     </div>
   </teleport>
 </template>
@@ -129,39 +125,35 @@ function submitPost() {
 </script>
 
 <style scoped>
-/* モーダルの背景オーバーレイ */
+/* ===== 共通レイアウト ===== */
 .modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(0 0 0 / 0.5);
   z-index: 999;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
-/* モーダル本体 */
-.post-detail-modal {
+/* ===== モーダル本体 ===== */
+.modal {
   position: relative;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18);
   width: 90vw;
   max-width: 900px;
-  padding: 0;
-  z-index: 1000;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0 0 0 / 0.18);
 }
 
-/* 右上のキャンセルボタン */
-.close-button {
+/* 閉じるボタン */
+.modal__close {
   position: absolute;
   top: 18px;
   right: 18px;
   width: 36px;
-  height: 36px;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
   border: none;
   border-radius: 50%;
   background: #ff6b6b;
@@ -169,181 +161,150 @@ function submitPost() {
   font-size: 22px;
   font-weight: bold;
   cursor: pointer;
-  z-index: 10;
   transition: background 0.2s, transform 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
-.close-button:hover {
+.modal__close:hover {
   background: #ff4c4c;
   transform: scale(1.1);
 }
 
-/* モーダル内レイアウト */
-.modal-body {
+/* モーダル内部 */
+.modal__body {
   display: flex;
   flex-direction: column;
-  padding: 40px 32px 32px 32px;
+  padding: 40px 32px 32px;
   gap: 24px;
-  max-width: 100%;
-  max-height: 100%;
 }
 
-/* 検索バーを上部に */
-.search-bar-wrapper {
-  width: 100%;
+/* ===== 検索バー ===== */
+.modal__search {
   display: flex;
   justify-content: center;
-  margin-bottom: 12px;
 }
-.search-bar-wrapper > * {
+.modal__search > * {
   width: 100%;
   max-width: 500px;
 }
 
-/* 二分割レイアウト */
-.modal-content-split {
+/* ===== コンテンツレイアウト ===== */
+.modal__content {
   display: flex;
-  flex-direction: row;
   gap: 32px;
-  width: 100%;
 }
 
-.modal-left {
+.modal__thumbnail {
   flex: 1 1 40%;
   display: flex;
-  align-items: flex-start;
   justify-content: center;
 }
-.modal-right {
+.thumbnail-image {
+  width: 100%;
+  max-width: 320px;
+  border-radius: 10px;
+  object-fit: cover;
+  box-shadow: 0 2px 8px rgba(0 0 0 / 0.08);
+}
+
+.modal__details {
   flex: 1 1 60%;
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-/* サムネイル画像 */
-.app-thumbnail {
-  width: 100%;
-  max-width: 320px;
-  border-radius: 10px;
-  object-fit: cover;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-}
-
-/* タイトル・ID */
-.post-header .title {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-.app-name {
+/* ===== 詳細セクション ===== */
+.details__app-name {
+  margin: 0;
   font-size: 2rem;
   font-weight: bold;
   color: #333;
-  margin: 0;
-}
-.app-id {
-  font-size: 0.9rem;
-  color: #888;
 }
 
-/* ユーザー名入力 */
-.post-user {
+/* ユーザー情報 */
+.details__user {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 .user-avatar {
   width: 32px;
-  height: 32px;
+  aspect-ratio: 1;
   border-radius: 50%;
 }
 .user-name-input {
-  font-size: 1rem;
+  flex: 1;
   padding: 6px 10px;
+  font-size: 1rem;
   border: 1px solid #ccc;
   border-radius: 6px;
 }
 
 /* タグ */
-.post-tags {
+.details__tags {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
 .tag {
+  padding: 4px 10px;
   background: #e1e8ed;
   border-radius: 5px;
-  padding: 4px 10px;
   font-size: 0.95rem;
 }
 
-/* 一言説明 */
-.post-content {
+/* サマリー */
+.details__summary .summary-text {
   margin: 0;
-}
-.post-one-ward {
-  background: #f5fbff;
-  border: #265e9e 2px solid;
-  border-radius: 5px;
   padding: 10px 16px;
-  font-size: 1.1rem;
   text-align: center;
+  font-size: 1.1rem;
+  border: 2px solid #265e9e;
+  border-radius: 5px;
+  background: #f5fbff;
 }
 
-/* コメント欄 */
-.post-comment {
-  margin: 0;
-}
-.comment-input {
-  width: 96.5%;
+/* コメント */
+.details__comment .comment-input {
+  width: 100%;
   min-height: 80px;
-  font-size: 1rem;
   padding: 8px;
+  font-size: 1rem;
   border: 1px solid #ccc;
   border-radius: 6px;
   resize: none;
 }
 
-/* 投稿ボタン */
-.submit-btn {
+/* アクション */
+.details__actions {
+  display: flex;
+  justify-content: flex-end;
+}
+.submit-post-btn {
   margin-top: 12px;
   padding: 10px 24px;
-  background: #265e9e;
-  color: #fff;
+  font-size: 1.1rem;
   border: none;
   border-radius: 6px;
-  font-size: 1.1rem;
+  background: #265e9e;
+  color: #fff;
   cursor: pointer;
   transition: background 0.2s;
 }
-.submit-btn:hover {
+.submit-post-btn:hover {
   background: #183e6e;
 }
 
-/* レスポンシブ対応 */
+/* ===== レスポンシブ ===== */
 @media (max-width: 800px) {
-  .post-detail-modal {
-    padding: 0;
-    width: 98vw;
-    max-width: 100vw;
-  }
-  .modal-body {
-    padding: 24px 8px 16px 8px;
+  .modal__body {
+    padding: 24px 8px 16px;
     gap: 16px;
   }
-  .modal-content-split {
+  .modal__content {
     flex-direction: column;
     gap: 16px;
   }
-  .modal-left,
-  .modal-right {
-    width: 100%;
-    max-width: 100%;
-  }
-  .app-thumbnail {
+  .thumbnail-image {
     max-width: 100%;
   }
 }

@@ -15,16 +15,16 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
-import PlojectSearchBar from "../components/PlojectSearchBar.vue";
-import PostItem from "../components/PostItem.vue";
+import { ref, computed }       from "vue";
+import PlojectSearchBar        from "../components/PlojectSearchBar.vue";
+import PostItem                from "../components/PostItem.vue";
 import PostFunctionModalDialog from "../components/PostFunctionModalDialog.vue";
-import postData from "../postData";
-import plusIcon from "../assets/plus.svg";
+import postData                from "../postData";
+import plusIcon                from "../assets/plus.svg";
 
-const postList = ref(postData); // 初期投稿データを管理
-const searchResults = ref([]); // 検索結果を管理
-const showModal = ref(false); // モーダルの表示状態を管理
+const postList      = ref(postData); // 初期投稿データを管理
+const showModal     = ref(false);    // モーダルの表示状態を管理
+const searchResults = ref([]);       // 検索結果を管理
 
 // 検索結果を更新する関数
 function updateSearchResults(results) {
@@ -46,23 +46,27 @@ function toggleModal() {
 
 // 新しい投稿データを追加する関数
 function addPost(newPost) {
+
   // 新しい投稿データにユニークなIDを付与
-    const newPostId = postData.length > 0 ? Math.max(...postData.map(post => post.postId)) + 1 : 1;
+  const newPostId = postList.value.length > 0 ? Math.max(...postList.value.map(post => post.postId)) + 1 : 1;
 
   const formattedPost = {
     ...newPost,
-    postId: newPostId, // ユニークなIDを設定
-    likeCount: 0, // 初期の「いいね」数
-    isLiked: false, // 初期の「いいね」状態
+    postId       : newPostId, // ユニークなIDを設定
+    likeCount    : 0, // 初期の「いいね」数
+    isLiked      : false, // 初期の「いいね」状態
     formattedDate: new Date().toLocaleDateString("ja-JP", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    }), // 現在の日付をフォーマット
+      year       : "numeric",
+      month      : "long",
+      day        : "numeric",
+    }),
   };
 
-  // postDataに新しい投稿を追加
-  postData.push(formattedPost);
+  // postListをリアクティブに更新
+  postList.value.unshift(formattedPost);
+
+  // 検索結果が表示されている場合も即時反映
+  searchResults.value = [];
 
   console.log("新しい投稿データが追加されました:", formattedPost);
 }

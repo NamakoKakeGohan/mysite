@@ -1,10 +1,16 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-echo "Restarting dev server..."
+echo "[Husky] 開発サーバーの停止処理を開始します..."
 
-# vue-cli-service のプロセスを kill
+# vue-cli-service を使っているプロセスを停止
 pkill -f "vue-cli-service"
 
-# 開発サーバーを再起動
+echo "[Husky] 開発サーバーの停止完了"
+
+echo "[Husky] 開発サーバーの起動処理を開始します..."
+
+# バックグラウンドで起動
 npm run serve &
+
+echo "[Husky] 開発サーバーの起動完了"

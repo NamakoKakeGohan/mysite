@@ -12,11 +12,16 @@
     </div>
 
     <!-- 検索候補を表示 -->
-      <ul v-if="searchResults.length > 0" class="search-results">
-        <li v-for="(result, index) in searchResults" :key="index" class="search-result-item" @click="selectResult(result)">
-          {{ result.appName }}
-        </li>
-      </ul>
+    <ul v-if="searchResults.length > 0" class="search-results">
+      <li
+        v-for="(result, index) in searchResults"
+        :key="index"
+        class="search-result-item"
+        @click="selectResult(result)"
+      >
+        {{ result.appName }}
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -48,7 +53,7 @@ async function handleSearch() {
 }
 
 function selectResult(result) {
-  console.log("選択されたアプリ:", result); // 
+  console.log("選択されたアプリ:", result); //
   searchQuery.value = result.appName; // 検索クエリに選択されたアプリ名を代入
   searchResults.value = []; // 検索候補を閉じる（リストを空にする）
   emit("selectResult", result); // 選択された結果を親コンポーネントに送信}
@@ -62,6 +67,7 @@ function selectResult(result) {
   flex-direction: column;
   align-items: center;
   margin-top: 20px;
+  position: relative; /* 追加: .search-resultsの基準にする */
 }
 .search-bar {
   width: 100%;
@@ -76,7 +82,8 @@ function selectResult(result) {
   margin-right: 10px;
 }
 .search-input {
-  width: 50%;
+  max-width: 100%;
+  width: 600px;
   padding: 10px;
   font-size: 24px;
   border: 1px solid #ccc;
@@ -94,12 +101,17 @@ function selectResult(result) {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   z-index: 1500;
-
+  position: absolute; /* 追加: 絶対配置で重ならないように */
+  top: 60px; /* 検索バーの下に表示（必要に応じて調整） */
+  z-index: 2000; /* 他の要素より前面に表示 */
 }
+
 .search-result-item {
   padding: 10px;
   cursor: pointer;
   border-bottom: 1px solid #eee;
+  position: static; /* 修正: 一覧表示のためstaticに */
+  background: #fff;
 }
 .search-result-item:last-child {
   border-bottom: none;

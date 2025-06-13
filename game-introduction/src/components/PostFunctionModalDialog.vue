@@ -2,69 +2,68 @@
   <teleport to="body">
     <div v-if="openModal" class="modal-overlay">
       <div class="post-detail-modal">
-        <!-- キャンセルボタン -->
         <button class="close-button" @click="$emit('close')">×</button>
 
         <div class="modal-body">
-          <!-- 検索バー -->
-          <PlojectSearchBar
-            @searchResults="updateSearchResults"
-            @selectResult="selectApp"
-          />
-
-          <!-- 投稿データのプレビュー -->
-          <div v-if="selectedApp" class="post-preview">
-            <img
-              :src="selectedApp.appImages[0]"
-              alt="App thumbnail"
-              class="app-thumbnail"
+          <!-- 検索バーを常に上部に配置 -->
+          <div class="search-bar-wrapper">
+            <PlojectSearchBar
+              @searchResults="updateSearchResults"
+              @selectResult="selectApp"
             />
           </div>
 
-          <div v-if="selectedApp">
-            <section class="post-header">
-              <div class="title">
-                <h2 class="app-name">{{ selectedApp.appName }}</h2>
-                <span class="app-id">{{ selectedApp.appId }}</span>
-              </div>
-            </section>
-
-            <!-- ユーザー名入力 -->
-            <section class="post-user">
-              <img :src="userAvatar" alt="User Avatar" class="user-avatar" />
-              <input
-                type="text"
-                v-model="userName"
-                placeholder="Enter your name"
-                class="user-name-input"
+          <div v-if="selectedApp" class="modal-content-split">
+            <!-- 左側: サムネイル -->
+            <div class="modal-left">
+              <img
+                :src="
+                  selectedApp && selectedApp.appId && selectedApp.appImages && selectedApp.appImages[1]
+                  ? selectedApp.appImages[1] : Steam_top"
+                alt="App thumbnail"
+                class="app-thumbnail"
               />
-            </section>
+            </div>
 
-            <section class="post-tags">
-              <span
-                class="tag"
-                v-for="(tag, index) in selectedApp.tags"
-                :key="index"
-              >
-                {{ tag }}
-              </span>
-            </section>
-
-            <section class="post-content">
-              <div class="post-one-ward">
-                <p>{{ selectedApp.oneWard }}</p>
-              </div>
-            </section>
-
-            <section class="post-comment">
-              <textarea
-                v-model="comment"
-                placeholder="Enter your comment"
-                class="comment-input"
-              ></textarea>
-            </section>
-
-            <button @click="submitPost">投稿する</button>
+            <!-- 右側: 詳細 -->
+            <div class="modal-right">
+              <section class="post-header">
+                <div class="title">
+                  <h3 class="app-name">{{ selectedApp.appName }}</h3>
+                </div>
+              </section>
+              <section class="post-user">
+                <img :src="userAvatar" alt="User Avatar" class="user-avatar" />
+                <input
+                  type="text"
+                  v-model="userName"
+                  placeholder="ユーザー名を入力 . . . "
+                  class="user-name-input"
+                />
+              </section>
+              <section class="post-tags">
+                <span
+                  class="tag"
+                  v-for="(tag, index) in selectedApp.tags"
+                  :key="index"
+                >
+                  {{ tag }}
+                </span>
+              </section>
+              <section class="post-content">
+                <div class="post-one-ward">
+                  <p>{{ selectedApp.oneWard }}</p>
+                </div>
+              </section>
+              <section class="post-comment">
+                <textarea
+                  v-model="comment"
+                  placeholder="このゲームについて一言コメントを入力 . . . "
+                  class="comment-input"
+                ></textarea>
+              </section>
+              <button @click="submitPost" class="submit-btn">投稿する</button>
+            </div>
           </div>
         </div>
       </div>
@@ -73,10 +72,11 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref }                   from "vue";
 import { fetchPostDataReversed } from "../SteamWebAPI/SteamWebAPI";
-import PlojectSearchBar from "./PlojectSearchBar.vue";
-import userAvatar from "../assets/userAvatar.png";
+import PlojectSearchBar          from "./PlojectSearchBar.vue";
+import userAvatar                from "../assets/userAvatar.png";
+import Steam_top                 from "../assets/thumbnail/Steam_top.png"; // デフォルトのサムネイル画像
 
 const props = defineProps({
   openModal: Boolean,
@@ -85,9 +85,9 @@ const props = defineProps({
 const emit = defineEmits(["close", "submitPost"]);
 
 const searchResults = ref([]); // 検索結果を管理
-const selectedApp = ref(null); // 選択されたアプリ情報
-const userName = ref(""); // ユーザー名を管理
-const comment = ref(""); // コメントを管理
+const selectedApp   = ref(null); // 選択されたアプリ情報
+const userName      = ref(""); // ユーザー名を管理
+const comment       = ref(""); // コメントを管理
 
 // 検索結果を更新する関数
 function updateSearchResults(results) {
@@ -134,330 +134,217 @@ function submitPost() {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* 半透明の黒背景 */
-  z-index: 999; /* モーダルよりも下に配置 */
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+/* モーダル本体 */
 .post-detail-modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  position: relative;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18);
+  width: 90vw;
+  max-width: 900px;
+  padding: 0;
   z-index: 1000;
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  width: 80%; /* モーダルの幅を調整 */
-  max-width: 65%; /* 最大幅を設定 */
-  height: auto;
 }
 
-/* 丸型のキャンセルボタンを右上に配置 */
+/* 右上のキャンセルボタン */
 .close-button {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 30px;
-  height: 30px;
+  top: 18px;
+  right: 18px;
+  width: 36px;
+  height: 36px;
   border: none;
   border-radius: 50%;
-  background-color: #ff6b6b;
-  color: white;
-  font-size: 20px;
+  background: #ff6b6b;
+  color: #fff;
+  font-size: 22px;
   font-weight: bold;
   cursor: pointer;
+  z-index: 10;
+  transition: background 0.2s, transform 0.2s;
   display: flex;
-  justify-content: center;
   align-items: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  transition: transform 0.2s ease, background-color 0.2s ease;
+  justify-content: center;
 }
 .close-button:hover {
-  transform: scale(1.4); /* ホバー時に少し拡大 */
-  background-color: #ff4c4c; /* ホバー時に色を変更 */
-}
-.close-button:active {
-  transform: scale(1); /* クリック時に元のサイズに戻る */
-  background-color: #e63939; /* クリック時に色を変更 */
+  background: #ff4c4c;
+  transform: scale(1.1);
 }
 
+/* モーダル内レイアウト */
 .modal-body {
   display: flex;
-  justify-content: space-around;
-  align-items: center; /* 子要素を中央揃え */
-  justify-content: center; /* 縦方向の中央揃え */
-  gap: 20px; /* 子要素間のスペースを均等に */
-  padding: 20px; /* 内側の余白を追加 */
-  max-width: 100%; /* 横幅を親要素に収める */
-  box-sizing: border-box; /* パディングを含めたサイズ計算 */
-}
-
-.app-thumbnail {
-  object-fit: cover;
-  width: 500px;
+  flex-direction: column;
+  padding: 40px 32px 32px 32px;
+  gap: 24px;
   max-width: 100%;
-  height: auto;
-  border-radius: 10px;
-  margin-right: 15px;
-  flex-shrink: 0; /* imgのサイズを固定 */
+  max-height: 100%;
 }
 
-.post-header {
+/* 検索バーを上部に */
+.search-bar-wrapper {
+  width: 100%;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0px;
+  justify-content: center;
+  margin-bottom: 12px;
 }
-.title {
-  margin: 10px 0;
+.search-bar-wrapper > * {
+  width: 100%;
+  max-width: 500px;
+}
+
+/* 二分割レイアウト */
+.modal-content-split {
+  display: flex;
+  flex-direction: row;
+  gap: 32px;
+  width: 100%;
+}
+
+.modal-left {
+  flex: 1 1 40%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+.modal-right {
+  flex: 1 1 60%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  flex-grow: 1;
+  gap: 12px;
+}
+
+/* サムネイル画像 */
+.app-thumbnail {
+  width: 100%;
+  max-width: 320px;
+  border-radius: 10px;
+  object-fit: cover;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* タイトル・ID */
+.post-header .title {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 .app-name {
-  margin: 0;
-  font-size: 75px;
+  font-size: 2rem;
   font-weight: bold;
   color: #333;
-  white-space: nowrap; /* テキストを1行に収める */
-  overflow: hidden; /* はみ出した部分を隠す */
-  text-overflow: ellipsis; /* はみ出した部分を省略記号にする */
+  margin: 0;
 }
+.app-id {
+  font-size: 0.9rem;
+  color: #888;
+}
+
+/* ユーザー名入力 */
 .post-user {
   display: flex;
   align-items: center;
+  gap: 10px;
 }
 .user-avatar {
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
 }
-.user-name {
-  margin-left: 10px;
-  font-size: 16px;
-  color: #555;
+.user-name-input {
+  font-size: 1rem;
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
 }
+
+/* タグ */
 .post-tags {
-  margin: 0 0 30px 0;
   display: flex;
-  align-items: center;
   flex-wrap: wrap;
+  gap: 8px;
 }
 .tag {
-  margin: 5px;
-  font-size: 18px;
-  padding: 5px 10px;
-  background-color: #e1e8ed;
+  background: #e1e8ed;
   border-radius: 5px;
+  padding: 4px 10px;
+  font-size: 0.95rem;
 }
 
+/* 一言説明 */
 .post-content {
-  display: flex;
-  flex-grow: 1; /* 子要素が親要素内でスペースを埋める */
-}
-.post-one-ward {
-  flex-grow: 1; /* 余ったスペースを埋める */
-  padding: 0 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 20px;
-  border: #265e9e 2px solid;
-  background-color: #f5fbff;
-  border-radius: 5px;
-  text-align: center;
-}
-.post-comment {
-  margin: 30px 0;
-  height: 300px;
-  font-size: 24px;
-  border: #265e9e 2px solid;
-  background-color: #f5fbff;
-  border-radius: 5px;
-  padding: 20px; /* 内側の余白を追加 */
-}
-
-.post-buttons {
-  position: relative; /* 子要素の絶対位置を基準にする */
-  display: flex;
-  align-items: center;
-  margin-left: auto; /* 右寄せ */
-}
-.favorite-button {
-  background-color: transparent;
-  border: none;
-  padding-left: 20px;
-  font-size: 30px;
-  cursor: pointer;
-  color: #ffdd00;
-  transition: transform 0.2s ease, color 0.2s ease; /* サイズと色の変化をスムーズに */
-}
-.favorite-button:hover {
-  transform: scale(1.2); /* ホバー時に少し拡大 */
-  color: #ffaf47; /* ホバー時に色を変更 */
-}
-.favorite-button:active {
-  transform: scale(1); /* クリック時に元のサイズに戻る */
-  color: rgb(232, 79, 24); /* クリック時に色を変更 */
-}
-.menu-button {
-  background-color: transparent;
-  border: none;
-  width: 30px;
-  padding-left: 20px;
-  font-size: 30px;
-  cursor: pointer;
-}
-.menu-dropdown {
-  position: absolute; /* 親要素から独立して配置 */
-  top: 80%; /* ボタンの下に表示 */
-  left: 0; /* ボタンの左端に揃える */
-  background-color: #f3f9ff;
-  border: 1px solid #e1e8ed;
-  border-radius: 5px;
-  padding: 10px;
-  z-index: 1000;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  min-width: 150px; /* メニューの幅を固定 */
-}
-.menu-dropdown a {
-  display: block;
-  padding: 5px 10px;
-  text-decoration: none;
-  color: #333;
-}
-.menu-dropdown a:hover {
-  background-color: #d6d6d6;
-}
-.menu-dropdown a:active {
-  background-color: #e1e8ed;
-}
-.menu-dropdown a:focus {
-  outline: none;
-  box-shadow: 0 0 0 2px #265e9e;
-}
-/* -----post-footer----- */
-.post-footer {
-  display: flex;
-  margin-top: 20px;
-  justify-content: space-between;
-  align-items: center;
-}
-.post-favorite-count {
-  font-size: 20px;
-  color: #555;
-}
-.post-date {
-  font-size: 20px;
-  color: #999;
-}
-.post-date p {
   margin: 0;
 }
-
-/* -----レスポンシブデザイン----- */
-@media (max-width: 1800px) {
-  .post-detail-modal {
-    width: 90%; /* モーダルの幅を調整 */
-    max-width: 100%; /* 最大幅を設定 */
-  }
-  .app-thumbnail {
-    max-width: 50%;
-    height: auto;
-  }
-  .app-name {
-    font-size: 40px;
-    white-space: normal; /* テキストを折り返す */
-  }
-  .post-one-ward {
-    padding: 0 10px;
-    font-size: 18px;
-  }
-
-  .post-review,
-  .post-footer {
-    position: static; /* 親の flex の影響を受けない */
-    flex-grow: 0; /* flex アイテムとしての拡張を無効化 */
-    width: 100%; /* 横幅を親要素に合わせる */
-    margin-top: 20px; /* 上部に余白を追加 */
-  }
-}
-@media (max-width: 800px) {
-  .modal-body {
-    flex-direction: column; /* 子要素を縦方向に並べる */
-    align-items: center; /* 子要素を中央揃え */
-  }
-
-  .post-one-ward {
-    padding: 0 10px;
-    font-size: 16px;
-    margin-bottom: 20px; /* 下に余白を追加 */
-  }
-
-  .post-review {
-    width: 100%; /* 横幅を親要素に合わせる */
-    margin-bottom: 20px; /* 下に余白を追加 */
-    order: 1; /* 表示順を指定 */
-  }
-
-  .post-footer {
-    width: 100%; /* 横幅を親要素に合わせる */
-    margin-top: 20px; /* 上に余白を追加 */
-    order: 2; /* 表示順を指定 */
-    text-align: center; /* 中央揃え */
-  }
-}
-
-.search-results {
-  margin-top: 20px;
-}
-
-.search-result-item {
-  cursor: pointer;
-  padding: 10px;
-  border: 1px solid #ccc;
-  margin-bottom: 10px;
+.post-one-ward {
+  background: #f5fbff;
+  border: #265e9e 2px solid;
   border-radius: 5px;
-  background-color: #f9f9f9;
-}
-
-.search-result-item:hover {
-  background-color: #e6e6e6;
-}
-
-.post-preview {
-  margin-top: 20px;
+  padding: 10px 16px;
+  font-size: 1.1rem;
   text-align: center;
 }
 
-.post-preview img {
-  max-width: 100%;
-  border-radius: 10px;
+/* コメント欄 */
+.post-comment {
+  margin: 0;
 }
-
-.user-name-input {
-  margin-left: 10px;
-  font-size: 16px;
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
 .comment-input {
-  width: 100%;
-  height: 100px;
-  font-size: 16px;
-  padding: 10px;
+  width: 96.5%;
+  min-height: 80px;
+  font-size: 1rem;
+  padding: 8px;
   border: 1px solid #ccc;
-  border-radius: 5px;
-  resize: none; /* サイズ変更を無効化 */
+  border-radius: 6px;
+  resize: none;
+}
+
+/* 投稿ボタン */
+.submit-btn {
+  margin-top: 12px;
+  padding: 10px 24px;
+  background: #265e9e;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.submit-btn:hover {
+  background: #183e6e;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 800px) {
+  .post-detail-modal {
+    padding: 0;
+    width: 98vw;
+    max-width: 100vw;
+  }
+  .modal-body {
+    padding: 24px 8px 16px 8px;
+    gap: 16px;
+  }
+  .modal-content-split {
+    flex-direction: column;
+    gap: 16px;
+  }
+  .modal-left,
+  .modal-right {
+    width: 100%;
+    max-width: 100%;
+  }
+  .app-thumbnail {
+    max-width: 100%;
+  }
 }
 </style>

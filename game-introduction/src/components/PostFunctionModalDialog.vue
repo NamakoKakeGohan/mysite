@@ -114,11 +114,11 @@ function submitPost() {
   // 新しい投稿データを親コンポーネントに送信
   emit("submitPost", {
     ...selectedApp.value,
-    comment: comment.value,
-    postId: Math.floor(Math.random() * 1000000), // ランダムなpostIdを生成
+    comment : comment.value,
+    postId  : Math.floor(Math.random() * 1000000), // ランダムなpostIdを生成
     user: {
-      id: Date.now(), // ユーザーIDを生成
-      name: userName.value,
+      id    : Date.now(), // ユーザーIDを生成
+      name  : userName.value,
       avatar: userAvatar,
     },
   });

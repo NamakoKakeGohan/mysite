@@ -2,7 +2,7 @@
   <div class="scaled-container">
     <div class="post-item" v-for="(post, index) in posts" :key="index" @click="openPostDetail(post)" >
       <!-- サムネイル画像 -->
-      <img :src="post.appImage[0]" alt="App Thumbnail" class="app-thumbnail" />
+      <img :src="post.appImages[0]" alt="App Thumbnail" class="app-thumbnail" />
 
       <!-- 投稿の内容 -->
       <div>

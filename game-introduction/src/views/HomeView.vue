@@ -1,62 +1,75 @@
 <template>
   <div class="home">
-    <!-- 検索バー -->
-    <div class="search-bar">
-      <img :src="searchIcon" alt="サーチアイコン" class="search-icon" />
-      <input type="text" v-model="searchQuery" placeholder="Search..." class="search-input" @input="handleSearch"/>
-    </div>
+    <!-- 検索バーコンポーネント -->
+    <PlojectSearchBar @searchResults="updateSearchResults" />
     <!-- フィルタリングされたリストを PostItem に渡す -->
     <div v-if="filteredPostList.length > 0">
       <PostItem :posts="filteredPostList" />
     </div>
     <p v-else>一致する投稿がありません。</p>
+
+    <!-- 投稿機能 -->
+    <img :src="plusIcon" alt="投稿ボタン" class="plus-icon" @click="toggleModal" />
+    <PostFunctionModalDialog v-if="showModal" :openModal="showModal" @close="toggleModal" @submitPost="addPost"/>
   </div>
 </template>
 
 <script setup>
-import { ref, computed }    from "vue";
-import { searchAndLogApps } from "../SteamWebAPI/SearchApps";
-import PostItem             from "../components/PostItem.vue";
-import postData             from "../postData";
-import searchIcon           from "../assets/search.svg";
+import { ref, computed }       from "vue";
+import PlojectSearchBar        from "../components/PlojectSearchBar.vue";
+import PostItem                from "../components/PostItem.vue";
+import PostFunctionModalDialog from "../components/PostFunctionModalDialog.vue";
+import postData                from "../postData";
+import plusIcon                from "../assets/plus.svg";
 
-// 検索クエリを管理
-const searchQuery = ref("");
+const postList      = ref(postData); // 初期投稿データを管理
+const showModal     = ref(false);    // モーダルの表示状態を管理
+const searchResults = ref([]);       // 検索結果を管理
 
-// 投稿データを格納する変数
-const postList = ref(postData); // postData を直接代入
-
-// 検索結果を格納する変数
-const searchResults = ref([]);
-
-// 検索処理
-async function handleSearch() {
-  if (!searchQuery.value) {
-    searchResults.value = []; // 検索クエリが空の場合は検索結果をクリア
-    return;
-  }
-
-  try {
-    const results = await searchAndLogApps(searchQuery.value);
-    searchResults.value = results || []; // 検索結果が空の場合は空配列を設定
-  } catch (error) {
-    console.error("検索中にエラーが発生しました:", error);
-    searchResults.value = []; // エラー時も空配列を設定
-  }
+// 検索結果を更新する関数
+function updateSearchResults(results) {
+  searchResults.value = results || [];
 }
 
 // 検索クエリに基づいてフィルタリングされた投稿データを計算
 const filteredPostList = computed(() => {
-  if (!searchQuery.value) {
-    return postList.value; // 検索クエリが空の場合はpostDataを表示
-  }
   if (searchResults.value && searchResults.value.length > 0) {
     return searchResults.value; // 検索結果がある場合は検索結果を表示
   }
-  return postList.value.filter((post) =>
-    post.appName.toLowerCase().startsWith(searchQuery.value.toLowerCase())
-  ); // 検索クエリに基づいてpostDataをフィルタリング
+  return postList.value; // 検索結果がない場合はpostDataを表示
 });
+
+// モーダルの表示/非表示を切り替える関数
+function toggleModal() {
+  showModal.value = !showModal.value;
+}
+
+// 新しい投稿データを追加する関数
+function addPost(newPost) {
+
+  // 新しい投稿データにユニークなIDを付与
+  const newPostId = postList.value.length > 0 ? Math.max(...postList.value.map(post => post.postId)) + 1 : 1;
+
+  const formattedPost = {
+    ...newPost,
+    postId       : newPostId, // ユニークなIDを設定
+    likeCount    : 0, // 初期の「いいね」数
+    isLiked      : false, // 初期の「いいね」状態
+    formattedDate: new Date().toLocaleDateString("ja-JP", {
+      year       : "numeric",
+      month      : "long",
+      day        : "numeric",
+    }),
+  };
+
+  // postListをリアクティブに更新
+  postList.value.unshift(formattedPost);
+
+  // 検索結果が表示されている場合も即時反映
+  searchResults.value = [];
+
+  console.log("新しい投稿データが追加されました:", formattedPost);
+}
 </script>
 
 <style scoped>
@@ -67,24 +80,22 @@ const filteredPostList = computed(() => {
   margin-top: 50px;
   padding: 20px;
 }
-.search-bar {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 10px 0;
+
+.plus-icon {
+  width: 130px;
+  height: 130px;
+  cursor: pointer;
+  position: fixed;
+  bottom: 100px;
+  right: 100px;
+  border-radius: 50%;
+  background-color: #3776a7; /* アイコンの背景色 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  transition: transform 0.2s ease;
 }
-.search-icon {
-  width: 35px;
-  height: 35px;
-  margin-right: 10px;
-}
-.search-input {
-  width: 50%;
-  padding: 10px;
-  font-size: 24px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+.plus-icon:hover {
+  transform: scale(1.2); /* ホバー時に拡大 */
 }
 </style>

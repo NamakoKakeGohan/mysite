@@ -1,10 +1,10 @@
 <template>
   <div class="tags">
     <div class="tags-header">
-      <h1>タグで絞り込む</h1>
+      <h1>ゲームタグで検索</h1>
       <p class="tags-desc">
-        このページでは、ゲームに関連する投稿をタグで絞り込むことができます。<br />
-        タグを選択することで、特定のテーマや興味に関連する投稿を簡単に見つけることができます。
+        このページでは、ゲームに関連する投稿をタグで絞り込むことができます<br />
+        タグを選択することで特定のジャンルや興味に関連する投稿を閲覧できます
       </p>
     </div>
 
@@ -61,7 +61,7 @@ const filteredPosts = computed(() => {
   margin-bottom: 32px;
 }
 .tags-header h1 {
-  font-size: 2.2rem;
+  font-size: 2.6rem;
   font-weight: bold;
   color: #265e9e;
   margin-bottom: 12px;
@@ -79,7 +79,7 @@ const filteredPosts = computed(() => {
   box-shadow: 0 2px 8px rgba(38, 94, 158, 0.05);
 }
 .selected-tag {
-  font-size: 1.1rem;
+  font-size: 3rem;
   color: #265e9e;
   margin-bottom: 10px;
   text-align: center;

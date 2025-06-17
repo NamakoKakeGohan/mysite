@@ -91,7 +91,8 @@ function selectResult(result) {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 .search-results {
-  width: 51%;
+  max-width: 100%;
+  width: 450px;
   margin-top: 0px;
   margin-left: 45px;
   list-style: none;

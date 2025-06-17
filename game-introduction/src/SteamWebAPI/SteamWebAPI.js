@@ -1,11 +1,11 @@
-const BASE_URL = "/api/steam"; // ←ここを修正
+const BASE_URL = "/api/steam";
 
 /**
  * Steam Web APIからすべてのアプリ一覧を取得し、逆順に並べ替えます。
  * @returns {Promise<Array>} アプリ一覧（IDと名前）
  */
 export async function getAppListReversed() {
-  const url = `${BASE_URL}/ISteamApps/GetAppList/v2`; // ←ここを修正
+  const url = `${BASE_URL}/ISteamApps/GetAppList/v2`;
 
   try {
     const response = await fetch(url);
@@ -24,11 +24,11 @@ export async function getAppListReversed() {
 
 /**
  * 特定のアプリの詳細情報を取得します。
- * @param {number} appid アプリID
+ * @param   {number} appid アプリID
  * @returns {Promise<Object>} アプリの詳細情報
  */
 export async function getAppDetails(appid) {
-  const url = `/api/store/api/appdetails?appids=${appid}`; // ←ここを修正
+  const url = `/api/store/api/appdetails?appids=${appid}`;
 
   try {
     const response = await fetch(url);
@@ -45,13 +45,14 @@ export async function getAppDetails(appid) {
     const game = data[appid].data;
 
     return {
-      appid: game.steam_appid,
-      name: game.name,
-      header_image: game.header_image,
-      library_image: `https://cdn.cloudflare.steamstatic.com/steam/apps/${appid}/library_600x900.jpg`,
-      genres: game.genres ? game.genres.map((g) => g.description) : [],
+      appid            : game.steam_appid,
+      name             : game.name,
+      header_image     : game.header_image,
+      library_image    : `https://cdn.cloudflare.steamstatic.com/steam/apps/${appid}/library_600x900.jpg`,
+      genres           : game.genres ? game.genres.map((g) => g.description) : [],
+      steamAppURL      : `https://store.steampowered.com/app/${appid}/`,
       short_description: game.short_description || "説明がありません",
-      steamAppURL: `https://store.steampowered.com/app/${appid}/`,
+
     };
   } catch (error) {
     console.error(`アプリID ${appid} の詳細情報取得中にエラーが発生しました:`, error);
@@ -67,11 +68,12 @@ export async function getAppDetails(appid) {
 export async function searchAppByName(query) {
   try {
     const appList         = await getAppListReversed(); // 逆順のアプリ一覧を取得
-    const EXCLUDE_PATTERN = /\b(Demo|体験版|DLC|Add[- ]?on|Expansion|Soundtrack|OST|Original Soundtrack|Prologue|Tool|Editor|SDK|Server|Visual Novel|Video|Movie|Bundle|Test|Benchmark|Mod|Manual)\b/i;
+    const excludeWord = /\b(Demo|体験版|DLC|Add[- ]?on|Expansion|Soundtrack|OST|Original Soundtrack|Prologue|Tool|Editor|SDK|Server|Visual Novel|Video|Movie|Bundle|Test|Benchmark|Mod|Manual)\b/i;
+
     const filteredApps    = appList.filter((app) =>
-      !EXCLUDE_PATTERN.test(app.name) &&
-      app.name.toLowerCase().includes(query.toLowerCase())
-    ); // 名前でフィルタリング
+      !excludeWord.test(app.name) && app.name.toLowerCase().includes(query.toLowerCase())
+    );
+
     return filteredApps; // 検索結果を返す
   } catch (error) {
     console.error("アプリ名検索中にエラーが発生しました:", error);
@@ -92,11 +94,11 @@ export async function fetchPostDataReversed(appIds) {
           const game = await getAppDetails(appid);
 
           return {
-            appId: game.appid,
-            appName: game.name,
-            appImages: [game.header_image, game.library_image],
-            tags: game.genres, // ジャンルをタグとして使用
-            oneWard: game.short_description, // 短い説明を使用
+            appId      : game.appid,
+            appName    : game.name,
+            appImages  : [game.header_image, game.library_image],
+            tags       : game.genres,
+            oneWard    : game.short_description,
             steamAppURL: game.steamAppURL,
           };
         } catch (error) {

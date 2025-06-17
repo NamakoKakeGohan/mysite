@@ -72,7 +72,7 @@ import { ref }                   from "vue";
 import { fetchPostDataReversed } from "../SteamWebAPI/SteamWebAPI";
 import PlojectSearchBar          from "./PlojectSearchBar.vue";
 import userAvatar                from "../assets/userAvatar.png";
-import Steam_top                 from "../assets/thumbnail/Steam_top.png"; // デフォルトのサムネイル画像
+import Steam_top                 from "../assets/thumbnail/Steam_top.png";
 
 const props = defineProps({
   openModal: Boolean,
@@ -80,10 +80,10 @@ const props = defineProps({
 
 const emit = defineEmits(["close", "submitPost"]);
 
-const searchResults = ref([]); // 検索結果を管理
+const searchResults = ref([]);   // 検索結果を管理
 const selectedApp   = ref(null); // 選択されたアプリ情報
-const userName      = ref(""); // ユーザー名を管理
-const comment       = ref(""); // コメントを管理
+const userName      = ref("");   // ユーザー名を管理
+const comment       = ref("");   // コメントを管理
 
 // 検索結果を更新する関数
 function updateSearchResults(results) {
@@ -110,13 +110,12 @@ function submitPost() {
   // 新しい投稿データを親コンポーネントに送信
   emit("submitPost", {
     ...selectedApp.value,
-    comment : comment.value,
-    postId  : Math.floor(Math.random() * 1000000), // ランダムなpostIdを生成
     user: {
       id    : Date.now(), // ユーザーIDを生成
       name  : userName.value,
       avatar: userAvatar,
     },
+    comment : comment.value,
   });
 
   // モーダルを閉じる

@@ -8,7 +8,7 @@
         <main class="modal__body">
           <!-- 検索バー -->
           <header class="modal__search">
-            <PlojectSearchBar @searchResults="updateSearchResults" @selectResult="selectApp"/>
+            <PlojectSearchBar :mode="'api'" @searchResults="updateSearchResults" @selectResult="selectApp"/>
           </header>
 
           <section v-if="selectedApp" class="modal__content">

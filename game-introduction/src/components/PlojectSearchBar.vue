@@ -30,9 +30,20 @@ import { ref }              from "vue";
 import { searchAndLogApps } from "../SteamWebAPI/SearchApps";
 import searchIcon           from "../assets/search.svg";
 
-const searchQuery = ref(""); // 検索クエリを管理
+const searchQuery   = ref(""); // 検索クエリを管理
 const searchResults = ref([]); // 検索結果を管理
 const emit = defineEmits(["searchResults", "selectResult"]); // 親コンポーネントに検索結果を送信
+
+const props = defineProps({
+  mode: {
+    type: String,
+    default: "api", // 既存のAPI検索をデフォルト
+  },
+  postList: {
+    type: Array,
+    default: () => [],
+  },
+});
 
 async function handleSearch() {
   if (!searchQuery.value) {
@@ -41,14 +52,35 @@ async function handleSearch() {
     return;
   }
 
-  try {
-    const results = await searchAndLogApps(searchQuery.value); // 検索処理を実行
-    searchResults.value = results || []; // 検索結果を更新
-    emit("searchResults", searchResults.value); // 検索結果を親コンポーネントに送信
-  } catch (error) {
-    console.error("検索中にエラーが発生しました:", error);
-    searchResults.value = []; // エラー時は空の結果を表示
-    emit("searchResults", []);
+  if (props.mode === "post") {
+    // 頭文字で絞り込み
+    let results = props.postList.filter(post =>
+      post.appName &&
+      post.appName.toLowerCase().startsWith(searchQuery.value.toLowerCase())
+    );
+    // 同じappNameが複数ある場合は1つにまとめる
+    const uniqueMap = new Map();
+    results.forEach(post => {
+      if (!uniqueMap.has(post.appName)) {
+        uniqueMap.set(post.appName, post);
+      }
+    });
+    results = Array.from(uniqueMap.values());
+    // 3. 上位10件に制限
+    results = results.slice(0, 10);
+
+    searchResults.value = results;
+    emit("searchResults", results);
+  } else {
+    // API検索
+    try {
+      const results = await searchAndLogApps(searchQuery.value);
+      searchResults.value = results || [];
+      emit("searchResults", searchResults.value);
+    } catch (error) {
+      searchResults.value = [];
+      emit("searchResults", []);
+    }
   }
 }
 

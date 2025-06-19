@@ -70,8 +70,9 @@ import PostDetailModalDialog from "./PostDetailModalDialog.vue";
 // 親コンポーネントから `posts` を受け取る
 defineProps({
   posts: {
-    type: Array,
+    type    : Array,
     required: true,
+    default : () => [],
   },
 });
 

@@ -7,7 +7,6 @@ module.exports = defineConfig({
   chainWebpack: (config) => {
     config.plugin("eslint").use(ESLintPlugin, []);
   },
-<<<<<<< HEAD
   configureWebpack: {
     plugins: [
       new webpack.DefinePlugin({

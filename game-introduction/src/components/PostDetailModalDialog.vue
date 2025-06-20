@@ -7,7 +7,7 @@
 
         <div class="modal-body">
           <!-- メインビジュアル -->
-          <img :src="post.appImage[1]" alt="App main-visual" class="app-thumbnail" />
+          <img :src="post.appImages[1]" alt="App main-visual" class="app-thumbnail" />
           <!-- 投稿の内容 -->
           <div>
             <section class="post-header">

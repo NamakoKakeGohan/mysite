@@ -11,7 +11,7 @@ const postData = [
     postId: 100,
     appId: 2246340,
     appName: "Monster Hunter Wilds",
-    appImage: [MonsterHunterWilds, wilds_top],
+    appImages: [MonsterHunterWilds, wilds_top],
     user: {
       id: 123456,
       name: "じょん・すみす",
@@ -29,7 +29,7 @@ const postData = [
     postId: 101,
     appId: 1364780,
     appName: "Street Fighter 6",
-    appImage: [StreetFiter6, ST6_top],
+    appImages: [StreetFiter6, ST6_top],
     user: {
       id: 123456,
       name: "じょん・すみす",
@@ -47,7 +47,7 @@ const postData = [
     postId: 2233,
     appId: 646570,
     appName: "Slay the Spire",
-    appImage: [Steam, Steam_top],
+    appImages: [Steam, Steam_top],
     user: {
       id: 777777,
       name: "スーパーオタクくん",
@@ -65,7 +65,7 @@ const postData = [
     postId: 55,
     appId: 1245620,
     appName: "ELDEN RING",
-    appImage: [Steam, Steam_top],
+    appImages: [Steam, Steam_top],
     user: {
       id: 777777,
       name: "スーパーオタクくん",
@@ -83,7 +83,7 @@ const postData = [
     postId: 999,
     appId: 367520,
     appName: "Hollow Knight",
-    appImage: [Steam, Steam_top],
+    appImages: [Steam, Steam_top],
     user: {
       id: 114514,
       name: "餅バター",
@@ -98,5 +98,16 @@ const postData = [
     formattedDate: "2025年5月5日",
   },
 ];
+
+// 日付が新しい順にソート（formattedDateを比較）
+postData.sort((a, b) => {
+  const dateA = new Date(
+    a.formattedDate.replace(/年|月/g, "/").replace("日", "")
+  );
+  const dateB = new Date(
+    b.formattedDate.replace(/年|月/g, "/").replace("日", "")
+  );
+  return dateB - dateA; // 新しい順
+});
 
 export default postData;

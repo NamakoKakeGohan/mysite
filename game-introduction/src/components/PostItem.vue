@@ -2,7 +2,7 @@
   <div class="scaled-container">
     <div class="post-item" v-for="(post, index) in posts" :key="index" @click="openPostDetail(post)" >
       <!-- サムネイル画像 -->
-      <img :src="post.appImage[0]" alt="App Thumbnail" class="app-thumbnail" />
+      <img :src="post.appImages[0]" alt="App Thumbnail" class="app-thumbnail" />
 
       <!-- 投稿の内容 -->
       <div>
@@ -39,7 +39,9 @@
             </button>
             <div class="menu-dropdown" v-if="post.menuVisible">
               <a :href="post.steamAppURL" target="_blank" @click.stop>Steamで見る</a>
-              <a :href="post.user.id" @click.stop>アカウント</a>
+              <router-link :to="{ name: 'Account', params: { id: post.user.id } }" class="account-link" @click.stop>
+                アカウント
+              </router-link>
             </div>
           </div>
         </section>
@@ -70,8 +72,9 @@ import PostDetailModalDialog from "./PostDetailModalDialog.vue";
 // 親コンポーネントから `posts` を受け取る
 defineProps({
   posts: {
-    type: Array,
+    type    : Array,
     required: true,
+    default : () => [],
   },
 });
 
@@ -86,23 +89,23 @@ const toggleLike = (post) => {
 };
 
 // 3点リーダーの表示状態を管理
-const toggleMenu = (post) => {
-  post.menuVisible = !post.menuVisible;
+const toggleMenu     = (post) => {
+  post.menuVisible   = !post.menuVisible;
 };
 
 // 選択された投稿とモーダルの表示状態を管理
-const selectedPost = ref(null); // 選択された投稿
-const isModalOpen = ref(false); // モーダルの表示状態
+const selectedPost   = ref(null); // 選択された投稿
+const isModalOpen    = ref(false); // モーダルの表示状態
 
 // 投稿を選択してモーダルを開く関数
 const openPostDetail = (post) => {
   selectedPost.value = post; // 選択された投稿を設定
-  isModalOpen.value = true; // モーダルを表示
+  isModalOpen.value  = true; // モーダルを表示
 };
 
 // モーダルを閉じる関数
-const closeModal = () => {
-  isModalOpen.value = false; // モーダルを非表示
+const closeModal     = () => {
+  isModalOpen.value  = false; // モーダルを非表示
   selectedPost.value = null; // 選択された投稿をリセット
 };
 </script>

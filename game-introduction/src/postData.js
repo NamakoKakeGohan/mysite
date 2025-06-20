@@ -99,4 +99,15 @@ const postData = [
   },
 ];
 
+// 日付が新しい順にソート（formattedDateを比較）
+postData.sort((a, b) => {
+  const dateA = new Date(
+    a.formattedDate.replace(/年|月/g, "/").replace("日", "")
+  );
+  const dateB = new Date(
+    b.formattedDate.replace(/年|月/g, "/").replace("日", "")
+  );
+  return dateB - dateA; // 新しい順
+});
+
 export default postData;

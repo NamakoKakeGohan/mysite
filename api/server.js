@@ -1,5 +1,7 @@
 import axios from "axios";
 
+const API_KEY = process.env.API_KEY;
+
 export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");

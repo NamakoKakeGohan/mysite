@@ -1,4 +1,3 @@
-<!-- PostDetailModal.vue -->
 <template>
   <teleport to="body">
     <div v-if="openModal" class="modal-overlay">
@@ -29,12 +28,10 @@
 
               <section class="details__user">
                 <img :src="userAvatar" alt="User Avatar" class="user-avatar" />
-                <input
-                  type="text"
-                  v-model="userName"
-                  placeholder="ユーザー名を入力 . . . "
-                  class="user-name-input"
-                />
+                <h4 class="user-name">
+                  {{ userName }}
+                </h4>
+                <span class="user-id">{{ userId }}</span>
               </section>
 
               <section class="details__tags">
@@ -58,7 +55,6 @@
               <footer class="details__actions">
                 <button @click="submitPost" class="submit-post-btn">投稿する</button>
               </footer>
-              
             </section>
           </section>
         </main>
@@ -82,7 +78,8 @@ const emit = defineEmits(["close", "submitPost"]);
 
 const searchResults = ref([]);   // 検索結果を管理
 const selectedApp   = ref(null); // 選択されたアプリ情報
-const userName      = ref("");   // ユーザー名を管理
+const userName      = ゲスト;     // ユーザー名を管理
+const userId        = 255;       // ユーザーIDを固定
 const comment       = ref("");   // コメントを管理
 
 // 検索結果を更新する関数
@@ -102,20 +99,19 @@ async function selectApp(app) {
 
 // 投稿する関数
 function submitPost() {
-  if (!selectedApp.value || !userName.value || !comment.value) {
+  if (!selectedApp.value || !comment.value) {
     alert("すべてのフィールドを入力してください！");
     return;
   }
 
-  // 新しい投稿データを親コンポーネントに送信
   emit("submitPost", {
     ...selectedApp.value,
     user: {
-      id    : Date.now(), // ユーザーIDを生成
-      name  : userName.value,
+      id   : userId,
+      name :userName,
       avatar: userAvatar,
     },
-    comment : comment.value,
+    comment: comment.value,
   });
 
   // モーダルを閉じる
@@ -230,12 +226,15 @@ function submitPost() {
   aspect-ratio: 1;
   border-radius: 50%;
 }
-.user-name-input {
+.user-name {
   flex: 1;
   padding: 6px 10px;
   font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+}
+.user-id {
+  margin-left: 12px;
+  color: #888;
+  font-size: 0.95rem;
 }
 
 /* タグ */

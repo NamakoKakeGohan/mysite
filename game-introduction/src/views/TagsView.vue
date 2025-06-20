@@ -121,7 +121,6 @@ const filteredPosts = computed(() => {
 .tag-radio:hover,
 .tag-radio input[type="radio"]:checked + span {
   border-color: #265e9e;
-  box-shadow: 0 2px 8px rgba(38, 94, 158, 0.1);
 }
 .tag-radio span {
   font-weight: 500;

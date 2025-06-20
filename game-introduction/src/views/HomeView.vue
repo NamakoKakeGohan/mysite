@@ -1,13 +1,15 @@
 <template>
   <div class="home">
     <!-- 検索バーコンポーネント -->
-    <PlojectSearchBar @searchResults="updateSearchResults" />
+    <PlojectSearchBar :mode="'post'" :postList="postList" @searchResults="updateSearchResults"/>
     <!-- フィルタリングされたリストを PostItem に渡す -->
     <div v-if="filteredPostList.length > 0">
       <PostItem :posts="filteredPostList" />
     </div>
-    <p v-else>一致する投稿がありません。</p>
-
+    <!-- 検索クエリがあり、かつ検索結果が0件のときだけ表示 -->
+    <p v-else-if="searchResults.length === 0 && searchQuery && searchQuery.length > 0">
+      一致する投稿がありません。
+    </p>
     <!-- 投稿機能 -->
     <img :src="plusIcon" alt="投稿ボタン" class="plus-icon" @click="toggleModal" />
     <PostFunctionModalDialog v-if="showModal" :openModal="showModal" @close="toggleModal" @submitPost="addPost"/>
@@ -34,9 +36,9 @@ function updateSearchResults(results) {
 // 検索クエリに基づいてフィルタリングされた投稿データを計算
 const filteredPostList = computed(() => {
   if (searchResults.value && searchResults.value.length > 0) {
-    return searchResults.value; // 検索結果がある場合は検索結果を表示
+    return searchResults.value;
   }
-  return postList.value; // 検索結果がない場合はpostDataを表示
+  return postList.value || [];
 });
 
 // モーダルの表示/非表示を切り替える関数

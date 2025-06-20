@@ -5,7 +5,7 @@ const BASE_URL = "/api/steam";
  * @returns {Promise<Array>} アプリ一覧（IDと名前）
  */
 export async function getAppListReversed() {
-  const url = `${BASE_URL}/ISteamApps/GetAppList/v2`;
+  const url = `${BASE_URL}?type=apps`;
 
   try {
     const response = await fetch(url);
@@ -28,7 +28,7 @@ export async function getAppListReversed() {
  * @returns {Promise<Object>} アプリの詳細情報
  */
 export async function getAppDetails(appid) {
-  const url = `/api/store/api/appdetails?appids=${appid}`;
+  const url = `/api/steam?type=appdetails&appid=${appid}`;
 
   try {
     const response = await fetch(url);

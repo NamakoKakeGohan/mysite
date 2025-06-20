@@ -10,10 +10,16 @@
     </div>
     <!-- タブ切り替え -->
     <div class="tab-toggle">
-      <button :class="{ active: activeTab === 'accountPosts' }" @click="activeTab = 'accountPosts'">
+      <button
+        :class="{ active: activeTab === 'accountPosts' }"
+        @click="activeTab = 'accountPosts'"
+      >
         投稿
       </button>
-      <button :class="{ active: activeTab === 'likes' }" @click="activeTab = 'likes'">
+      <button
+        :class="{ active: activeTab === 'likes' }"
+        @click="activeTab = 'likes'"
+      >
         いいね
       </button>
     </div>
@@ -28,52 +34,51 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed } from "vue";
-import { useRoute }                from "vue-router";
-import PostItem                    from "../components/PostItem.vue";
-import postData                    from "../postData";
-import defaultIcon                 from "../assets/userAvatar.png";
+import { ref, reactive, computed, watchEffect } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import PostItem from "../components/PostItem.vue";
+import postData from "../postData";
+import defaultIcon from "../assets/userAvatar.png";
 
-// タブ切り替え状態
-const activeTab = ref("accountPosts");
-
-// ルートパラメータから id を取得
-const route = useRoute();
+const activeTab = ref("accountPosts");// タブ切り替え状態
+const route     = useRoute();         // ルートパラメータから id を取得
+const router    = useRouter();
+const posts     = reactive(postData); // 投稿データをリアクティブに管理
 // ユーザーIDを取得（なければnull）
-const userId = route.params.id ? Number(route.params.id) : null;
-// 投稿データをリアクティブに管理
-const posts = reactive(postData);
+const userId    = route.params.id ? Number(route.params.id) : null;
 
 // 該当ユーザーの投稿をフィルタリング
-const userPosts = computed(() =>
-  posts.filter((post) => post.user.id === userId)
-);
+const userPosts  = computed(() => posts.filter((post) => post.user.id === userId));
 // 「いいね」した投稿をフィルタリング
-const likedPosts = computed(() =>
-  posts.filter((post) => post.isLiked)
-);
+const likedPosts = computed(() => posts.filter((post) => post.isLiked));
 
 // 最初の投稿からユーザー情報を取得（なければデフォルト）
 const user = computed(() => {
   const firstPost = userPosts.value[0];
   if (firstPost) {
     return {
-      id: firstPost.user.id,
+      id  : firstPost.user.id,
       name: firstPost.user.name,
       icon: firstPost.user.avatar,
     };
   } else {
     return {
-      id: userId,
-      name: "不明なユーザー",
+      id  : 255,
+      name: "ゲスト",
       icon: defaultIcon,
     };
+  }
+});
+
+watchEffect(() => {
+  // ユーザーが見つからず、かつ現在のuserIdが255でなければ /255 へリダイレクト
+  if (!userPosts.value.length && userId !== 255) {
+    router.replace({ name: "Account", params: { id: 255 } });
   }
 });
 </script>
 
 <style scoped>
-
 .account {
   display: flex;
   flex-direction: column;

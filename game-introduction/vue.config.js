@@ -3,6 +3,7 @@ const ESLintPlugin     = require("eslint-webpack-plugin");
 const webpack          = require("webpack");
 
 module.exports = defineConfig({
+  publicPath: "./",
   transpileDependencies: true,
   chainWebpack: (config) => {
     config.plugin("eslint").use(ESLintPlugin, []);

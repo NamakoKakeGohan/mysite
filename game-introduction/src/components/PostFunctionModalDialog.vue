@@ -76,11 +76,11 @@ const props = defineProps({
 
 const emit = defineEmits(["close", "submitPost"]);
 
-const searchResults = ref([]);   // 検索結果を管理
+const searchResults = ref([]); // 検索結果を管理
 const selectedApp   = ref(null); // 選択されたアプリ情報
-const userName      = ゲスト;     // ユーザー名を管理
-const userId        = 255;       // ユーザーIDを固定
-const comment       = ref("");   // コメントを管理
+const userName      = "ゲスト"; // ユーザー名を固定
+const userId        = 255; // ユーザーIDを固定
+const comment       = ref(""); // コメントを管理
 
 // 検索結果を更新する関数
 function updateSearchResults(results) {
@@ -107,8 +107,8 @@ function submitPost() {
   emit("submitPost", {
     ...selectedApp.value,
     user: {
-      id   : userId,
-      name :userName,
+      id    : userId,
+      name  : userName,
       avatar: userAvatar,
     },
     comment: comment.value,

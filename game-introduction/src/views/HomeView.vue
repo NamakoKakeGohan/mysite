@@ -1,13 +1,15 @@
 <template>
   <div class="home">
     <!-- 検索バーコンポーネント -->
-      <PlojectSearchBar :mode="'post'" :postList="postList" @searchResults="updateSearchResults"/>
+    <PlojectSearchBar :mode="'post'" :postList="postList" @searchResults="updateSearchResults"/>
     <!-- フィルタリングされたリストを PostItem に渡す -->
     <div v-if="filteredPostList.length > 0">
       <PostItem :posts="filteredPostList" />
     </div>
-    <p v-else>一致する投稿がありません。</p>
-
+    <!-- 検索クエリがあり、かつ検索結果が0件のときだけ表示 -->
+    <p v-else-if="searchResults.length === 0 && searchQuery && searchQuery.length > 0">
+      一致する投稿がありません。
+    </p>
     <!-- 投稿機能 -->
     <img :src="plusIcon" alt="投稿ボタン" class="plus-icon" @click="toggleModal" />
     <PostFunctionModalDialog v-if="showModal" :openModal="showModal" @close="toggleModal" @submitPost="addPost"/>

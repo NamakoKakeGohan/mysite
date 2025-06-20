@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_KEY = process.env.API_KEY;
+const API_KEY  = process.env.API_KEY;
+const BASE_URL = "https://api.steampowered.com";
 
 export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");

@@ -4,6 +4,9 @@ const API_KEY  = process.env.API_KEY;
 const BASE_URL = "https://api.steampowered.com";
 
 export default async function handler(req, res) {
+  console.log("Steam API handler invoked");
+  console.log("API_KEY:", API_KEY ? "OK" : "Missing");
+
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");

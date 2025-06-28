@@ -128,23 +128,25 @@ const toggleMenu = (post) => {
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  width: 80%; /* モーダルの幅を調整 */
-  max-width: 65%; /* 最大幅を設定 */
-  height: auto;
+  width: 80vw;
+  max-width: 65vw;
+  max-height: 90vh;      /* 画面高の90%まで */
+  overflow-y: auto;      /* 内容が多い場合スクロール */
+  box-sizing: border-box;
 }
 
 /* 丸型のキャンセルボタンを右上に配置 */
 .close-button {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 30px;
-  height: 30px;
+  top: 35px;
+  right: 35px;
+  width: 50px;
+  height: 50px;
   border: none;
   border-radius: 50%;
   background-color: #ff6b6b;
   color: white;
-  font-size: 20px;
+  font-size: 45px;
   font-weight: bold;
   cursor: pointer;
   display: flex;
@@ -176,12 +178,26 @@ const toggleMenu = (post) => {
 
 .app-thumbnail {
   object-fit: cover;
-  width: 500px;
-  max-width: 100%;
+  width: 100%;
+  max-width: 350px;
   height: auto;
-  border-radius: 10px;
-  margin-right: 15px;
-  flex-shrink: 0; /* imgのサイズを固定 */
+  margin: 0 auto 15px auto;
+  display: block;
+}
+
+/* 画面幅が狭い場合の調整 */
+@media (max-width: 800px) {
+  .post-detail-modal {
+    width: 98vw;
+    max-width: 98vw;
+    padding: 10px;
+  }
+  .app-name {
+    font-size: 2em;
+  }
+  .app-thumbnail {
+    max-width: 90vw;
+  }
 }
 
 .post-header {

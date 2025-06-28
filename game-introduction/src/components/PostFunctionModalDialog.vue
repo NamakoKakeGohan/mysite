@@ -7,7 +7,10 @@
         <main class="modal__body">
           <!-- 検索バー -->
           <header class="modal__search">
-            <PlojectSearchBar :mode="'api'" @searchResults="updateSearchResults" @selectResult="selectApp"/>
+            <AppSearchBar
+              @searchResults="updateSearchResults"
+              @selectResult="selectApp"
+            />
           </header>
 
           <section v-if="selectedApp" class="modal__content">
@@ -65,8 +68,8 @@
 
 <script setup>
 import { ref }                   from "vue";
-import { fetchPostDataReversed } from "../SteamWebAPI/SteamWebAPI";
-import PlojectSearchBar          from "./PlojectSearchBar.vue";
+import { fetchPostDataReversed } from "../SteamWebAPI/SteamWebAPI.js";
+import AppSearchBar              from "./AppSearchBar.vue";
 import userAvatar                from "../assets/userAvatar.png";
 import Steam_top                 from "../assets/thumbnail/Steam_top.png";
 

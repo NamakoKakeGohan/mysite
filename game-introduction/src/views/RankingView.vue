@@ -46,7 +46,6 @@ h1 {
   font-size: 3rem;
   font-family: "Arial, sans-serif";
   margin-bottom: 20px;
-  color: #333;
 }
 
 .ranking-list {
@@ -54,7 +53,6 @@ h1 {
   margin-bottom: 20px;
   list-style: none;
   padding: 0;
-  color: #333;
 }
 
 .ranking-frame {
@@ -69,7 +67,6 @@ h1 {
   font-size: 5rem;
   font-weight: bold;
   font-family: Arial, Helvetica, sans-serif;
-  color: #333;
   margin-right: 20px;
   width: 40px;
   text-align: center;

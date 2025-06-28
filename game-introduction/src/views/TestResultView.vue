@@ -71,8 +71,15 @@ const result = computed(() =>
 .game-name {
   margin-top: 10px;
   font-weight: bold;
+  font-size: 2rem;
   text-decoration: none;
-  color: #333;
+  
+}
+
+.game-card a {
+  border: none;
+  text-decoration: none;
+  outline: none;
 }
 
 .back-link {

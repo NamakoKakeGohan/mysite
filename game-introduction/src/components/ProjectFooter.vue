@@ -36,7 +36,7 @@ footer img {
   margin: 0 16px;
   object-fit: contain;
   transition: transform 0.2s;
-  filter: brightness(0) invert(1); /* 白色アイコンに統一 */
+  filter: brightness(0) invert(1);
   background: transparent;
   border-radius: 8px;
   display: inline-block;

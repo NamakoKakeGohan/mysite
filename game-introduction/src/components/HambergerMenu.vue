@@ -30,7 +30,6 @@
       </div>
     </transition>
 
-    <!-- OptionModalDialog -->
     <OptionModalDialog v-if="isOptionModalOpen" :openOpsionModal="isOptionModalOpen" @close="toggleOptionModal" />
   </div>
 </template>

@@ -36,12 +36,12 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
-import PostSearchBar from "../components/PostSearchBar.vue";
-import PostItem from "../components/PostItem.vue";
+import { ref, computed }       from "vue";
+import PostSearchBar           from "../components/PostSearchBar.vue";
+import PostItem                from "../components/PostItem.vue";
 import PostFunctionModalDialog from "../components/PostFunctionModalDialog.vue";
-import postData from "../postData";
-import plusIcon from "../assets/plus.svg";
+import postData                from "../postData";
+import plusIcon                from "../assets/plus.svg";
 
 const postList = ref(postData); // 初期投稿データを管理
 const showModal = ref(false); // モーダルの表示状態を管理
@@ -113,13 +113,13 @@ function addPost(newPost) {
   bottom: 100px;
   right: 100px;
   border-radius: 50%;
-  background-color: #3776a7; /* アイコンの背景色 */
+  background-color: #3776a7;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   z-index: 100;
   transition: transform 0.2s ease;
 }
 
 .plus-icon:hover {
-  transform: scale(1.2); /* ホバー時に拡大 */
+  transform: scale(1.2);
 }
 </style>

@@ -89,11 +89,11 @@ defineProps({
 
 // お気に入りボタンの状態を切り替える関数
 const toggleLike = (post) => {
-  post.isLiked = !post.isLiked; // isLikedの状態を反転
+  post.isLiked = !post.isLiked;
   if (post.isLiked) {
-    post.likeCount++; // いいねされた場合、likeCountを増加
+    post.likeCount++;
   } else {
-    post.likeCount--; // いいねが解除された場合、likeCountを減少
+    post.likeCount--;
   }
 };
 
@@ -130,8 +130,8 @@ const toggleMenu = (post) => {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   width: 80vw;
   max-width: 65vw;
-  max-height: 90vh;      /* 画面高の90%まで */
-  overflow-y: auto;      /* 内容が多い場合スクロール */
+  max-height: 90vh;
+  overflow-y: auto;
   box-sizing: border-box;
 }
 
@@ -156,23 +156,23 @@ const toggleMenu = (post) => {
   transition: transform 0.2s ease, background-color 0.2s ease;
 }
 .close-button:hover {
-  transform: scale(1.4); /* ホバー時に少し拡大 */
-  background-color: #ff4c4c; /* ホバー時に色を変更 */
+  transform: scale(1.4);
+  background-color: #ff4c4c;
 }
 .close-button:active {
-  transform: scale(1); /* クリック時に元のサイズに戻る */
-  background-color: #e63939; /* クリック時に色を変更 */
+  transform: scale(1);
+  background-color: #e63939;
 }
 
 .modal-body {
   display: flex;
   justify-content: space-around;
-  align-items: center; /* 子要素を中央揃え */
-  justify-content: center; /* 縦方向の中央揃え */
-  gap: 20px; /* 子要素間のスペースを均等に */
-  padding: 20px; /* 内側の余白を追加 */
-  max-width: 100%; /* 横幅を親要素に収める */
-  box-sizing: border-box; /* パディングを含めたサイズ計算 */
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+  max-width: 100%;
+  box-sizing: border-box;
 
 }
 
@@ -218,9 +218,9 @@ const toggleMenu = (post) => {
   margin: 0;
   font-size: 75px;
   font-weight: bold;
-  white-space: normal; /* テキストを1行に収める */
-  overflow: hidden; /* はみ出した部分を隠す */
-  text-overflow: ellipsis; /* はみ出した部分を省略記号にする */
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .post-user {
   display: flex;
@@ -251,10 +251,10 @@ const toggleMenu = (post) => {
 
 .post-content {
   display: flex;
-  flex-grow: 1; /* 子要素が親要素内でスペースを埋める */
+  flex-grow: 1;
 }
 .post-one-ward {
-  flex-grow: 1; /* 余ったスペースを埋める */
+  flex-grow: 1;
   padding: 0 20px;
   display: flex;
   justify-content: center;
@@ -272,15 +272,15 @@ const toggleMenu = (post) => {
   border: black 2px solid;
   background-color: #f5fbff35;
   border-radius: 5px;
-  padding: 20px; /* 内側の余白を追加 */  
+  padding: 20px; 
 }
 
 
 .post-buttons {
-  position: relative; /* 子要素の絶対位置を基準にする */
+  position: relative;
   display: flex;
   align-items: center;
-  margin-left: auto; /* 右寄せ */
+  margin-left: auto;
 }
 .like-button {
   background-color: transparent;
@@ -289,15 +289,15 @@ const toggleMenu = (post) => {
   font-size: 30px;
   cursor: pointer;
   color: #ffdd00;
-  transition: transform 0.2s ease, color 0.2s ease; /* サイズと色の変化をスムーズに */
+  transition: transform 0.2s ease, color 0.2s ease;
 }
 .like-button:hover {
-  transform: scale(1.2); /* ホバー時に少し拡大 */
-  color: #ffaf47; /* ホバー時に色を変更 */
+  transform: scale(1.2);
+  color: #ffaf47;
 }
 .like-button:active {
-  transform: scale(1); /* クリック時に元のサイズに戻る */
-  color: rgb(232, 79, 24); /* クリック時に色を変更 */
+  transform: scale(1);
+  color: rgb(232, 79, 24);
 }
 .menu-button {
   background-color: transparent;
@@ -308,16 +308,16 @@ const toggleMenu = (post) => {
   cursor: pointer;
 }
 .menu-dropdown {
-  position: absolute; /* 親要素から独立して配置 */
-  top: 80%; /* ボタンの下に表示 */
-  left: 0; /* ボタンの左端に揃える */
+  position: absolute;
+  top: 80%;
+  left: 0;
   background-color: #f3f9ff;
   border: 1px solid #e1e8ed;
   border-radius: 5px;
   padding: 10px;
   z-index: 1000;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  min-width: 150px; /* メニューの幅を固定 */
+  min-width: 150px;
 }
 .menu-dropdown a {
   display: block;
@@ -355,8 +355,8 @@ const toggleMenu = (post) => {
 /* -----レスポンシブデザイン----- */
 @media (max-width: 1800px) {
   .post-detail-modal {
-    width: 90%; /* モーダルの幅を調整 */
-    max-width: 100%; /* 最大幅を設定 */
+    width: 90%; 
+    max-width: 100%;
   }
   .app-thumbnail {
     max-width: 50%;
@@ -364,7 +364,7 @@ const toggleMenu = (post) => {
   }
   .app-name {
     font-size: 5em;
-    white-space: normal; /* テキストを折り返す */
+    white-space: normal;
   }
   .post-one-ward {
     padding: 0 10px;
@@ -372,36 +372,36 @@ const toggleMenu = (post) => {
   }
 
   .post-review, .post-footer {
-    position: static; /* 親の flex の影響を受けない */
-    flex-grow: 0; /* flex アイテムとしての拡張を無効化 */
-    width: 100%; /* 横幅を親要素に合わせる */
-    margin-top: 20px; /* 上部に余白を追加 */
+    position: static;
+    flex-grow: 0;
+    width: 100%;
+    margin-top: 20px;
   }
 
 }
 @media (max-width: 800px) {
   .modal-body {
-    flex-direction: column; /* 子要素を縦方向に並べる */
-    align-items: center; /* 子要素を中央揃え */
+    flex-direction: column;
+    align-items: center;
   }
 
   .post-one-ward {
     padding: 0 10px;
     font-size: 16px;
-    margin-bottom: 20px; /* 下に余白を追加 */
+    margin-bottom: 20px;
   }
 
   .post-review {
-    width: 100%; /* 横幅を親要素に合わせる */
-    margin-bottom: 20px; /* 下に余白を追加 */
-    order: 1; /* 表示順を指定 */
+    width: 100%;
+    margin-bottom: 20px;
+    order: 1;
   }
 
   .post-footer {
-    width: 100%; /* 横幅を親要素に合わせる */
-    margin-top: 20px; /* 上に余白を追加 */
-    order: 2; /* 表示順を指定 */
-    text-align: center; /* 中央揃え */
+    width: 100%;
+    margin-top: 20px;
+    order: 2;
+    text-align: center;
   }
 }
 </style>

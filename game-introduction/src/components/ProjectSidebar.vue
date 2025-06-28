@@ -24,8 +24,7 @@ import { ref } from "vue";
 import menuList from "../menuList";
 import OptionModalDialog from "./OptionModalDialog.vue";
 
-const isOptionModalOpen = ref(false); // OptionModalDialog の表示状態
-
+const isOptionModalOpen = ref(false);
 // OptionModalDialog の開閉をトグル
 const toggleOptionModal = () => {
   isOptionModalOpen.value = !isOptionModalOpen.value;
@@ -34,15 +33,15 @@ const toggleOptionModal = () => {
 
 <style scoped>
 nav {
-  position: fixed; /* 画面の左側に固定 */
+  position: fixed;
   top: 0;
   left: 0;
-  width: 90px; /* ナビゲーションバーの幅 */
-  height: 100vh; /* 画面全体の高さ */
+  width: 90px;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #265e9e; /* 背景色 */
+  background-color: #265e9e;
   color: white;
 }
 img {
@@ -55,7 +54,7 @@ img:hover {
 }
 ul {
   padding: 0;
-  margin: 100px 0 0 0; /* 上部に余白を追加 */
+  margin: 100px 0 0 0;
 }
 li {
   padding-top: 35px;

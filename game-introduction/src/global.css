@@ -1,11 +1,11 @@
 :root.light-theme {
-  --background-color: #eaeaea; /* 明るいグレー */
-  --text-color:       #333333; /* ダークグレー */
+  --background-color: #eaeaea;
+  --text-color: #333333;
 }
 
 :root.dark-theme {
-  --background-color: #28282f; /* 暗すぎないダークブルーグレー */
-  --text-color:       #b1b1b1; /* 明るいグレー */
+  --background-color: #1e1e2f;
+  --text-color: #f0f0f0;
 }
 
 body {
@@ -16,19 +16,18 @@ body {
 /* レスポンシブ */
 @media (max-width: 1500px) {
   .sidebar {
-    display: none; /* サイドバーを非表示にする */
+    display: none;
   }
 
   .layout {
     grid-template-areas:
       "header header"
       "main main"
-      "footer footer"; /* サイドバーをレイアウトから除外 */
-    grid-template-columns: 1fr; /* メインコンテンツを全幅にする */
+      "footer footer";
+    grid-template-columns: 1fr;
   }
 }
 
-/* 1000px以下でフォントやパディングを小さく */
 @media (max-width: 1000px) {
   body {
     font-size: 15px;
@@ -38,7 +37,6 @@ body {
   }
 }
 
-/* 600px以下でさらにモバイル向けに調整 */
 @media (max-width: 600px) {
   body {
     font-size: 12px;

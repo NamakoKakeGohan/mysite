@@ -74,7 +74,7 @@ function selectResult(result) {
   flex-direction: column;
   align-items: center;
   margin-top: 20px;
-  position: relative; /* 追加: .search-resultsの基準にする */
+  position: relative;
 }
 .search-bar {
   width: 100%;
@@ -109,16 +109,16 @@ function selectResult(result) {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   z-index: 1500;
-  position: absolute; /* 追加: 絶対配置で重ならないように */
-  top: 60px; /* 検索バーの下に表示（必要に応じて調整） */
-  z-index: 2000; /* 他の要素より前面に表示 */
+  position: absolute;
+  top: 60px;
+  z-index: 2000;
 }
 
 .search-result-item {
   padding: 10px;
   cursor: pointer;
   border-bottom: 1px solid #eee;
-  position: static; /* 修正: 一覧表示のためstaticに */
+  position: static;
   background: #fff;
 }
 .search-result-item:last-child {

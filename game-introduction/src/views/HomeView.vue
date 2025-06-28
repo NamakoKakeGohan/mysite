@@ -93,8 +93,6 @@ function addPost(newPost) {
 
   // 検索結果が表示されている場合も即時反映
   searchResults.value = [];
-
-  console.log("新しい投稿データが追加されました:", formattedPost);
 }
 </script>
 

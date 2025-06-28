@@ -27,7 +27,6 @@ htmlElement.classList.add(`${theme.value}-theme`);
 // テーマを切り替える関数
 const toggleTheme = () => {
   theme.value = theme.value === "light" ? "dark" : "light";
-  console.log(theme.value);
 };
 
 // <html> 要素にクラスを追加

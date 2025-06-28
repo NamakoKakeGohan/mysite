@@ -127,7 +127,9 @@ const filteredPosts = computed(() => {
   color: #265e9e;
 }
 .tag-results {
-  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .no-posts {
   text-align: center;

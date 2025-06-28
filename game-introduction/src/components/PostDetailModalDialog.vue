@@ -178,8 +178,8 @@ const toggleMenu = (post) => {
 
 .app-thumbnail {
   object-fit: cover;
-  width: 100%;
-  max-width: 350px;
+  width: 420px;
+  max-width: 100%;
   height: auto;
   margin: 0 auto 15px auto;
   display: block;

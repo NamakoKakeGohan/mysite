@@ -16,7 +16,12 @@
               <img :src="menu.src" :alt="menu.alt" />
               {{ menu.name }}
             </a>
-            <router-link v-else :to="menu.path" class="menu-link">
+            <router-link
+              v-else
+              :to="menu.path"
+              class="menu-link"
+              @click="closeMenu"
+            >
               <img :src="menu.src" :alt="menu.alt" />
               {{ menu.name }}
             </router-link>
@@ -31,8 +36,8 @@
 </template>
 
 <script setup>
-import { ref }  from "vue";
-import menuList from "../menuList";
+import { ref }           from "vue";
+import menuList          from "../menuList";
 import OptionModalDialog from "./OptionModalDialog.vue";
 
 const active            = ref(false); // ハンバーガーメニューのボタンのアニメーション
@@ -48,6 +53,11 @@ const toggleMenu = () => {
 // OptionModalDialog の開閉をトグル
 const toggleOptionModal = () => {
   isOptionModalOpen.value = !isOptionModalOpen.value;
+};
+
+const closeMenu = () => {
+  show.value    = false;
+  active.value  = false;
 };
 </script>
 

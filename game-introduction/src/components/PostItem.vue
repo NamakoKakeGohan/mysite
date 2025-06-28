@@ -118,7 +118,7 @@ const closeModal     = () => {
   margin-top: 100px;
   border: 1px solid #e1e8ed;
   border-radius: 10px;
-  background-color: #fff;
+  background-color: rgba(120, 120, 120, 0.4);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s, box-shadow 0.2s;
   font-family: Arial, sans-serif;
@@ -160,7 +160,6 @@ const closeModal     = () => {
   margin: 0;
   font-size: 45px;
   font-weight: bold;
-  color: #333;
 }
 .post-user {
   display: flex;
@@ -174,7 +173,6 @@ const closeModal     = () => {
 .user-name {
   margin-left: 10px;
   font-size: 16px;
-  color: #555;
 }
 .post-tags {
   margin: 0 0 30px 20px;
@@ -185,9 +183,9 @@ const closeModal     = () => {
 }
 .tag {
   margin: 5px;
-  font-size: 12px;
+  font-size: 16px;
   padding: 5px 10px;
-  background-color: #e1e8ed;
+  background-color: #f5fbff35;
   border-radius: 5px;
 }
 
@@ -203,8 +201,8 @@ const closeModal     = () => {
   justify-content: center;
   align-items: center;
   font-size: 20px;
-  border: #265e9e 2px solid;
-  background-color: #f5fbff;
+  border: black 2px solid;
+  background-color: #f5fbff35;
   border-radius: 5px;
   text-align: center;
 }
@@ -273,11 +271,9 @@ const closeModal     = () => {
 }
 .post-like-count {
   font-size: 20px;
-  color: #555;
 }
 .post-date {
   font-size: 20px;
-  color: #999;
 }
 .post-date p {
   margin: 0;

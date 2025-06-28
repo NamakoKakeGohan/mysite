@@ -111,7 +111,7 @@ const toggleMenu = (post) => {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* 半透明の黒背景 */
+  background: var(--background-color);
   z-index: 999; /* モーダルよりも下に配置 */
   display: flex;
   justify-content: center;
@@ -124,7 +124,7 @@ const toggleMenu = (post) => {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1000;
-  background: white;
+  background-color: rgba(120, 120, 120, 0.4);
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -218,7 +218,6 @@ const toggleMenu = (post) => {
   margin: 0;
   font-size: 75px;
   font-weight: bold;
-  color: #333;
   white-space: normal; /* テキストを1行に収める */
   overflow: hidden; /* はみ出した部分を隠す */
   text-overflow: ellipsis; /* はみ出した部分を省略記号にする */
@@ -235,7 +234,6 @@ const toggleMenu = (post) => {
 .user-name {
   margin-left: 10px;
   font-size: 16px;
-  color: #555;
 }
 .post-tags {
   margin: 0 0 30px 0;
@@ -247,7 +245,7 @@ const toggleMenu = (post) => {
   margin: 5px;
   font-size: 18px;
   padding: 5px 10px;
-  background-color: #e1e8ed;
+  background-color: #f5fbff35;
   border-radius: 5px;
 }
 
@@ -262,8 +260,8 @@ const toggleMenu = (post) => {
   justify-content: center;
   align-items: center;
   font-size: 20px;
-  border: #265e9e 2px solid;
-  background-color: #f5fbff;
+  border: black 2px solid;
+  background-color: #f5fbff35;
   border-radius: 5px;
   text-align: center;
 }
@@ -271,8 +269,8 @@ const toggleMenu = (post) => {
   margin: 30px 0;
   height: 300px;
   font-size: 24px;
-  border: #265e9e 2px solid;
-  background-color: #f5fbff;
+  border: black 2px solid;
+  background-color: #f5fbff35;
   border-radius: 5px;
   padding: 20px; /* 内側の余白を追加 */  
 }
@@ -346,11 +344,9 @@ const toggleMenu = (post) => {
 }
 .post-like-count {
   font-size: 20px;
-  color: #555;
 }
 .post-date {
   font-size: 20px;
-  color: #999;
 }
 .post-date p {
   margin: 0;

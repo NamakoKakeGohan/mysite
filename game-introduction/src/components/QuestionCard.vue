@@ -41,7 +41,7 @@ const selectOption = (genres) => {
   max-width: 600px;
   border-radius: 12px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  background: #fff;
+  background-color: #f5fbff35;
 }
 
 .question-title {
@@ -68,7 +68,7 @@ const selectOption = (genres) => {
   cursor: pointer;
   transition: background 0.2s, border-color 0.2s;
   border: 1px solid transparent;
-  background: #f0f0f0;
+  background: #88888859;
 }
 
 .option:hover {

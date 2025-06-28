@@ -71,8 +71,15 @@ const result = computed(() =>
 .game-name {
   margin-top: 10px;
   font-weight: bold;
+  font-size: 2rem;      /* 文字を大きく */
   text-decoration: none;
-  color: #333;
+  
+}
+
+.game-card a {
+  border: none;         /* aタグのボーダーを消す */
+  text-decoration: none;
+  outline: none;
 }
 
 .back-link {

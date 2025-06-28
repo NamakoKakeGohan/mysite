@@ -45,7 +45,7 @@ const startTest = () => {
   padding: 20px;
   border-radius: 8px;
   text-align: center;
-  background: white;
+  background-color: #f5fbff35;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 

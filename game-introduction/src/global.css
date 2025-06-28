@@ -4,8 +4,8 @@
 }
 
 :root.dark-theme {
-  --background-color: #1e1e2f; /* 暗すぎないダークブルーグレー */
-  --text-color:       #656565; /* 明るいグレー */
+  --background-color: #28282f; /* 暗すぎないダークブルーグレー */
+  --text-color:       #b1b1b1; /* 明るいグレー */
 }
 
 body {

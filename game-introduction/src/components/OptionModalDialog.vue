@@ -41,19 +41,19 @@ const toggleTheme = inject("toggleTheme");
 
 <style scoped>
 p {
-  color: #dedede; /* テキストの色を白に */
-  font-size: 16px; /* フォントサイズを16pxに */
-  line-height: 1.5; /* 行間を1.5に */
+  color: #dedede;
+  font-size: 16px;
+  line-height: 1.5;
 }
 h1 {
-  color: #dedede; /* テキストの色を白に */
-  font-size: 48px; /* フォントサイズを24pxに */
-  margin-bottom: 20px; /* 下部の余白を20pxに */
+  color: #dedede;
+  font-size: 48px;
+  margin-bottom: 20px;
 }
 h3 {
-  color: #dedede; /* テキストの色を白に */
-  font-size: 24px; /* フォントサイズを24pxに */
-  margin-bottom: 10px; /* 下部の余白を10pxに */
+  color: #dedede;
+  font-size: 24px;
+  margin-bottom: 10px;
 }
 /* モーダルの背景オーバーレイ */
 .modal-overlay {
@@ -62,8 +62,8 @@ h3 {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* 半透明の黒背景 */
-  z-index: 999; /* モーダルよりも下に配置 */
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -74,7 +74,7 @@ h3 {
   top: 50%;
   left: 50%;
   width: 1000px;
-  max-width: 65%; /* 最大幅を設定 */
+  max-width: 65%;
   height: auto;
   transform: translate(-50%, -50%);
   z-index: 1000;
@@ -104,25 +104,25 @@ h3 {
   transition: transform 0.2s ease, background-color 0.2s ease;
 }
 .close-button:hover {
-  transform: scale(1.4); /* ホバー時に少し拡大 */
-  background-color: #ff4c4c; /* ホバー時に色を変更 */
+  transform: scale(1.4);
+  background-color: #ff4c4c;
 }
 .close-button:active {
-  transform: scale(1); /* クリック時に元のサイズに戻る */
-  background-color: #e63939; /* クリック時に色を変更 */
+  transform: scale(1);
+  background-color: #e63939;
 }
 
 .modal-body {
   display: flex;
   flex-direction: column;
-  gap: 20px; /* 子要素間のスペースを均等に */
+  gap: 20px;
   padding: 20px;
   widows: 600px;
   max-width: 100%;
   height: 550px;
   background-color: #3b3e3f;
   border-radius: 10px;
-  box-sizing: border-box; /* パディングを含めたサイズ計算 */
+  box-sizing: border-box;
 }
 
 /* テーマ切り替えボタン */

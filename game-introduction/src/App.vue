@@ -27,7 +27,6 @@ htmlElement.classList.add(`${theme.value}-theme`);
 // テーマを切り替える関数
 const toggleTheme = () => {
   theme.value = theme.value === "light" ? "dark" : "light";
-  console.log(theme.value);
 };
 
 // <html> 要素にクラスを追加
@@ -53,7 +52,7 @@ provide("toggleTheme", toggleTheme);
     "header header"
     "sidebar main"
     "footer footer";
-  grid-template-columns: 200px 1fr;
+  grid-template-columns: 0 1fr;
   grid-template-rows: auto 1fr auto;
   height: 100vh;
 }
@@ -81,43 +80,9 @@ main {
   grid-area: main;
   padding: 1rem;
   margin-top: 100px;
-  margin-right: 200px;
 }
 
 footer {
   grid-area: footer;
-}
-</style>
-
-<style>
-/* グローバル CSS */
-:root.light-theme {
-  --background-color: #eaeaea; /* 明るいグレー */
-  --text-color:       #333333; /* ダークグレー */
-}
-
-:root.dark-theme {
-  --background-color: #1e1e2f; /* 暗すぎないダークブルーグレー */
-  --text-color:       #656565; /* 明るいグレー */
-}
-
-body {
-  background-color: var(--background-color);
-  color: var(--text-color);
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-/* レスポンシブ */
-@media (max-width: 1500px) {
-  .sidebar {
-    display: none; /* サイドバーを非表示にする */
-  }
-
-  .layout {
-    grid-template-areas:
-      "header header"
-      "main main"
-      "footer footer"; /* サイドバーをレイアウトから除外 */
-    grid-template-columns: 1fr; /* メインコンテンツを全幅にする */
-  }
 }
 </style>

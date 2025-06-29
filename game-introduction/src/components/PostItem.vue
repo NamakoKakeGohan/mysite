@@ -80,11 +80,11 @@ defineProps({
 
 // お気に入りボタンの状態を切り替える関数
 const toggleLike = (post) => {
-  post.isLiked = !post.isLiked; // isLikedの状態を反転
+  post.isLiked = !post.isLiked;
   if (post.isLiked) {
-    post.likeCount++; // いいねされた場合、likeCountを増加
+    post.likeCount++;
   } else {
-    post.likeCount--; // いいねが解除された場合、likeCountを減少
+    post.likeCount--;
   }
 };
 
@@ -94,19 +94,19 @@ const toggleMenu     = (post) => {
 };
 
 // 選択された投稿とモーダルの表示状態を管理
-const selectedPost   = ref(null); // 選択された投稿
-const isModalOpen    = ref(false); // モーダルの表示状態
+const selectedPost   = ref(null);
+const isModalOpen    = ref(false);
 
 // 投稿を選択してモーダルを開く関数
 const openPostDetail = (post) => {
-  selectedPost.value = post; // 選択された投稿を設定
-  isModalOpen.value  = true; // モーダルを表示
+  selectedPost.value = post;
+  isModalOpen.value  = true;
 };
 
 // モーダルを閉じる関数
 const closeModal     = () => {
-  isModalOpen.value  = false; // モーダルを非表示
-  selectedPost.value = null; // 選択された投稿をリセット
+  isModalOpen.value  = false;
+  selectedPost.value = null;
 };
 </script>
 
@@ -118,7 +118,7 @@ const closeModal     = () => {
   margin-top: 100px;
   border: 1px solid #e1e8ed;
   border-radius: 10px;
-  background-color: #fff;
+  background-color: rgba(120, 120, 120, 0.4);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s, box-shadow 0.2s;
   font-family: Arial, sans-serif;
@@ -133,11 +133,11 @@ const closeModal     = () => {
   height: auto;
   border-radius: 10px;
   margin-right: 15px;
-  flex-shrink: 0; /* imgのサイズを固定 */
+  flex-shrink: 0;
 }
 
 .post-item > div {
-  flex-grow: 1; /* img横のdivタグが残りのスペースを埋める */
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
 }
@@ -160,7 +160,6 @@ const closeModal     = () => {
   margin: 0;
   font-size: 45px;
   font-weight: bold;
-  color: #333;
 }
 .post-user {
   display: flex;
@@ -174,7 +173,6 @@ const closeModal     = () => {
 .user-name {
   margin-left: 10px;
   font-size: 16px;
-  color: #555;
 }
 .post-tags {
   margin: 0 0 30px 20px;
@@ -185,34 +183,34 @@ const closeModal     = () => {
 }
 .tag {
   margin: 5px;
-  font-size: 12px;
+  font-size: 16px;
   padding: 5px 10px;
-  background-color: #e1e8ed;
+  background-color: #f5fbff35;
   border-radius: 5px;
 }
 
 /* -----post-content----- */
 .post-content {
   display: flex;
-  flex-grow: 1; /* 子要素が親要素内でスペースを埋める */
+  flex-grow: 1;
 }
 .post-one-ward {
-  flex-grow: 1; /* 余ったスペースを埋める */
+  flex-grow: 1;
   padding: 0 20px;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 20px;
-  border: #265e9e 2px solid;
-  background-color: #f5fbff;
+  border: black 2px solid;
+  background-color: #f5fbff35;
   border-radius: 5px;
   text-align: center;
 }
 .post-buttons {
-  position: relative; /* 子要素の絶対位置を基準にする */
+  position: relative;
   display: flex;
   align-items: center;
-  margin-left: auto; /* 右寄せ */
+  margin-left: auto;
 }
 .like-button {
   background-color: transparent;
@@ -220,15 +218,15 @@ const closeModal     = () => {
   font-size: 30px;
   cursor: pointer;
   color: #ffdd00;
-  transition: transform 0.2s ease, color 0.2s ease; /* サイズと色の変化をスムーズに */
+  transition: transform 0.2s ease, color 0.2s ease;
 }
 .like-button:hover {
-  transform: scale(1.2); /* ホバー時に少し拡大 */
-  color: #ffaf47; /* ホバー時に色を変更 */
+  transform: scale(1.2);
+  color: #ffaf47;
 }
 .like-button:active {
-  transform: scale(1); /* クリック時に元のサイズに戻る */
-  color: rgb(232, 79, 24); /* クリック時に色を変更 */
+  transform: scale(1);
+  color: rgb(232, 79, 24);
 }
 .menu-button {
   background-color: transparent;
@@ -238,16 +236,16 @@ const closeModal     = () => {
   cursor: pointer;
 }
 .menu-dropdown {
-  position: absolute; /* 親要素から独立して配置 */
-  top: 80%; /* ボタンの下に表示 */
-  left: 0; /* ボタンの左端に揃える */
+  position: absolute;
+  top: 80%;
+  left: 0;
   background-color: #f3f9ff;
   border: 1px solid #e1e8ed;
   border-radius: 5px;
   padding: 10px;
   z-index: 1000;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  min-width: 150px; /* メニューの幅を固定 */
+  min-width: 150px;
 }
 .menu-dropdown a {
   display: block;
@@ -273,11 +271,9 @@ const closeModal     = () => {
 }
 .post-like-count {
   font-size: 20px;
-  color: #555;
 }
 .post-date {
   font-size: 20px;
-  color: #999;
 }
 .post-date p {
   margin: 0;
@@ -304,7 +300,7 @@ const closeModal     = () => {
   }
 }
 .scaled-container {
-  transform: scale(0.8); /* 80%に縮小 */
-  transform-origin: top; /* 左上を基準に縮小 */
+  transform: scale(0.8);
+  transform-origin: top;
 }
 </style>

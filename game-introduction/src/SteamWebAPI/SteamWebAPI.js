@@ -1,9 +1,11 @@
+const BASE_URL = "/api/steam";
+
 /**
  * アプリ一覧を取得し、逆順に並べ替えます。
  * @returns {Promise<Array>} アプリ一覧（IDと名前）
  */
 export async function getAppListReversed() {
-  const url = "https://api.steampowered.com/ISteamApps/GetAppList/v2/";
+  const url = `${BASE_URL}/ISteamApps/GetAppList/v2`;
 
   try {
     const response = await fetch(url);
@@ -26,7 +28,7 @@ export async function getAppListReversed() {
  * @returns {Promise<Object>} アプリの詳細情報
  */
 export async function getAppDetails(appid) {
-  const url = `https://store.steampowered.com/api/appdetails?appids=${appid}`;
+  const url = `/api/store/api/appdetails?appids=${appid}`;
 
   try {
     const response = await fetch(url);
@@ -64,13 +66,10 @@ export async function getAppDetails(appid) {
  */
 export async function searchAppByName(query) {
   try {
-    const appList = await getAppListReversed();
-
-    const excludeWord = /\b(Demo|体験版|DLC|Add[- ]?on|Expansion|Soundtrack|OST|Original Soundtrack|Prologue|Tool|Editor|SDK|Server|Visual Novel|Video|Movie|Bundle|Test|Benchmark|Mod|Manual)\b/i;
-
-    const filteredApps = appList.filter((app) =>
-      !excludeWord.test(app.name) &&
-      app.name.toLowerCase().includes(query.toLowerCase())
+    const appList         = await getAppListReversed();
+    const excludeWord     = /\b(Demo|体験版|DLC|Add[- ]?on|Expansion|Soundtrack|OST|Original Soundtrack|Prologue|Tool|Editor|SDK|Server|Visual Novel|Video|Movie|Bundle|Test|Benchmark|Mod|Manual)\b/i;
+    const filteredApps    = appList.filter((app) =>
+      !excludeWord.test(app.name) && app.name.toLowerCase().includes(query.toLowerCase())
     );
 
     return filteredApps;
@@ -81,9 +80,9 @@ export async function searchAppByName(query) {
 }
 
 /**
- * アプリIDの配列から詳細情報を取得し、表示用データに変換
+ * アプリ一覧から情報を取得し、postData形式に変換
  * @param {Array<number>} appIds アプリIDの配列
- * @returns {Promise<Array>} 表示用データ配列
+ * @returns {Promise<Array>} postData形式のデータ
  */
 export async function fetchPostDataReversed(appIds) {
   try {

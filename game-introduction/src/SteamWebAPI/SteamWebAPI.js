@@ -64,15 +64,19 @@ export async function getAppDetails(appid) {
  * @param {string} query 検索クエリ（アプリ名）
  * @returns {Promise<Array>} 検索結果（候補のアプリ一覧）
  */
+
+let cachedAppList = null;
+
 export async function searchAppByName(query) {
   try {
-    const appList         = await getAppListReversed();
-    const excludeWord     = /\b(Demo|体験版|DLC|Add[- ]?on|Expansion|Soundtrack|OST|Original Soundtrack|Prologue|Tool|Editor|SDK|Server|Visual Novel|Video|Movie|Bundle|Test|Benchmark|Mod|Manual)\b/i;
-    const filteredApps    = appList.filter((app) =>
-      !excludeWord.test(app.name) && app.name.toLowerCase().includes(query.toLowerCase())
+    const excludeWord = /\b(Demo|体験版|DLC|Add[- ]?on|Expansion|Soundtrack|OST|Original Soundtrack|Prologue|Tool|Editor|SDK|Server|Visual Novel|Video|Movie|Bundle|Test|Benchmark|Mod|Manual)\b/i;
+    if (!cachedAppList) {
+      const appList   = await getAppListReversed();
+      cachedAppList   = appList.filter(app => !excludeWord.test(app.name));
+    }
+    return cachedAppList.filter(app =>
+      app.name.toLowerCase().includes(query.toLowerCase())
     );
-
-    return filteredApps;
   } catch (error) {
     console.error("アプリ名検索中にエラーが発生しました:", error);
     throw error;

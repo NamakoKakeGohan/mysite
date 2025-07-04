@@ -7,10 +7,7 @@
         <main class="modal__body">
           <!-- 検索バー -->
           <header class="modal__search">
-            <AppSearchBar
-              @searchResults="updateSearchResults"
-              @selectResult="selectApp"
-            />
+            <AppSearchBar @searchResults="updateSearchResults" @selectResult="selectApp"/>
           </header>
 
           <section v-if="selectedApp" class="modal__content">
@@ -31,9 +28,7 @@
 
               <section class="details__user">
                 <img :src="userAvatar" alt="User Avatar" class="user-avatar" />
-                <h4 class="user-name">
-                  {{ userName }}
-                </h4>
+                <h4 class="user-name">{{ userName }}</h4>
                 <span class="user-id">{{ userId }}</span>
               </section>
 

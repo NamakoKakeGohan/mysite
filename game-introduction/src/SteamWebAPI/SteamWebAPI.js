@@ -110,7 +110,7 @@ export async function fetchPostDataReversed(appIds) {
       })
     );
 
-    return postData.filter((item) => item !== null);
+    return postData.filter(Boolean);
   } catch (error) {
     console.error("postData形式への変換中にエラーが発生しました:", error);
     throw error;

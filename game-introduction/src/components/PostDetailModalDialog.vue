@@ -45,7 +45,9 @@
                 </button>
                 <div class="menu-dropdown" v-if="post.menuVisible">
                   <a :href="post.steamAppURL" target="_blank">Steamで見る</a>
-                  <a :href="post.user.id">アカウント</a>
+                  <router-link :to="{ name: 'Account', params: { id: post.user.id } }" class="account-link" @click.stop>
+                    アカウント
+                  </router-link>
                 </div>
               </div>
             </section>

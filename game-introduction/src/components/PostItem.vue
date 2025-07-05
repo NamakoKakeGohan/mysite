@@ -115,7 +115,7 @@ const closeModal     = () => {
   display: flex;
   padding: 15px;
   margin: 0;
-  margin-top: 100px;
+  margin-top:  var(--post-item-margin-top);
   border: 1px solid #e1e8ed;
   border-radius: 10px;
   background-color: rgba(120, 120, 120, 0.4);

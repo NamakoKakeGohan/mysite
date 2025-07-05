@@ -10,32 +10,32 @@ import TestResultView from "../views/TestResultView.vue";
 const routes = [
   {
     path: "/",
-    name: "Home",
+    name: "home",
     component: HomeView,
   },
   {
-    path: "/Ranking",
-    name: "Ranking",
+    path: "/ranking",
+    name: "ranking",
     component: RankingView,
   },
   {
-    path: "/Tags",
-    name: "Tags",
+    path: "/tags",
+    name: "tags",
     component: TagsView,
   },
   {
-    path: "/Test",
-    name: "Test",
+    path: "/test",
+    name: "test",
     component: TestView,
   },
   {
-    path: "/TestResult",
-    name: "TestResult",
+    path: "/testResult",
+    name: "testResult",
     component: TestResultView,
   },
   {
     path: "/user/:id",
-    name: "Account",
+    name: "account",
     component: AccountView,
     props: true,
   },

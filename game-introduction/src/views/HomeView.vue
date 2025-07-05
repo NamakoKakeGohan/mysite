@@ -1,37 +1,18 @@
 <template>
   <div class="home">
     <!-- 検索バーコンポーネント -->
-    <PostSearchBar
-      :searchQuery="searchQuery"
-      :postList="postList"
-      @update:searchQuery="(val) => (searchQuery = val)"
-      @searchResults="updateSearchResults"
-    />
+    <PostSearchBar :searchQuery="searchQuery" :postList="postList" @update:searchQuery="(val) => (searchQuery = val)" @searchResults="updateSearchResults"/>
     <!-- 検索結果が1件以上ある場合のみPostItemを表示 -->
     <div v-if="filteredPostList.length > 0">
       <PostItem :posts="filteredPostList" />
     </div>
     <!-- 検索クエリがあり、かつfilteredPostListが0件のときだけ表示 -->
-    <p
-      v-else-if="
-        searchQuery && searchQuery.length > 0 && filteredPostList.length === 0
-      "
-    >
+    <p v-else-if=" searchQuery && searchQuery.length > 0 && filteredPostList.length === 0">
       一致する投稿がありません。
     </p>
     <!-- 投稿機能 -->
-    <img
-      :src="plusIcon"
-      alt="投稿ボタン"
-      class="plus-icon"
-      @click="toggleModal"
-    />
-    <PostFunctionModalDialog
-      v-if="showModal"
-      :openModal="showModal"
-      @close="toggleModal"
-      @submitPost="addPost"
-    />
+    <img :src="plusIcon" alt="投稿ボタン" class="plus-icon" @click="toggleModal"/>
+    <PostFunctionModalDialog v-if="showModal" :openModal="showModal" @close="toggleModal" @submitPost="addPost"/>
   </div>
 </template>
 
@@ -43,9 +24,9 @@ import PostFunctionModalDialog from "../components/PostFunctionModalDialog.vue";
 import postData                from "../postData";
 import plusIcon                from "../assets/plus.svg";
 
-const postList = ref(postData); // 初期投稿データを管理
-const showModal = ref(false); // モーダルの表示状態を管理
-const searchQuery = ref("");
+const postList      = ref(postData); // 初期投稿データを管理
+const showModal     = ref(false); // モーダルの表示状態を管理
+const searchQuery   = ref("");
 const searchResults = ref([]); // 検索結果を管理
 
 // 検索結果を更新する関数

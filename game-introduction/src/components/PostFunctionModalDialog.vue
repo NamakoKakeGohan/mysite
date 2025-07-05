@@ -7,10 +7,7 @@
         <main class="modal__body">
           <!-- 検索バー -->
           <header class="modal__search">
-            <AppSearchBar
-              @searchResults="updateSearchResults"
-              @selectResult="selectApp"
-            />
+            <AppSearchBar @searchResults="updateSearchResults" @selectResult="selectApp"/>
           </header>
 
           <section v-if="selectedApp" class="modal__content">
@@ -31,9 +28,7 @@
 
               <section class="details__user">
                 <img :src="userAvatar" alt="User Avatar" class="user-avatar" />
-                <h4 class="user-name">
-                  {{ userName }}
-                </h4>
+                <h4 class="user-name">{{ userName }}</h4>
                 <span class="user-id">{{ userId }}</span>
               </section>
 
@@ -231,6 +226,7 @@ function submitPost() {
 }
 .user-name {
   flex: 1;
+  margin: 0;
   padding: 6px 10px;
   font-size: 1rem;
 }
@@ -265,14 +261,24 @@ function submitPost() {
 }
 
 /* コメント */
-.details__comment .comment-input {
+.details__comment {
+  margin: 0;
+  text-align: center;
+  font-size: 1.1rem;
+  border: 2px solid #265e9e;
+  border-radius: 5px;
+  background: #ffffff3c;
+  box-sizing: border-box;
+}
+
+.comment-input {
   width: 100%;
   min-height: 80px;
   padding: 8px;
   font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
   resize: none;
+  box-sizing: border-box;
+  display: block;
 }
 
 /* アクション */

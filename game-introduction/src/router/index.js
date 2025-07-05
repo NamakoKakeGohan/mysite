@@ -14,6 +14,12 @@ const routes = [
     component: HomeView,
   },
   {
+    path: "/:id", // アカウント情報を表示するルート
+    name: "Account",
+    component: AccountView,
+    props: true, // ルートパラメータをpropsとして渡す
+  },
+  {
     path: "/Ranking",
     name: "Ranking",
     component: RankingView,
@@ -32,12 +38,6 @@ const routes = [
     path: "/TestResult",
     name: "TestResult",
     component: TestResultView,
-  },
-  {
-    path: "/user/:id",
-    name: "Account",
-    component: AccountView,
-    props: true,
   },
 ];
 

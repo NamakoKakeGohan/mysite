@@ -6,22 +6,17 @@ import { searchAppByName, fetchPostDataReversed } from "./SteamWebAPI";
  */
 export async function searchAndLogApps(query) {
   try {
-    // アプリ名で検索
-    const results = await searchAppByName(query);
-
-    // 検索結果を頭文字で絞り込み
+    const results         = await searchAppByName(query);
     const filteredResults = results.filter((app) =>
       app.name.toLowerCase().startsWith(query.toLowerCase())
     );
+    const topResults      = filteredResults.slice(0, 10);
+    const appIds          = topResults.map((app) => app.appid);
+    const postData        = await fetchPostDataReversed(appIds);
 
-    // 検索結果を上位10件に制限
-    const topResults = filteredResults.slice(0, 10);
-
-    // アプリIDを基にpostData形式に変換
-    const appIds = topResults.map((app) => app.appid);
-    const postData = await fetchPostDataReversed(appIds);
-    return postData; // postData形式のデータを返す
+    return postData;
   } catch (error) {
+    console.error("アプリ検索中にエラーが発生しました:", error);
     return [];
   }
 }

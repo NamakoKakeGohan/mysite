@@ -80,10 +80,10 @@ defineProps({
 
 // お気に入りボタンの状態を切り替える関数
 const toggleLike = (post) => {
-  post.isLiked = !post.isLiked;
+  post.isLiked   = !post.isLiked;
   if (post.isLiked) {
     post.likeCount++;
-  } else {
+  } else if (post.likeCount > 0) {
     post.likeCount--;
   }
 };

@@ -59,7 +59,7 @@ provide("toggleTheme", toggleTheme);
 
 .header {
   grid-area: header;
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 0;
   width: 100%;
@@ -69,7 +69,7 @@ provide("toggleTheme", toggleTheme);
 
 .sidebar {
   grid-area: sidebar;
-  position: fixed;
+  position: sticky;
   top: 100px;
   left: 0;
   height: calc(100vh - 60px);

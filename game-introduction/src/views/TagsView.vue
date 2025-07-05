@@ -11,8 +11,8 @@
     <form class="tag-form">
       <h2 class="selected-tag" v-if="selectedTag">選択中: {{ selectedTag }}</h2>
       <div class="tag-radio-list">
-        <label v-for="tag in uniqueTags" :key="tag" class="tag-radio">
-          <input type="radio" name="tag" :value="tag" v-model="selectedTag" />
+        <label v-for="tag in uniqueTags" :key="tag" class="tag-radio" :class="{ checked: selectedTag === tag }">
+          <input type="radio" name="tag" :value="tag" v-model="selectedTag" :aria-label="`タグ: ${tag}`"/>
           <span>{{ tag }}</span>
         </label>
       </div>
@@ -118,9 +118,12 @@ const filteredPosts = computed(() => {
   margin-right: 6px;
   cursor: pointer;
 }
-.tag-radio:hover,
-.tag-radio input[type="radio"]:checked + span {
+.tag-radio:hover {
   border-color: #265e9e;
+}
+.tag-radio.checked {
+  border-color: #265e9e;
+  box-shadow: 0 2px 8px rgba(38, 94, 158, 0.1);
 }
 .tag-radio span {
   font-weight: 500;

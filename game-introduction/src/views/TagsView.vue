@@ -12,7 +12,7 @@
       <h2 class="selected-tag" v-if="selectedTag">選択中: {{ selectedTag }}</h2>
       <div class="tag-radio-list">
         <label v-for="tag in uniqueTags" :key="tag" class="tag-radio">
-          <input type="radio" name="tag" :value="tag" v-model="selectedTag" />
+          <input type="radio" name="tag" :value="tag" v-model="selectedTag" :aria-label="`タグ: ${tag}`"/>
           <span>{{ tag }}</span>
         </label>
       </div>

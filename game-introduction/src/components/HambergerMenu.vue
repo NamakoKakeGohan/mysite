@@ -1,7 +1,7 @@
 <template>
   <div>
     <!--ハンバーガーメニューのボタン-->
-    <div class="hamburger-btn" @click="toggleMenu">
+    <div class="hamburger-btn" @click="toggleMenu" role="button" :aria-expanded="active.toString()" aria-label="メニューを切り替え" tabindex="0">
       <span class="line line-top"    :class="{ 'rotate-top'   : active }"></span>
       <span class="line line-middle" :class="{ 'rotate-middle': active }"></span>
       <span class="line line-bottom" :class="{ 'rotate-bottom': active }"></span>

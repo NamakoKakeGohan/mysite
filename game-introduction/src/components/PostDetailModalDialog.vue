@@ -45,7 +45,9 @@
                 </button>
                 <div class="menu-dropdown" v-if="post.menuVisible">
                   <a :href="post.steamAppURL" target="_blank">Steamで見る</a>
-                  <a :href="post.user.id">アカウント</a>
+                  <router-link :to="{ name: 'Account', params: { id: post.user.id } }" class="account-link" @click.stop>
+                    アカウント
+                  </router-link>
                 </div>
               </div>
             </section>
@@ -89,10 +91,10 @@ defineProps({
 
 // お気に入りボタンの状態を切り替える関数
 const toggleLike = (post) => {
-  post.isLiked = !post.isLiked;
+  post.isLiked   = !post.isLiked;
   if (post.isLiked) {
     post.likeCount++;
-  } else {
+  } else if (post.likeCount > 0) {
     post.likeCount--;
   }
 };

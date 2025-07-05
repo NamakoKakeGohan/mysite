@@ -58,9 +58,8 @@ h1 {
 .ranking-frame {
   display: flex;
   align-items: center;
-  border: 1px solid #ddd;
+  border: 1px solid #aaaaaa;
   border-inline: 10px;
-  padding: 10px;
 }
 
 .ranking-number {

@@ -79,7 +79,7 @@ provide("toggleTheme", toggleTheme);
 main {
   grid-area: main;
   padding: 1rem;
-  margin-top: 100px;
+  gap: 2rem;
 }
 
 footer {

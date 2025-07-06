@@ -1,3 +1,7 @@
+:root {
+  --post-item-margin-top: 6.2rem;
+}
+
 :root.light-theme {
   --background-color: #eaeaea;
   --text-color: #333333;

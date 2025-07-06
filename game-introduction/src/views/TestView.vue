@@ -1,7 +1,7 @@
 <template>
   <div class="diagnosis-page">
     <!-- モーダル -->
-    <PlojectTestStart :isVisible="showModal" @start="startTest"/>
+    <ProjectTestStart :isVisible="showModal" @start="startTest"/>
 
     <!-- 質問カード -->
     <QuestionCard
@@ -17,7 +17,7 @@
 import { ref, computed } from "vue";
 import { useRouter }     from "vue-router";
 import QuestionCard      from "../components/QuestionCard.vue";
-import PlojectTestStart  from "../components/PlojectTestStart.vue";
+import ProjectTestStart  from "../components/ProjectTestStart.vue";
 import questionData      from "../data/questionData.js";
 
 // スコア状態
@@ -26,7 +26,7 @@ const scores = ref({
   カードゲーム: 0,
   格闘: 0,
   RPG: 0,
-  シューテーング: 0,
+  シューティング: 0,
   アドベンチャー: 0,
   レース: 0,
   シュミレーション: 0,

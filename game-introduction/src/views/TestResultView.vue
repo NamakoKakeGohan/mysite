@@ -27,7 +27,11 @@ const genreQuery = route.query.genre;
 
 // 該当ジャンルの診断結果を探す
 const result = computed(() =>
-  testResultData.find((res) => res.genre === genreQuery)
+  testResultData.find((res) => res.genre === genreQuery) || {
+    title      : "該当する結果がありません",
+    description: "一致するジャンルが見つかりませんでした。",
+    games      : [],
+  }
 );
 </script>
 
